@@ -59,7 +59,7 @@ public Coordinate getY() {
  /**
   * the function return the distanceSquared
   * @param point
-  * @return
+  * @return new point
   */
  public double distanceSquared(Point3D point) {
 	 return (point.x._coord-this.x._coord)*(point.x._coord-this.x._coord)+(point.y._coord-this.y._coord)*(point.y._coord-this.y._coord)+(point.z._coord-this.z._coord)*(point.z._coord-this.z._coord);
