@@ -2,7 +2,12 @@ package geometries;
 
 import primitives.Point3D;
 import primitives.Vector;
-
+/**
+ * Sphere class are extends RadialGeometry has a center point and Radius.
+ * 
+ * @author USER
+ *
+ */
 public class Sphere extends RadialGeometry {
 
 	Point3D center;
@@ -13,8 +18,7 @@ public class Sphere extends RadialGeometry {
 	
 	@Override
 	public Vector getNormal(Point3D point) {
-		// TODO Auto-generated method stub
-		return null;
+		return point.subtract(center).normalize();
 	}
 
 }

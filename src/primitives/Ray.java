@@ -1,11 +1,15 @@
 package primitives;
-
+/**
+ * class ray representing ray with starting point and direction
+ * @author USER
+ *
+ */
 public class Ray {
  Point3D p0;
  Vector direction;
  
  public Ray(Point3D p0,Vector direction) {
-	 p0=new Point3D(p0);
+     this.p0=new Point3D(p0);
 	 this.direction=new Vector(direction.normalized());//make sure that the vector are normalize
  }
  

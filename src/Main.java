@@ -1,9 +1,12 @@
-//Elhanan Hartuv 212282610
-//Yedidya Shmueli 201649035
-//targil 1
+//Elhanan Hartuv mail: elchananhrtuv@gmail.com 212282610
+//Yedidya Shmueli mail yedidi08@gmail.com 201649035
+//
 import primitives.*;
 import static java.lang.System.out;
+import static org.junit.Assert.assertArrayEquals;
 import static primitives.Util.*;
+
+import geometries.Tube;
 
 /**
  * Test program for the 1st stage
@@ -11,7 +14,6 @@ import static primitives.Util.*;
  * @author Dan Zilberstein
  */
 public final class Main {
-
     /**
      * Main program to tests initial functionality of the 1st stage
      * 
@@ -19,6 +21,7 @@ public final class Main {
      */
     public static void main(String[] args) {
 
+ 
         try { // test zero vector
             new Vector(0, 0, 0);
             out.println("ERROR: zero vector does not throw an exception");
@@ -27,7 +30,7 @@ public final class Main {
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(-2, -4, -6);
         Vector v3 = new Vector(0, 3, -2);
-
+       
         // test length..
         if (!isZero(v1.lengthSquared() - 14))
             out.println("ERROR: lengthSquared() wrong value");

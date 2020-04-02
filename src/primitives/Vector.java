@@ -24,19 +24,39 @@ public class Vector{
 			throw new IllegalArgumentException("Error cannot accept the zero vector");
 		this.head = new Point3D(point);
 	}
+	/**
+	 * copy ctor
+	 * @param vector
+	 */
 	public Vector(Vector vector) {
 		this.head=new Point3D(vector.head);
 	}
-
+/**
+ * add tow vectors
+ * @param vector
+ * @return
+ */
 	public Vector add(Vector vector) {
-		return new Vector(this.head.x._coord+vector.head.x._coord,this.head.y._coord+vector.head.y._coord,this.head.z._coord+vector.head.z._coord);	
+		return new Vector(this.head.x._coord+vector.head.x._coord,this.head.y._coord
+				+vector.head.y._coord,this.head.z._coord+vector.head.z._coord);	
 	}
-	
+	/**
+	 * subtract between tow vectors
+	 * @param vector
+	 * @return new vector
+	 */
 	public Vector subtract(Vector vector) {
-		return new Vector(this.head.x._coord-vector.head.x._coord,this.head.y._coord-vector.head.y._coord,this.head.z._coord-vector.head.z._coord);
+		return new Vector(this.head.x._coord-vector.head.x._coord,this.head.y._coord
+				-vector.head.y._coord,this.head.z._coord-vector.head.z._coord);
 	}
+	/**
+	 * Scalar multiplication in vector
+	 * @param num
+	 * @return
+	 */
 	public Vector scale(double num) {
-		return new Vector(num*this.head.x._coord,num*this.head.y._coord,num*this.head.z._coord);		 
+		return new Vector(num*this.head.x._coord,num*this.head.y._coord,
+				num*this.head.z._coord);		 
 	}
 	/**
 	 * the function calculate dot product
@@ -44,9 +64,14 @@ public class Vector{
 	 * @return
 	 */
 	public double dotProduct(Vector vector) {
-		return (this.head.x._coord*vector.head.x._coord+ this.head.y._coord*vector.head.y._coord+ this.head.z._coord*vector.head.z._coord);
+		return (this.head.x._coord*vector.head.x._coord+ this.head.y._coord*vector.head.y._coord
+				+this.head.z._coord*vector.head.z._coord);
 	}
-
+/**
+ * calculate the cross product between tow vectors
+ * @param vec
+ * @return cross product
+ */
 	public Vector crossProduct(Vector vec) {
 		double x=this.head.y._coord*vec.head.z._coord-this.head.z._coord*vec.head.y._coord;
 		double y=this.head.z._coord*vec.head.x._coord-this.head.x._coord*vec.head.z._coord;
@@ -54,14 +79,19 @@ public class Vector{
 		return new Vector(x,y,z);
 	}
 	/**
-	 *
+	 * return the lengthSquared of the vector
 	 * @return
 	 */
 	public double lengthSquared() {
-		return  head.distanceSquared(Point3D.ZERO);//calculate the distance from (0,0,0)
+		return head.x._coord*head.x._coord+head.y._coord*head.y._coord+head.z._coord*head.z._coord;
 	}
+	/**
+	 * return the length of the vector
+	 * @return
+	 */
 	public double length() {
-		return this.head.distance(Point3D.ZERO);
+	 return 	Math.sqrt(head.x._coord*head.x._coord+head.y._coord*head.y._coord
+			 +head.z._coord*head.z._coord);
 	}
 	/**
 	 * The function normalizes and modifies! the vector
