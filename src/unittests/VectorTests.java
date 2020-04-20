@@ -10,9 +10,9 @@ import org.junit.Test;
 import primitives.*;
 
 /**
- *  Unit tests for primitives.Vector class
+ * Unit tests for primitives.Vector class
  * 
- * @author 
+ * @author Elhanan & Yedidya
  */
 public class VectorTests {
 
@@ -89,7 +89,7 @@ public class VectorTests {
 
 		// ============ Equivalence Partitions Tests ==============
 		assertTrue("ERROR: dotProduct for orthogonal vectors is not zero", isZero(v1.dotProduct(v3)));
-		
+		assertTrue("ERROR: dotProduct() wrong value", isZero(v1.dotProduct(v2) + 28));
 	}
 
 	/**
@@ -104,8 +104,6 @@ public class VectorTests {
 
 		// ============ Equivalence Partitions Tests ==============
 
-		// Test that length of cross-product is proper (orthogonal vectors taken for
-		// simplicity)
 		assertEquals("crossProduct() wrong result length", v1.length() * v3.length(), vr.length(), 0.00001);
 
 		// Test cross-product result orthogonality to its operands
@@ -154,7 +152,7 @@ public class VectorTests {
 		Vector vCopyNormalize = vCopy.normalize();
 
 		// ============ Equivalence Partitions Tests ==============
-		
+
 		assertTrue("normalize() function creates a new vector", vCopy == vCopyNormalize);
 		// TC02 check if normalize really normalize the vector
 		assertEquals("Vactor not Normalized", 1, vCopyNormalize.length(), 0);
