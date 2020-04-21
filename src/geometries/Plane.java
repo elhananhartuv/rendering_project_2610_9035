@@ -12,7 +12,6 @@ import static primitives.Util.*;
  *
  */
 public class Plane implements Geometry {
-
 	private Point3D point;
 	private Vector normal;
 
@@ -89,5 +88,4 @@ public class Plane implements Geometry {
 	public String toString() {
 		return "the normal of the plane is: " + normal.toString() + " and the point is:" + point.toString();
 	}
-
 }

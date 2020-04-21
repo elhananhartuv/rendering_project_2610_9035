@@ -93,21 +93,24 @@ public class Polygon implements Geometry {
 		// polygon
 		Point3D p0 = ray.getP0();
 		Vector v = ray.getDirection();
+		int size = _vertices.size();
 
-		Vector v1 = _vertices.get(1).subtract(p0);
-		Vector v2 = _vertices.get(0).subtract(p0);
+		Vector v1 = _vertices.get(0).subtract(p0);
+		Vector vn = _vertices.get(size - 1).subtract(p0);
 
-		double check = v.dotProduct(v1.crossProduct(v2));
+		double check = v.dotProduct(vn.crossProduct(v1).normalize());
+		if (isZero(check))
+			return null;
 		// if it is positive all checks should be positive and if it negative all checks
 		// should be too.
 		boolean flag = false;// the meaning negative
 		if (check > 0)
 			flag = true;// the meaning positive
-
-		for (int i = _vertices.size() - 1; i > 0; --i) {
-			v1 = v2;
-			v2 = _vertices.get(i).subtract(p0);// promote next vertex
-			check = alignZero(v.dotProduct(v1.crossProduct(v2)));
+		Vector v2;
+		for (int i = 0; i < size - 1; ++i) {
+			v1 = _vertices.get(i).subtract(p0);
+			v2 = _vertices.get(i + 1).subtract(p0);// promote next vertex
+			check = alignZero(v.dotProduct(v1.crossProduct(v2).normalize()));
 			// if check is different from other that mean positive and other negative(or
 			// negative and other positive) or check==0 -there is no points on the polygon.
 			if ((flag && (check < 0)) || (!flag && check > 0) || isZero(check))

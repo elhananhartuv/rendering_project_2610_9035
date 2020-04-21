@@ -42,13 +42,13 @@ public class Triangle extends Polygon {
 		Vector v1 = _vertices.get(0).subtract(p0);
 		Vector v2 = _vertices.get(1).subtract(p0);
 		Vector v3 = _vertices.get(2).subtract(p0);
-		double t1 = v.dotProduct(v1.crossProduct(v2));
+		double t1 = v.dotProduct(v1.crossProduct(v2).normalized());
 		if (isZero(t1))// if it is zero -no intersection and return.
 			return null;
-		double t2 = v.dotProduct(v2.crossProduct(v3));
+		double t2 = v.dotProduct(v2.crossProduct(v3).normalized());
 		if (isZero(t2))
 			return null;
-		double t3 = v.dotProduct(v3.crossProduct(v1));
+		double t3 = v.dotProduct(v3.crossProduct(v1).normalized());
 		// if all positive or negative so the point is on the triangle.
 		if ((t1 > 0 && t2 > 0 && t3 > 0) || (t1 < 0 && t2 < 0 && t3 < 0))
 			return intersections;

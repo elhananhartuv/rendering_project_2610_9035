@@ -3,7 +3,7 @@ package geometries;
 import java.util.ArrayList;
 import java.util.List;
 import primitives.*;
-
+import static primitives.Util.*;
 /**
  * geometries class is a package of geometric shapes.
  * 
@@ -45,19 +45,15 @@ public class Geometries implements Intersectable {
 
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
-		List<Point3D> intersections = null;
+		List<Point3D> intersections = new ArrayList<Point3D>();
 		for (int i = 0; i < _geometries.size(); i++) {
 			List<Point3D> check = _geometries.get(i).findIntersections(ray);
-			if (check != null && intersections == null) {
-				// it is the first time that we found intersections.
-				intersections = new ArrayList<Point3D>();
-				intersections.addAll(check);
-				continue;
-			}
 			if (check != null)
 				intersections.addAll(check);
 		}
-		// if there is no intersections point the variable 'intersections' is null
+		// if there is no intersections point the size of 'intersections' is 0
+		if (isZero(intersections.size()))
+			return null;
 		return intersections;
 	}
 }

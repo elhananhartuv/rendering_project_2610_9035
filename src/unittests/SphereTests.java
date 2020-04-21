@@ -123,5 +123,4 @@ public class SphereTests {
 		assertNull("ray is orthogonal to ray start to sphere's center line",
 				sphere.findIntersections(new Ray(new Point3D(2, 0, 0), new Vector(0, 0, 1))));
 	}
-
 }

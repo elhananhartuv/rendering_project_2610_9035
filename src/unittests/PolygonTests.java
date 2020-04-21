@@ -1,6 +1,3 @@
-/**
- * 
- */
 package unittests;
 
 import static org.junit.Assert.*;
@@ -108,7 +105,7 @@ public class PolygonTests {
 		// TC02:The point is outside against edge from (1,0,0) to (0,0,1).
 		assertNull("Outside against edge",
 				polygon.findIntersections(new Ray(new Point3D(1.5, -1, 0), new Vector(0, 0, 1))));
-		// TC03:The point is Outside against vertex.
+		// TC03:The point is Outside against vertex .
 		assertNull("Outside against Vertex",
 				polygon.findIntersections(new Ray(new Point3D(0.8, -1, 0), new Vector(0, 0, 1))));
 		// =============== Boundary Values Tests ==================

@@ -59,7 +59,7 @@ public class PlaneTests {
 
 		// =============== Boundary Values Tests ==================
 
-		// **** Group: Ray is parallel to the plane but not orthogonal
+		// **** Group: Ray is parallel to the plane - not orthogonal
 		// TC11: The ray included in the plane
 		// if the ray included in the plane the expected result is null
 		assertNull("The ray included in the plane",
