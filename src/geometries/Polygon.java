@@ -2,8 +2,6 @@ package geometries;
 
 import java.util.List;
 import primitives.*;
-
-import static org.junit.Assert.assertThat;
 import static primitives.Util.*;
 
 /**
