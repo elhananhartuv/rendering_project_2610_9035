@@ -3,7 +3,7 @@ package primitives;
 /**
  * class Point representing point in 3 Dimension
  * 
- * @author USER
+ * @author E&Y
  *
  */
 public class Point3D {
