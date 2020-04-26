@@ -1,9 +1,11 @@
 package elements;
 
 import primitives.*;
+import static primitives.Util.*;
 
 /**
- *  A  camera class represent camera in 3D.
+ * A camera class represent camera in 3D.
+ * 
  * @author E&Y
  *
  */
@@ -32,18 +34,38 @@ public class Camera {
 
 	/**
 	 * 
-	 * @param nX
-	 * @param nY
-	 * @param j
+	 * @param nX             number of pixels in axis x
+	 * @param nY             number of pixels in axis y
+	 * @param j 
 	 * @param i
-	 * @param screenDistance
-	 * @param screenWidth
-	 * @param screenHeight
+	 * @param screenDistance the distance of the view plane from camera
+	 * @param screenWidth    width screen
+	 * @param screenHeight   height screen
 	 * @return
 	 */
 	public Ray constructRayThroughPixel(int nX, int nY, int j, int i, double screenDistance, double screenWidth,
 			double screenHeight) {
-		return null;
+		if (isZero(screenDistance))
+			throw new IllegalArgumentException("distance cannot be 0");
+
+		Point3D Pc = p0.add(vTo.scale(screenDistance));
+		double Ry = screenHeight / nY;
+		double Rx = screenWidth / nX;
+
+		double yi = ((i - nY / 2d) * Ry + Ry / 2d);
+
+		double xj = ((j - nX / 2d) * Rx + Rx / 2d);
+
+		Point3D Pij = Pc;
+
+		if (!isZero(xj))
+			Pij = Pij.add(vRight.scale(xj));
+
+		if (!isZero(yi))
+			Pij = Pij.add(vUp.scale(-1 * yi)); // Pij.add(_vUp.scale(-yi))
+
+		Vector Vij = Pij.subtract(p0);
+		return new Ray(p0, Vij);
 	}
 
 	/**
