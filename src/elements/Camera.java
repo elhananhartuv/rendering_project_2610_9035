@@ -33,39 +33,43 @@ public class Camera {
 	}
 
 	/**
+	 * The function calculate the ray that start at the camera and intersect the
+	 * view plane in pixel j,i.
 	 * 
-	 * @param nX             number of pixels in axis x
-	 * @param nY             number of pixels in axis y
-	 * @param j 
-	 * @param i
-	 * @param screenDistance the distance of the view plane from camera
-	 * @param screenWidth    width screen
-	 * @param screenHeight   height screen
-	 * @return
+	 * 
+	 * @param nX             number of pixels in axis x.
+	 * @param nY             number of pixels in axis y.
+	 * @param j              the pixel in y axis.
+	 * @param i              the pixel in x axis.
+	 * @param screenDistance the distance of the view plane from camera.
+	 * @param screenWidth    the width of screen.
+	 * @param screenHeight   the height of screen.
+	 * @return ray that intersect the view plane at pixel j,i.
 	 */
 	public Ray constructRayThroughPixel(int nX, int nY, int j, int i, double screenDistance, double screenWidth,
 			double screenHeight) {
 		if (isZero(screenDistance))
-			throw new IllegalArgumentException("distance cannot be 0");
+			throw new IllegalArgumentException("distance from camera cant be zero");
 
-		Point3D Pc = p0.add(vTo.scale(screenDistance));
-		double Ry = screenHeight / nY;
-		double Rx = screenWidth / nX;
+		Point3D pointCenter = p0.add(vTo.scale(screenDistance));// the center point in view plane.
 
-		double yi = ((i - nY / 2d) * Ry + Ry / 2d);
+		// calculate Ratio
+		double rY = screenHeight / nY;
+		double rX = screenWidth / nX;
 
-		double xj = ((j - nX / 2d) * Rx + Rx / 2d);
+		double yi = ((i - nY / 2d) * rY + rY / 2d);
+		double xj = ((j - nX / 2d) * rX + rX / 2d);
 
-		Point3D Pij = Pc;
+		// in case that xj and yi both are 0
+		Point3D Pij = pointCenter;
 
 		if (!isZero(xj))
 			Pij = Pij.add(vRight.scale(xj));
 
 		if (!isZero(yi))
-			Pij = Pij.add(vUp.scale(-1 * yi)); // Pij.add(_vUp.scale(-yi))
+			Pij = Pij.add(vUp.scale(-1 * yi));
 
-		Vector Vij = Pij.subtract(p0);
-		return new Ray(p0, Vij);
+		return new Ray(p0, Pij.subtract(p0));
 	}
 
 	/**
