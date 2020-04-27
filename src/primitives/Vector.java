@@ -4,7 +4,7 @@ package primitives;
  * Class Vector is the basic class representing a vector in 3D. The class is
  * based on Point to representing the head vector.
  * 
- * @author Elhanan & Yedidya
+ * @author Elhanan & Yedidya Shmueli
  *
  */
 public class Vector {
