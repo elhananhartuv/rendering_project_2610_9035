@@ -1,5 +1,5 @@
 /**
- * 
+ * mgbhmbhihuhoj
  */
 package unittests;
 
@@ -17,7 +17,8 @@ import geometries.*;
  */
 public class IntegrationTests {
 	/**
-	 * Test function for integration with sphere
+	 * Test function for integration with sphere. check the intersection points with
+	 * the rays that goes through the view plane.
 	 */
 	@Test
 	public void sphereTest() {
@@ -41,8 +42,7 @@ public class IntegrationTests {
 		}
 		assertEquals("wrong result for intersection with sphere", 2, sum);
 
-		// TC02: all the rays through the view plane intersect the sphere (expected 18
-		// points).
+		// TC02: all rays intersect the sphere (18 points expected).
 		camera = new Camera(new Point3D(0, 0, -0.5), new Vector(0, 0, 1), new Vector(0, -1, 0));
 		sphere = new Sphere(new Point3D(0, 0, 2.5), 2.5);
 		sum = 0;
@@ -55,7 +55,8 @@ public class IntegrationTests {
 		}
 		assertEquals("all the rays hit the sphere", 18, sum);
 
-		// TC03: all the ray hit the sphere except the corners.(10 intersections expected)
+		// TC03: all the ray hit the sphere except the corners.(10 intersections
+		// expected)
 		sphere = new Sphere(new Point3D(0, 0, 2), 2);
 		sum = 0;
 		for (int i = 0; i < 3; i++) {
@@ -67,7 +68,7 @@ public class IntegrationTests {
 		}
 		assertEquals("without corners", 10, sum);
 
-		// TC04: the camera is inside the sphere expected 9 points
+		// TC04: the camera is inside the sphere. (9 points expected)
 		sphere = new Sphere(new Point3D(0, 0, 1), 4);
 		sum = 0;
 		for (int i = 0; i < 3; i++) {
