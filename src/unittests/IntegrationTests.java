@@ -109,7 +109,8 @@ public class IntegrationTests {
 	 * rays from the camera intersect through the view plane the geometry.
 	 * 
 	 * @param geometry the shape that we check intersection with the ray through
-	 *                 pixels.
+	 *                 pixels.the common thing between all the geometries is that
+	 *                 each geometry implements interface Intersectable.
 	 * @param camera   the camera place, where the rays coming from.
 	 * @return the number of intersection point with the geometry.
 	 */
