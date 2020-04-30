@@ -10,7 +10,7 @@ import scene.*;
 import scene.Scene;
 
 /**
- * Test rendering abasic image
+ * Test rendering basic image
  * 
  * @author Dan
  */
@@ -28,7 +28,7 @@ public class RenderTests {
 		scene.setBackground(new Color(75, 127, 90));
 		scene.setAmbientLight(new AmbientLight(new Color(255, 191, 191), 1));
 
-		scene.addGeometries(new Sphere( new Point3D(0, 0, 100),50));
+		scene.addGeometries(new Sphere(new Point3D(0, 0, 100), 50));
 
 		scene.addGeometries(
 				new Triangle(new Point3D(100, 0, 100), new Point3D(0, 100, 100), new Point3D(100, 100, 100)),
@@ -37,10 +37,11 @@ public class RenderTests {
 				new Triangle(new Point3D(-100, 0, 100), new Point3D(0, -100, 100), new Point3D(-100, -100, 100)));
 
 		ImageWriter imageWriter = new ImageWriter("base render test", 500, 500, 500, 500);
-	//	Render render = new Render(imageWriter, scene);
+		Render render = new Render(imageWriter, scene);
 
-		//render.renderImage();
-		//render.printGrid(50, java.awt.Color.YELLOW);
-		//render.writeToImage();
+		render.renderImage();
+		render.printGrid(50, java.awt.Color.YELLOW);
+		/// render.( getImageWriter() ).writeToImage(); need to check ìôé îä ùîåôéò
+		/// áîöâú éù ôåğ÷öéä WRITETOIMAGE âí áRENDER ïâí áIMAGEWRITEN S
 	}
 }
