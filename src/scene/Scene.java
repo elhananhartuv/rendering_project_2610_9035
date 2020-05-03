@@ -121,7 +121,11 @@ public class Scene {
 	}
 
 	// ***************** Operations ******************** //
-
+	/**
+	 * the function add geometry shape to scene.
+	 * 
+	 * @param geometries shape to add.
+	 */
 	public void addGeometries(Intersectable... geometries) {
 		this.geometries.add(geometries);
 	}
