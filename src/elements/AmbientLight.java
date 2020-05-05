@@ -17,8 +17,8 @@ public class AmbientLight {
 	 * @param ia
 	 * @param ka
 	 */
-	public AmbientLight(Color ia, double ka) {
-		this.intensity = ia.scale(ka);
+	public AmbientLight(Color intensity, double kA) {
+		this.intensity = intensity.scale(kA);
 	}
 
 	/**

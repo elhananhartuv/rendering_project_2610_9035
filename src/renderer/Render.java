@@ -139,6 +139,14 @@ public class Render {
 			for (int i = 0; i < Ny; i++)
 				if (j % interval == 0 || i % interval == 0)
 					imageWriter.writePixel(i, j, color);
+	}
 
+	/**
+	 * the function call to writeToImage in imageWriter. Function writeToImage
+	 * produces unoptimized jpeg file of the image according to pixel color matrix
+	 * in the directory of the project
+	 */
+	public void writeToImage() {
+		this.imageWriter.writeToImage();
 	}
 }
