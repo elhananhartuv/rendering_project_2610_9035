@@ -57,9 +57,8 @@ public class Render {
 	 * 
 	 */
 	public void renderImage() {
-		// the background color in case that the ray miss the geometries.
-		java.awt.Color background = scene.getBackground().getColor();
-
+		// java.awt.Color background = scene.getBackground().getColor();
+		Color background = scene.getBackground();
 		Camera camera = scene.getCamera();
 		Intersectable geometries = scene.getGeometries();
 
@@ -81,13 +80,13 @@ public class Render {
 
 				if (intersectionPoints == null) {
 					// if there is no intersection point write to pixel the background color.
-					imageWriter.writePixel(j, i, background);
+					imageWriter.writePixel(j, i, background.getColor());
 
 				} else {
 					// there is intersections points-calculate the closest point to camera and the
 					// color of the point and write to pixel.
 					Point3D closestPoint = getClosestPoint(intersectionPoints);
-					imageWriter.writePixel(j - 1, i - 1, calcColor(closestPoint).getColor());
+					imageWriter.writePixel(j, i, calcColor(closestPoint).getColor());
 				}
 			}
 		}
@@ -114,10 +113,10 @@ public class Render {
 		Point3D result = null;// if there is no points in the list the result will stay null.
 		double minDistance = 100d;
 		Point3D p0 = this.scene.getCamera().getP0();
-
+		double distance;
 		for (Point3D point : points) {
 			// distance from the camera.
-			double distance = p0.distance(point);
+			distance = p0.distance(point);
 			if (distance < minDistance) {
 				minDistance = distance;
 				result = point;

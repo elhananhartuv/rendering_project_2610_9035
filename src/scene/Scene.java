@@ -7,9 +7,11 @@ import geometries.*;
 import elements.*;
 
 /**
- * The
+ * The class scene represent scene in 3d, has geometries shapes light and camera
+ * and connect between all these things to renderer.the class responsible to
+ * background color and the ambient light.
+ * 
  * @author E&Y
- *
  */
 public class Scene {
 	private String name;
