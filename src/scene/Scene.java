@@ -7,7 +7,7 @@ import geometries.*;
 import elements.*;
 
 /**
- * 
+ * The
  * @author E&Y
  *
  */

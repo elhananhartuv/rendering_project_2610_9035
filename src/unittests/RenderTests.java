@@ -36,8 +36,8 @@ public class RenderTests {
 				new Triangle(new Point3D(-100, 0, 100), new Point3D(0, 100, 100), new Point3D(-100, 100, 100)),
 				new Triangle(new Point3D(-100, 0, 100), new Point3D(0, -100, 100), new Point3D(-100, -100, 100)));
 
-		//ImageWriter imageWriter = new ImageWriter("base render test", 500, 500, 500, 500);
-		ImageWriter imageWriter = new ImageWriter("base render test", 500, 500, 10000, 10000);
+		ImageWriter imageWriter = new ImageWriter("base render test", 500, 500, 500, 500);
+		//ImageWriter imageWriter = new ImageWriter("base render test", 500, 500, 4000, 4000);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();

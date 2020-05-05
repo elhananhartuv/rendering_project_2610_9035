@@ -2,12 +2,12 @@ package geometries;
 
 import static primitives.Util.*;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import primitives.*;
 
 /**
- * Cylinder class represents Cylinder in 3D coordinate extena Tube class
+ * Cylinder class represents Cylinder in 3D coordinate extend Tube class
  * 
  * @author Elhanan &Yedidya
  *
@@ -65,6 +65,55 @@ public class Cylinder extends Tube {
 
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
-		return super.findIntersections(ray);
+		List<Point3D> intersectionsWithTube = super.findIntersections(ray);
+		Vector axisDirection = axisRay.getDirection();
+		// the point is at the center of the circle on the top base.
+		Point3D pTop = axisRay.getPoint(height);
+
+		// create the plane that the top base and lower base are Contained on it
+		Plane topBase = new Plane(pTop, axisRay.getDirection());
+		Plane lowerBase = new Plane(axisRay.getP0(), axisRay.getDirection().scale(-1));
+		List<Point3D> intersectionsWithTopPlane = null;
+		List<Point3D> intersectionsWithLowPlane = null;
+
+		// check if the point that on the tube,if intersect the top base and the lower
+		// base that mean that the point is on the cylinder. if isn't, remove from
+		// the list .
+		List<Point3D> intersectionsWithCylinder = new ArrayList<Point3D>();
+		if (intersectionsWithTube != null) {
+			for (int i = 0; i < intersectionsWithTube.size(); i++) {
+				intersectionsWithTopPlane = topBase
+						.findIntersections(new Ray(intersectionsWithTube.get(i), axisDirection));
+				intersectionsWithLowPlane = lowerBase
+						.findIntersections(new Ray(intersectionsWithTube.get(i), axisDirection.scale(-1)));
+				// if one list is null -the point is not on cylinder.
+				if (intersectionsWithTopPlane != null && intersectionsWithLowPlane != null) {
+					intersectionsWithCylinder.add(intersectionsWithTube.get(i));
+				}
+			}
+		}
+
+		intersectionsWithTopPlane = topBase.findIntersections(ray);
+		intersectionsWithLowPlane = lowerBase.findIntersections(ray);
+		// if there is no more intersection.
+		if (intersectionsWithTopPlane == null && intersectionsWithLowPlane == null)
+			return intersectionsWithCylinder.size() > 0 ? intersectionsWithCylinder : null;
+		// there is more intersection with the plane, need to check if it is on the top
+		// base or lower base.
+		if (intersectionsWithTopPlane != null) {
+			Point3D intersectPointWIthPlane = intersectionsWithTopPlane.get(0);
+			double distance = alignZero(intersectPointWIthPlane.distance(pTop));
+			if (distance < radius)
+				intersectionsWithCylinder.add(intersectPointWIthPlane);
+		}
+		if (intersectionsWithLowPlane != null) {
+			Point3D intersectPointWIthPlane = intersectionsWithLowPlane.get(0);
+			double distance = alignZero(intersectPointWIthPlane.distance(axisRay.getP0()));
+			if (distance < radius)
+				intersectionsWithCylinder.add(intersectPointWIthPlane);
+		}
+		// check if there is intersection if not return null
+		return intersectionsWithCylinder.size() > 0 ? intersectionsWithCylinder : null;
+
 	}
 }
