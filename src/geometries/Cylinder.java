@@ -69,27 +69,23 @@ public class Cylinder extends Tube {
 		Vector axisDirection = axisRay.getDirection();
 		// the point is at the center of the circle on the top base.
 		Point3D pTop = axisRay.getPoint(height);
+		Point3D p0 = axisRay.getP0();
 
 		// create the plane that the top base and lower base are Contained on it
-		Plane topBase = new Plane(pTop, axisRay.getDirection());
-		Plane lowerBase = new Plane(axisRay.getP0(), axisRay.getDirection().scale(-1));
+		Plane topBase = new Plane(pTop, axisDirection);
+		Plane lowerBase = new Plane(p0, axisRay.getDirection().scale(-1));
 		List<Point3D> intersectionsWithTopPlane = null;
 		List<Point3D> intersectionsWithLowPlane = null;
 
-		// check if the point that on the tube,if intersect the top base and the lower
-		// base that mean that the point is on the cylinder. if isn't, remove from
-		// the list .
+		// check if the point that on the tube is on the cylinder.
+		// calculate the projection on the axis if it bigger than height or smallest
+		// than 0-no intersection point.
 		List<Point3D> intersectionsWithCylinder = new ArrayList<Point3D>();
 		if (intersectionsWithTube != null) {
 			for (int i = 0; i < intersectionsWithTube.size(); i++) {
-				intersectionsWithTopPlane = topBase
-						.findIntersections(new Ray(intersectionsWithTube.get(i), axisDirection));
-				intersectionsWithLowPlane = lowerBase
-						.findIntersections(new Ray(intersectionsWithTube.get(i), axisDirection.scale(-1)));
-				// if one list is null -the point is not on cylinder.
-				if (intersectionsWithTopPlane != null && intersectionsWithLowPlane != null) {
+				double projection = alignZero(intersectionsWithTube.get(i).subtract(p0).dotProduct(axisDirection));
+				if (projection < height && projection > 0)
 					intersectionsWithCylinder.add(intersectionsWithTube.get(i));
-				}
 			}
 		}
 
