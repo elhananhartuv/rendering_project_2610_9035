@@ -114,6 +114,5 @@ public class Cylinder extends Tube {
 		}
 		// check if there is intersection if not return null
 		return intersectionsWithCylinder.size() > 0 ? intersectionsWithCylinder : null;
-
 	}
 }
