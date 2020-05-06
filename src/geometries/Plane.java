@@ -43,6 +43,7 @@ public class Plane implements Geometry {
 	}
 
 	/**
+	 * normal geter
 	 * 
 	 * @return the normal to plane
 	 */
@@ -51,7 +52,7 @@ public class Plane implements Geometry {
 	}
 
 	/**
-	 * 
+	 * point geter
 	 * @return the point that representing the plane
 	 */
 	public Point3D getPoint() {
@@ -65,14 +66,14 @@ public class Plane implements Geometry {
 
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
-		Vector QP0;// Q-P0
+		Vector qp0;// Q-P0
 		try {
 			// check if the ray start in the plane
-			QP0 = point.subtract(ray.getP0());
+			qp0 = point.subtract(ray.getP0());
 		} catch (IllegalArgumentException ex) {
 			return null;// The ray start in the plane
 		}
-		double numerator = alignZero(normal.dotProduct(QP0));
+		double numerator = alignZero(normal.dotProduct(qp0));
 		double denominator = alignZero(normal.dotProduct(ray.getDirection()));
 		// if the ray start at the plane or parallel to the plane or composed in the
 		// plane there is no intersection point

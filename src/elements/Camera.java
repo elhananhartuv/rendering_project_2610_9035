@@ -48,8 +48,6 @@ public class Camera {
 	 */
 	public Ray constructRayThroughPixel(int nX, int nY, int j, int i, double screenDistance, double screenWidth,
 			double screenHeight) {
-		if (isZero(screenDistance))
-			throw new IllegalArgumentException("distance from camera cant be zero");
 
 		Point3D pointCenter = p0.add(vTo.scale(screenDistance));// the center point in view plane.
 
@@ -61,19 +59,19 @@ public class Camera {
 		double xj = ((j - nX / 2d) * rX + rX / 2d);
 
 		// in case that xj and yi both are 0
-		Point3D Pij = pointCenter;
+		Point3D pij = pointCenter;
 
 		if (!isZero(xj))
-			Pij = Pij.add(vRight.scale(xj));
+			pij = pij.add(vRight.scale(xj));
 
 		if (!isZero(yi))
-			Pij = Pij.add(vUp.scale(-1 * yi));
+			pij = pij.add(vUp.scale(-1 * yi));
 
-		return new Ray(p0, Pij.subtract(p0));
+		return new Ray(p0, pij.subtract(p0));
 	}
 
 	/**
-	 * get function
+	 * p0 getter
 	 * 
 	 * @return Camera location.
 	 */
@@ -82,7 +80,7 @@ public class Camera {
 	}
 
 	/**
-	 * get function
+	 * vTo getter
 	 * 
 	 * @return The direction to the view plane
 	 */
@@ -91,7 +89,7 @@ public class Camera {
 	}
 
 	/**
-	 * get function
+	 * vUp getter
 	 * 
 	 * @return direction to up.
 	 */
@@ -100,7 +98,7 @@ public class Camera {
 	}
 
 	/**
-	 * get function
+	 * vRight getter
 	 * 
 	 * @return direction to right.
 	 */

@@ -7,7 +7,7 @@ import geometries.*;
 import primitives.*;
 import renderer.*;
 import scene.*;
-import scene.Scene;
+
 
 /**
  * Test rendering basic image

@@ -29,7 +29,7 @@ public class Cylinder extends Tube {
 	}
 
 	/**
-	 * get function
+	 * height geter
 	 * 
 	 * @return height of the Cylinder
 	 */

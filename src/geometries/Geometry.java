@@ -9,6 +9,7 @@ import primitives.*;
 public interface Geometry extends Intersectable  {
 	/**
 	 * return the normal vector in the point
+	 * 
 	 * @param point
 	 * @return
 	 */

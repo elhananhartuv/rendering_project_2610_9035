@@ -12,8 +12,9 @@ public class Point3D {
 	private Coordinate y;
 	private Coordinate z;
 
+	// ***************** Getters/Setters ********************** //
 	/**
-	 * get the Coordinate x
+	 * x geter
 	 * 
 	 * @return x
 	 */
@@ -22,7 +23,7 @@ public class Point3D {
 	}
 
 	/**
-	 * get the Coordinate y
+	 * y geter
 	 * 
 	 * @return y
 	 */
@@ -31,7 +32,7 @@ public class Point3D {
 	}
 
 	/**
-	 * get the Coordinate z
+	 * z geter
 	 * 
 	 * @return z
 	 */
@@ -39,6 +40,7 @@ public class Point3D {
 		return z;
 	}
 
+	// ***************** Constructors ********************** //
 	/**
 	 * ctor that get 3 double numbers
 	 * 
@@ -76,6 +78,7 @@ public class Point3D {
 		this.z = new Coordinate(point.z);
 	}
 
+	// ***************** Operations ********************** //
 	/**
 	 * The function receives two points, subtracts vectors, and returns the
 	 * resulting vector
@@ -122,6 +125,7 @@ public class Point3D {
 		return Math.sqrt(distanceSquared(point));
 	}
 
+	//*************** Admin *****************//
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

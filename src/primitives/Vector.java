@@ -12,6 +12,7 @@ public class Vector {
 	private Point3D head;
 
 	/**
+	 * head geter
 	 * 
 	 * @return the head point that representing vector
 	 */
@@ -19,6 +20,8 @@ public class Vector {
 		return head;
 	}
 
+	
+	// ***************** Constructors ********************** //
 	/**
 	 * ctor that get 3 Coordinates. throw exception for the zero vector
 	 * 
@@ -67,6 +70,7 @@ public class Vector {
 		this.head = new Point3D(vector.head);
 	}
 
+	// ***************** Operations ********************** //
 	/**
 	 * add tow vectors
 	 * 
@@ -168,6 +172,7 @@ public class Vector {
 		return new Vector(this).normalize();
 	}
 
+	//*************** Admin *****************//
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

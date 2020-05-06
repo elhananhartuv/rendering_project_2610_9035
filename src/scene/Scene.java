@@ -33,7 +33,7 @@ public class Scene {
 
 	// ***************** Getters/Setters ********************** //
 	/**
-	 * get function
+	 * name getter
 	 * 
 	 * @return the name
 	 */
@@ -42,7 +42,7 @@ public class Scene {
 	}
 
 	/**
-	 * get function
+	 * background getter
 	 * 
 	 * @return the background
 	 */
@@ -51,7 +51,7 @@ public class Scene {
 	}
 
 	/**
-	 * get function
+	 * ambientLight getter
 	 * 
 	 * @return the ambientLight
 	 */
@@ -60,7 +60,7 @@ public class Scene {
 	}
 
 	/**
-	 * get function
+	 * geometries getter
 	 * 
 	 * @return the geometries
 	 */
@@ -69,7 +69,7 @@ public class Scene {
 	}
 
 	/**
-	 * get function
+	 * camera getter
 	 * 
 	 * @return the camera
 	 */
@@ -78,7 +78,7 @@ public class Scene {
 	}
 
 	/**
-	 * get function
+	 * distance getter
 	 * 
 	 * @return the distance
 	 */
@@ -87,7 +87,7 @@ public class Scene {
 	}
 
 	/**
-	 * set function
+	 * background setter
 	 * 
 	 * @param color to update.
 	 */
@@ -96,7 +96,7 @@ public class Scene {
 	}
 
 	/**
-	 * set function
+	 * ambientLight setter
 	 * 
 	 * @param ambientLight to update.
 	 */
@@ -105,7 +105,7 @@ public class Scene {
 	}
 
 	/**
-	 * set function
+	 * camera setter
 	 * 
 	 * @param camera to update.
 	 */
@@ -114,7 +114,7 @@ public class Scene {
 	}
 
 	/**
-	 * set function
+	 * distance setter
 	 * 
 	 * @param distance to update.
 	 */

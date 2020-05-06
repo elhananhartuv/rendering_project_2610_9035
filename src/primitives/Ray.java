@@ -1,6 +1,5 @@
 package primitives;
 
-import static primitives.Util.*;
 
 /**
  * class Ray representing ray with starting point and direction
@@ -25,7 +24,7 @@ public class Ray {
 	}
 
 	/**
-	 * 
+	 * p0 geter
 	 * @return starting point
 	 */
 	public Point3D getP0() {
@@ -33,7 +32,7 @@ public class Ray {
 	}
 
 	/**
-	 * 
+	 * direction geter
 	 * @return the direction of the ray
 	 */
 	public Vector getDirection() {

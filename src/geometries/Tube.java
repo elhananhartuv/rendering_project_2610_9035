@@ -27,7 +27,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	/**
-	 * get function
+	 * axisRay geter
 	 * 
 	 * @return the Ray of the tube
 	 */
@@ -52,21 +52,21 @@ public class Tube extends RadialGeometry {
 		Vector v = ray.getDirection();
 		Point3D p = ray.getP0();
 		Vector va = axisRay.getDirection();
-		Point3D Pa = axisRay.getP0();
+		Point3D pa = axisRay.getP0();
 		double radius = super.radius;
 		Vector deltaP = null;// p-pa equal to deltaP.
 		Vector temp;// v-(v,va)*va Auxiliary calculation.
-		double A;
-		double B;
-		double C;
+		double a;
+		double b;
+		double c;
 		double desc;
 		double t1, t2;
 		try {
 			temp = v.subtract(va.scale(v.dotProduct(va)));
-			A = alignZero(temp.lengthSquared());
+			a = alignZero(temp.lengthSquared());
 		} catch (IllegalArgumentException ex) {
 			if (isZero(v.dotProduct(va))) {
-				A = alignZero(v.lengthSquared());
+				a = alignZero(v.lengthSquared());
 				temp = v;
 			} else {
 				// there is no intersection the ray is Parallel or contained in the tube.
@@ -74,38 +74,38 @@ public class Tube extends RadialGeometry {
 			}
 		}
 		try {
-			deltaP = p.subtract(Pa);
+			deltaP = p.subtract(pa);
 		} catch (IllegalArgumentException ex) {
 			// If vectors in the same or opposite direction-there is no points.
 			if (v.equals(va) || v.equals(va.scale(-1))) {
 				return null;
 			}
-			B = 0;
+			b = 0;
 		}
 		if (deltaP == null)
-			B = 0;
+			b = 0;
 		else {
 			try {
-				B = alignZero(deltaP.subtract(va.scale(deltaP.dotProduct(va))).dotProduct(temp) * 2);
+				b = alignZero(deltaP.subtract(va.scale(deltaP.dotProduct(va))).dotProduct(temp) * 2);
 			} catch (IllegalArgumentException ex) {
-				B = alignZero(deltaP.dotProduct(temp) * 2);
+				b = alignZero(deltaP.dotProduct(temp) * 2);
 			}
 		}
 		if (deltaP == null)
-			C = alignZero(-radius * radius);
+			c = alignZero(-radius * radius);
 		else {
 			try {
-				C = alignZero(deltaP.subtract(va.scale(deltaP.dotProduct(va))).lengthSquared() - radius * radius);
+				c = alignZero(deltaP.subtract(va.scale(deltaP.dotProduct(va))).lengthSquared() - radius * radius);
 			} catch (IllegalArgumentException ex) {
 				if (isZero(deltaP.dotProduct(va))) {
-					C = alignZero(deltaP.lengthSquared() - radius * radius);
+					c = alignZero(deltaP.lengthSquared() - radius * radius);
 				} else {
-					C = alignZero(-radius * radius);
+					c = alignZero(-radius * radius);
 				}
 			}
 		}
 
-		desc = alignZero(B * B - 4 * A * C);
+		desc = alignZero(b * b - 4 * a * c);
 		// there is no intersection points.
 		if (desc < 0)
 			return null;
@@ -113,15 +113,15 @@ public class Tube extends RadialGeometry {
 
 		if (isZero(desc)) {
 			// if the desc is zero it must be that the start point is inside the tube.
-			t1 = alignZero(-B / (2d * A));
+			t1 = alignZero(-b / (2d * a));
 			// if the start point of the ray is outside the tube,can't be solution.
-			if (p.distance(Pa) > radius)
+			if (p.distance(pa) > radius)
 				return null;
 			return t1 > 0 ? List.of(ray.getPoint(t1)) : null;
 		}
 
-		t1 = alignZero(-B + desc) / (2d * A);
-		t2 = alignZero(-B - desc) / (2d * A);
+		t1 = alignZero(-b + desc) / (2d * a);
+		t2 = alignZero(-b - desc) / (2d * a);
 
 		if (t1 > 0 & t2 > 0) {
 			return List.of(ray.getPoint(t1), ray.getPoint(t2));

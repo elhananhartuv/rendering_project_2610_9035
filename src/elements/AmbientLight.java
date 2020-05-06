@@ -22,11 +22,11 @@ public class AmbientLight {
 	}
 
 	/**
-	 * get function.
+	 * intensity geter
 	 * 
 	 * @return the intensity.
 	 */
-	public Color GetIntensity() {
+	public Color getIntensity() {
 		return intensity;
 	}
 }

@@ -99,7 +99,7 @@ public class Render {
 	 * @return the color of the point.
 	 */
 	private Color calcColor(Point3D point) {
-		return scene.getAmbientLight().GetIntensity();
+		return scene.getAmbientLight().getIntensity();
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class Render {
 	 */
 	private Point3D getClosestPoint(List<Point3D> points) {
 		Point3D result = null;// if there is no points in the list the result will stay null.
-		double minDistance = 100d;
+		double minDistance = Double.MAX_VALUE;
 		Point3D p0 = this.scene.getCamera().getP0();
 		double distance;
 		for (Point3D point : points) {

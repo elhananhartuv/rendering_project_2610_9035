@@ -30,6 +30,7 @@ public class Sphere extends RadialGeometry {
 	}
 
 	/**
+	 * center geter
 	 * 
 	 * @return the center point of the sphere.
 	 */
