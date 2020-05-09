@@ -1,7 +1,6 @@
 package geometries;
 
 import static primitives.Util.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import primitives.*;
@@ -9,7 +8,7 @@ import primitives.*;
 /**
  * Cylinder class represents Cylinder in 3D coordinate extend Tube class
  * 
- * @author Elhanan &Yedidya
+ * @author Elhanan & Yedidya
  *
  */
 public class Cylinder extends Tube {
@@ -29,7 +28,7 @@ public class Cylinder extends Tube {
 	}
 
 	/**
-	 * height geter
+	 * height getter
 	 * 
 	 * @return height of the Cylinder
 	 */
@@ -64,8 +63,8 @@ public class Cylinder extends Tube {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
-		List<Point3D> intersectionsWithTube = super.findIntersections(ray);
+	public List<GeoPoint> findIntersections(Ray ray) {
+		List<GeoPoint> intersectionsWithTube = super.findIntersections(ray);
 		Vector axisDirection = axisRay.getDirection();
 		// the point is at the center of the circle on the top base.
 		Point3D pTop = axisRay.getPoint(height);
@@ -74,16 +73,16 @@ public class Cylinder extends Tube {
 		// create the plane that the top base and lower base are Contained on it
 		Plane topBase = new Plane(pTop, axisDirection);
 		Plane lowerBase = new Plane(p0, axisRay.getDirection().scale(-1));
-		List<Point3D> intersectionsWithTopPlane = null;
-		List<Point3D> intersectionsWithLowPlane = null;
+		List<GeoPoint> intersectionsWithTopPlane = null;
+		List<GeoPoint> intersectionsWithLowPlane = null;
 
 		// check if the point that on the tube is on the cylinder.
 		// calculate the projection on the axis if it bigger than height or smallest
 		// than 0-no intersection point.
-		List<Point3D> intersectionsWithCylinder = new ArrayList<Point3D>();
+		List<GeoPoint> intersectionsWithCylinder = new ArrayList<GeoPoint>();
 		if (intersectionsWithTube != null) {
 			for (int i = 0; i < intersectionsWithTube.size(); i++) {
-				double projection = alignZero(intersectionsWithTube.get(i).subtract(p0).dotProduct(axisDirection));
+				double projection = alignZero(intersectionsWithTube.get(i).point.subtract(p0).dotProduct(axisDirection));
 				if (projection < height && projection > 0)
 					intersectionsWithCylinder.add(intersectionsWithTube.get(i));
 			}
@@ -97,16 +96,16 @@ public class Cylinder extends Tube {
 		// there is more intersection with the plane, need to check if it is on the top
 		// base or lower base.
 		if (intersectionsWithTopPlane != null) {
-			Point3D intersectPointWIthPlane = intersectionsWithTopPlane.get(0);
+			Point3D intersectPointWIthPlane = intersectionsWithTopPlane.get(0).point;
 			double distance = alignZero(intersectPointWIthPlane.distance(pTop));
 			if (distance < radius)
-				intersectionsWithCylinder.add(intersectPointWIthPlane);
+				intersectionsWithCylinder.add(new GeoPoint(this, intersectPointWIthPlane));
 		}
 		if (intersectionsWithLowPlane != null) {
-			Point3D intersectPointWIthPlane = intersectionsWithLowPlane.get(0);
+			Point3D intersectPointWIthPlane = intersectionsWithLowPlane.get(0).point;
 			double distance = alignZero(intersectPointWIthPlane.distance(axisRay.getP0()));
 			if (distance < radius)
-				intersectionsWithCylinder.add(intersectPointWIthPlane);
+				intersectionsWithCylinder.add(new GeoPoint(this, intersectPointWIthPlane));
 		}
 		// check if there is intersection if not return null
 		return intersectionsWithCylinder.size() > 0 ? intersectionsWithCylinder : null;

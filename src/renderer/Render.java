@@ -5,6 +5,7 @@ import primitives.*;
 import elements.*;
 import geometries.*;
 import scene.*;
+import static geometries.Intersectable.GeoPoint;
 
 /**
  * Renderer class is responsible to create the buffer image from the geometries
@@ -76,7 +77,7 @@ public class Render {
 				// get the ray from camera through the pixel i,j in the view plane.
 				ray = camera.constructRayThroughPixel(Nx, Ny, i, j, scene.getDistance(), width, height);
 				// get the intersection points with the geometries shape.
-				List<Point3D> intersectionPoints = geometries.findIntersections(ray);
+				List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
 
 				if (intersectionPoints == null) {
 					// if there is no intersection point write to pixel the background color.

@@ -27,7 +27,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	/**
-	 * axisRay geter
+	 * axisRay getter
 	 * 
 	 * @return the Ray of the tube
 	 */
@@ -48,7 +48,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
+	public List<GeoPoint> findIntersections(Ray ray) {
 		Vector v = ray.getDirection();
 		Point3D p = ray.getP0();
 		Vector va = axisRay.getDirection();
@@ -117,18 +117,18 @@ public class Tube extends RadialGeometry {
 			// if the start point of the ray is outside the tube,can't be solution.
 			if (p.distance(pa) > radius)
 				return null;
-			return t1 > 0 ? List.of(ray.getPoint(t1)) : null;
+			return t1 > 0 ? List.of(new GeoPoint(this, ray.getPoint(t1))) : null;
 		}
 
 		t1 = alignZero(-b + desc) / (2d * a);
 		t2 = alignZero(-b - desc) / (2d * a);
 
 		if (t1 > 0 & t2 > 0) {
-			return List.of(ray.getPoint(t1), ray.getPoint(t2));
+			return List.of(new GeoPoint(this, ray.getPoint(t1)),new GeoPoint(this, ray.getPoint(t2)));
 		} else if (t1 > 0) {
-			return List.of(ray.getPoint(t1));
+			return List.of(new GeoPoint(this, ray.getPoint(t1)));
 		} else if (t2 > 0) {
-			return List.of(ray.getPoint(t2));
+			return List.of(new GeoPoint(this, ray.getPoint(t2)));
 		}
 		return null;
 	}

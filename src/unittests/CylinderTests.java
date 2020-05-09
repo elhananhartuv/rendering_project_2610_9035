@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.List;
 import geometries.Cylinder;
 import primitives.*;
+import static geometries.Intersectable.GeoPoint;
 
 /**
  * Unit tests for primitives.Cylinder class
@@ -58,16 +59,16 @@ public class CylinderTests {
 
 		// TC01: The ray start under the cylinder and going through 2 bases(2 points).
 		Ray ray = new Ray(new Point3D(1.75, 0, -1), new Vector(0, 0, 1));
-		List<Point3D> result = cylinder.findIntersections(ray);
+		List<GeoPoint> result = cylinder.findIntersections(ray);
 		assertEquals("Wrong number of points", 2, result.size());
-		if (result.get(0).getZ().get() > result.get(1).getZ().get())
+		if (result.get(0).point.getZ().get() > result.get(1).point.getZ().get())
 			result = List.of(result.get(1), result.get(0));
 		assertEquals("Worng points", List.of(new Point3D(1.75, 0, 0), new Point3D(1.75, 0, 10)), result);
 		// TC02: The ray start before the cylinder and intersect (2 points)
 		ray = new Ray(new Point3D(0, 0, 2), new Vector(1, 0, 1));
 		result = cylinder.findIntersections(ray);
 		assertEquals("Wrong number of points", 2, result.size());
-		if (result.get(0).getZ().get() > result.get(1).getZ().get())
+		if (result.get(0).point.getZ().get() > result.get(1).point.getZ().get())
 			result = List.of(result.get(1), result.get(0));
 		assertEquals("Worng points", List.of(new Point3D(1, 0, 3), new Point3D(3, 0, 5)), result);
 		// TC03: The ray start before the cylinder and going through the top (2
@@ -75,7 +76,7 @@ public class CylinderTests {
 		ray = new Ray(new Point3D(0, 0, 8), new Vector(1, 0, 1));
 		result = cylinder.findIntersections(ray);
 		assertEquals("Wrong number of points", 2, result.size());
-		if (result.get(0).getZ().get() > result.get(1).getZ().get())
+		if (result.get(0).point.getZ().get() > result.get(1).point.getZ().get())
 			result = List.of(result.get(1), result.get(0));
 		assertEquals("Worng points", List.of(new Point3D(1, 0, 9), new Point3D(2, 0, 10)), result);
 		// TC04: The ray start after the cylinder (0 points)
@@ -98,7 +99,7 @@ public class CylinderTests {
 		ray = new Ray(new Point3D(2.5, 0, -10), new Vector(0, 0, 1));
 		result = cylinder.findIntersections(ray);
 		assertEquals("Wrong number of points", 2, result.size());
-		if (result.get(0).getZ().get() > result.get(1).getZ().get())
+		if (result.get(0).point.getZ().get() > result.get(1).point.getZ().get())
 			result = List.of(result.get(1), result.get(0));
 		assertEquals("Worng points", List.of(new Point3D(2.5, 0, 0), new Point3D(2.5, 0, 10)), result);
 		// TC12: Ray's starts within cylinder and going through the top (1 point)
@@ -151,7 +152,7 @@ public class CylinderTests {
 		ray = new Ray(new Point3D(0, 0, 5), new Vector(1, 0, 0));
 		result = cylinder.findIntersections(ray);
 		assertEquals("Wrong number of points", 2, result.size());
-		if (result.get(0).getX().get() > result.get(1).getX().get())
+		if (result.get(0).point.getX().get() > result.get(1).point.getX().get())
 			result = List.of(result.get(1), result.get(0));
 		assertEquals("Worng points", List.of(new Point3D(1, 0, 5), new Point3D(3, 0, 5)), result);
 		// TC32 Ray's starts before and above cylinder (0 points)

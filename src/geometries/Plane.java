@@ -11,7 +11,7 @@ import static primitives.Util.*;
  * @author E&Y
  *
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 	private Point3D point;
 	private Vector normal;
 
@@ -43,7 +43,7 @@ public class Plane implements Geometry {
 	}
 
 	/**
-	 * normal geter
+	 * normal getter
 	 * 
 	 * @return the normal to plane
 	 */
@@ -52,7 +52,7 @@ public class Plane implements Geometry {
 	}
 
 	/**
-	 * point geter
+	 * point getter
 	 * @return the point that representing the plane
 	 */
 	public Point3D getPoint() {
@@ -65,7 +65,7 @@ public class Plane implements Geometry {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
+	public List<GeoPoint> findIntersections(Ray ray) {
 		Vector qp0;// Q-P0
 		try {
 			// check if the ray start in the plane
@@ -81,7 +81,7 @@ public class Plane implements Geometry {
 			return null;
 		double t = alignZero(numerator / denominator);
 		if (t > 0)
-			return List.of(ray.getPoint(t));
+			return List.of(new GeoPoint(this, ray.getPoint(t)));
 		return null;
 	}
 

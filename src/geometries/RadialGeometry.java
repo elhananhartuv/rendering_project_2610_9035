@@ -1,5 +1,7 @@
 package geometries;
 
+import primitives.Color;
+
 /**
  * The abstract class RadialGeometry is basic class to all geometries that has
  * radius
@@ -7,7 +9,7 @@ package geometries;
  * @author E&Y
  *
  */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
 	protected double radius;
 
 	/**
@@ -16,6 +18,17 @@ public abstract class RadialGeometry implements Geometry {
 	 * @param r
 	 */
 	public RadialGeometry(double r) {
+		radius = r;
+	}
+
+	/**
+	 * ctor with two params
+	 * 
+	 * @param r     for radius
+	 * @param color for emission - call to super()
+	 */
+	public RadialGeometry(double r, Color color) {
+		super(color);
 		radius = r;
 	}
 
@@ -29,7 +42,7 @@ public abstract class RadialGeometry implements Geometry {
 	}
 
 	/**
-	 * radius geter
+	 * radius getter
 	 * 
 	 * @return the Radius
 	 */

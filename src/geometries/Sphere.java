@@ -22,7 +22,7 @@ public class Sphere extends RadialGeometry {
 	 * ctor for Sphere that get the center point and the radius
 	 * 
 	 * @param p0 the center point of the sphere.
-	 * @param r radius of the sphere.
+	 * @param r  radius of the sphere.
 	 */
 	public Sphere(Point3D p0, double r) {
 		super(r);
@@ -30,7 +30,7 @@ public class Sphere extends RadialGeometry {
 	}
 
 	/**
-	 * center geter
+	 * center getter
 	 * 
 	 * @return the center point of the sphere.
 	 */
@@ -44,13 +44,13 @@ public class Sphere extends RadialGeometry {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
+	public List<GeoPoint> findIntersections(Ray ray) {
 		Vector u;
 		try {
 			u = center.subtract(ray.getP0());// o-p0
 		} catch (IllegalArgumentException e) {
 			// the ray start in the center of the sphere
-			return List.of(ray.getPoint(radius));
+			return List.of(new GeoPoint(this, ray.getPoint(radius)));
 		}
 		double tm = alignZero(ray.getDirection().dotProduct(u));
 		double d = alignZero(u.lengthSquared() - tm * tm);
@@ -77,13 +77,13 @@ public class Sphere extends RadialGeometry {
 			return null;
 
 		if (t1 > 0 && t2 > 0)// there is 2 intersections point
-			return List.of(ray.getPoint(t1), ray.getPoint(t2));
+			return List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
 
 		if (t2 > 0)// there is only one point, need to take the positive t2
-			return List.of(ray.getPoint(t2));
+			return List.of(new GeoPoint(this, ray.getPoint(t2)));
 		// there is only one point, need to take the positive t1
 		else
-			return List.of(ray.getPoint(t1));
+			return List.of(new GeoPoint(this, ray.getPoint(t1)));
 
 	}
 }
