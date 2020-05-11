@@ -6,6 +6,7 @@ import java.util.List;
 import elements.Camera;
 import primitives.*;
 import geometries.*;
+import static geometries.Intersectable.GeoPoint;
 
 /**
  * unit tests for integration between geometries and camera rays.
@@ -115,7 +116,7 @@ public class IntegrationTests {
 	 * @return the number of intersection point with the geometry.
 	 */
 	private int rayIntegrationGeometry(Intersectable geometry, Camera camera) {
-		List<Point3D> intersections;
+		List<GeoPoint> intersections;
 		int sum = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
