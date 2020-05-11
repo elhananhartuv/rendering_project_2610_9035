@@ -1,6 +1,6 @@
 package primitives;
 
-import static primitives.Util.*;
+
 
 /**
  * class Ray representing ray with starting point and direction
