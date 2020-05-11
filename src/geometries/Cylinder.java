@@ -1,7 +1,7 @@
 package geometries;
 
 import static primitives.Util.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import primitives.*;
 
@@ -24,6 +24,33 @@ public class Cylinder extends Tube {
 	 */
 	public Cylinder(Ray ray, double r, double height) {
 		super(ray, r);
+		this.height = height;
+	}
+
+	/**
+	 * ctor that get in addition color.
+	 * 
+	 * @param ray       axis ray
+	 * @param r         radius
+	 * @param height    the height of the cylinder
+	 * @param emmission color emmission
+	 */
+	public Cylinder(Ray ray, double r, double height, Color emmission) {
+		super(ray, r, emmission);
+		this.height = height;
+	}
+
+	/**
+	 * ctor that get 4 parameters material in addition .
+	 * 
+	 * @param ray
+	 * @param r
+	 * @param height
+	 * @param emmission
+	 * @param material
+	 */
+	public Cylinder(Ray ray, double r, double height, Color emmission, Material material) {
+		super(ray, r, emmission, material);
 		this.height = height;
 	}
 
@@ -79,10 +106,11 @@ public class Cylinder extends Tube {
 		// check if the point that on the tube is on the cylinder.
 		// calculate the projection on the axis if it bigger than height or smallest
 		// than 0-no intersection point.
-		List<GeoPoint> intersectionsWithCylinder = new ArrayList<GeoPoint>();
+		List<GeoPoint> intersectionsWithCylinder = new LinkedList<GeoPoint>();
 		if (intersectionsWithTube != null) {
 			for (int i = 0; i < intersectionsWithTube.size(); i++) {
-				double projection = alignZero(intersectionsWithTube.get(i).point.subtract(p0).dotProduct(axisDirection));
+				double projection = alignZero(
+						intersectionsWithTube.get(i).point.subtract(p0).dotProduct(axisDirection));
 				if (projection < height && projection > 0)
 					intersectionsWithCylinder.add(intersectionsWithTube.get(i));
 			}

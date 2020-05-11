@@ -4,6 +4,7 @@
 package unittests;
 
 import static org.junit.Assert.*;
+import geometries.Intersectable.GeoPoint;
 import java.util.List;
 import org.junit.Test;
 import geometries.Triangle;
@@ -45,7 +46,7 @@ public class TriangleTests {
 
 		// TC01: The point is inside the triangle.
 		// the intersection point is (1/3,1/3,1/3) the ray is (0.2,0.2,0.2)+t*(1,1,1)
-		assertEquals("point is inside", List.of(new Point3D(1 / 3d, 1 / 3d, 1 / 3d)),
+		assertEquals("point is inside", List.of(new GeoPoint(triangle,new Point3D(1 / 3d, 1 / 3d, 1 / 3d))),
 				triangle.findIntersections(new Ray(new Point3D(0.2, 0.2, 0.2), new Vector(1, 1, 1))));
 		// TC02:The point is outside against edge from (1,0,0) to (0,0,1).
 		// the intersection point with the plane is (-0.5,0.5,1) the point is outside

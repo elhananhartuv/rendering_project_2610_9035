@@ -42,7 +42,8 @@ public class TubeTests {
 	}
 
 	/**
-	 * Test method for {@link geometries.Tube#FindIntersections(primitives.Point3D)}.
+	 * Test method for
+	 * {@link geometries.Tube#FindIntersections(primitives.Point3D)}.
 	 */
 	@Test
 	public void testFindIntersections() {
@@ -55,11 +56,11 @@ public class TubeTests {
 		assertEquals("Wrong number of points", 2, result.size());
 		if (result.get(0).point.getX().get() > result.get(1).point.getX().get())
 			result = List.of(result.get(1), result.get(0));
-		assertEquals("should be two points of intersect",
-				List.of(new Point3D(0.4, 0.8, 17.8), new Point3D(1.6, 0.8, 14.2)), result);
+		assertEquals("should be two points of intersect", List.of(new GeoPoint(tube, new Point3D(0.4, 0.8, 17.8)),
+				new GeoPoint(tube, new Point3D(1.6, 0.8, 14.2))), result);
 		// TC02 ray intersect tube at one point (1 point)
 		result = tube.findIntersections(new Ray(new Point3D(1.5, 0, 4), new Vector(2.5, 0, -2)));
-		assertEquals("should be one point of intersect", List.of(new Point3D(2, 0, 3.6)), result);
+		assertEquals("should be one point of intersect", List.of(new GeoPoint(tube, new Point3D(2, 0, 3.6))), result);
 		// TC03 ray doesnt intersect the tube(0 points)
 		result = tube.findIntersections(new Ray(new Point3D(8, 0, 4), new Vector(2.5, 0, -2)));
 		assertNull("should be null", result);
@@ -71,42 +72,45 @@ public class TubeTests {
 		result = tube.findIntersections(new Ray(new Point3D(3, 0.8, 5), new Vector(-1, 0, 0)));
 		if (result.get(0).point.getX().get() > result.get(1).point.getX().get())
 			result = List.of(result.get(1), result.get(0));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0.4, 0.8, 5), new Point3D(1.6, 0.8, 5)), result);
+		assertEquals("Ray crosses tube",
+				List.of(new GeoPoint(tube, new Point3D(0.4, 0.8, 5)), new GeoPoint(tube, new Point3D(1.6, 0.8, 5))),
+				result);
 		// TC 12: ray start before and going through axis the tube(2 points)
 		result = tube.findIntersections(new Ray(new Point3D(3, 0, 5), new Vector(-1, 0, 0)));
 		if (result.get(0).point.getX().get() > result.get(1).point.getX().get())
 			result = List.of(result.get(1), result.get(0));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 5), new Point3D(2, 0, 5)), result);
+		assertEquals("Ray crosses tube",
+				List.of(new GeoPoint(tube, new Point3D(0, 0, 5)), new GeoPoint(tube, new Point3D(2, 0, 5))), result);
 		// TC 13: ray start before and going through the center point of tube(2 point)
 		result = tube.findIntersections(new Ray(new Point3D(3, 0, 0), new Vector(-1, 0, 0)));
 		if (result.get(0).point.getX().get() > result.get(1).point.getX().get())
 			result = List.of(result.get(1), result.get(0));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 0), new Point3D(2, 0, 0)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 0)), new GeoPoint(tube,new Point3D(2, 0, 0))), result);
 		// TC 14:The ray start inside the tube(1 point)
 		result = tube.findIntersections(new Ray(new Point3D(1.5, 0.8, 5), new Vector(-1, 0, 0)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0.4, 0.8, 5)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0.4, 0.8, 5))), result);
 		// TC 15:The ray start inside the tube and going through axis the tube(1
 		// point)
 		result = tube.findIntersections(new Ray(new Point3D(1.5, 0, 5), new Vector(-1, 0, 0)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 5)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 5))), result);
 		// TC 16:The ray start inside the tube and going through center point of the
 		// tube(1
 		// point)
 		result = tube.findIntersections(new Ray(new Point3D(1.5, 0, 0), new Vector(-1, 0, 0)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 0)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 0))), result);
 		// TC 17 :The ray start at the tube and go inside (1
 		// point)
 		result = tube.findIntersections(new Ray(new Point3D(1.6, 0.8, 5), new Vector(-1, 0, 0)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0.4, 0.8, 5)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0.4, 0.8, 5))), result);
 		// TC 18 :The ray start at the tube and go inside through center point of the
 		// tube(1
 		// point)
 		result = tube.findIntersections(new Ray(new Point3D(2, 0, 0), new Vector(-1, 0, 0)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 0)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 0))), result);
 		// TC 19 :The ray start at the tube and go inside through axis of the tube (1
 		// point)
 		result = tube.findIntersections(new Ray(new Point3D(2, 0, 5), new Vector(-1, 0, 0)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 5)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 5))), result);
 		// TC 20:The ray start after the tube and orthogonal to tube (null)
 		result = tube.findIntersections(new Ray(new Point3D(-3, 0, 5), new Vector(-1, 0, 0)));
 		assertNull("should be null", result);
@@ -115,11 +119,11 @@ public class TubeTests {
 		assertNull("should be null", result);
 		// TC 22:The ray start at the tube center point and orthogonal to tube (1 point)
 		result = tube.findIntersections(new Ray(new Point3D(1, 0, 0), new Vector(-1, 0, 0)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 0)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 0))), result);
 		// TC 23: The ray start at the at tube axis vector and orthogonal to tube (1
 		// point)
 		result = tube.findIntersections(new Ray(new Point3D(1, 0, 80), new Vector(-1, 0, 0)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 80)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 80))), result);
 		// TC 24:The Ray orthogonal and tangent the tube
 		result = tube.findIntersections(new Ray(new Point3D(2, 3, 5), new Vector(0, 1, 0)));
 		assertNull("should be null", result);
@@ -156,16 +160,16 @@ public class TubeTests {
 		assertNull("should be null", result);
 		// TC32: The Ray start at tube and go inside (1 point)
 		result = tube.findIntersections(new Ray(new Point3D(2, 0, 4), new Vector(-2, 0, 1)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 5)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 5))), result);
 		// TC33: The Ray start at tube and go inside through the Tube point (1 point)
 		result = tube.findIntersections(new Ray(new Point3D(2, 0, 1), new Vector(-1, 0, -1)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, -1)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, -1))), result);
 		// 34: The Ray start at tube center point (1 point)
 		result = tube.findIntersections(new Ray(new Point3D(1, 0, 0), new Vector(-1, 0, 1)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 1)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 1))), result);
 		// TC35: The Ray start at tube axis vector (1 point)
 		result = tube.findIntersections(new Ray(new Point3D(1, 0, 80), new Vector(-1, 0, 1)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(0, 0, 81)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(0, 0, 81))), result);
 		// TC 36:The Ray tangent to the Tube
 		result = tube.findIntersections(new Ray(new Point3D(2, 3, 5), new Vector(0, 1, 3)));
 		assertNull("should be null", result);
@@ -174,6 +178,6 @@ public class TubeTests {
 		assertNull("should be null", result);
 		// TC 38: The Ray almost in the same tube direction
 		result = tube.findIntersections(new Ray(new Point3D(1, 0, 0), new Vector(0.001, 0, 1)));
-		assertEquals("Ray crosses tube", List.of(new Point3D(2, 0, 1000)), result);
+		assertEquals("Ray crosses tube", List.of(new GeoPoint(tube,new Point3D(2, 0, 1000))), result);
 	}
 }

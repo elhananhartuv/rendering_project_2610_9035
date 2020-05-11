@@ -27,6 +27,31 @@ public class Tube extends RadialGeometry {
 	}
 
 	/**
+	 * ctor for Tube that get 3 parameters ray,radius and color.
+	 * 
+	 * @param ray       axis ray for tube.
+	 * @param r         radius of tube.
+	 * @param emmission the color emmission.
+	 */
+	public Tube(Ray ray, double r, Color emmission) {
+		super(r, emmission);
+		this.axisRay = ray;
+	}
+
+	/**
+	 * ctor with 4 parameters ray,radius,emission and material
+	 * 
+	 * @param ray       axis ray for tube.
+	 * @param r         radius of tube.
+	 * @param emmission the color emmission.
+	 * @param material
+	 */
+	public Tube(Ray ray, double r, Color emmission, Material material) {
+		super(r, emmission, material);
+		this.axisRay = ray;
+	}
+
+	/**
 	 * axisRay getter
 	 * 
 	 * @return the Ray of the tube
@@ -124,7 +149,7 @@ public class Tube extends RadialGeometry {
 		t2 = alignZero(-b - desc) / (2d * a);
 
 		if (t1 > 0 & t2 > 0) {
-			return List.of(new GeoPoint(this, ray.getPoint(t1)),new GeoPoint(this, ray.getPoint(t2)));
+			return List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
 		} else if (t1 > 0) {
 			return List.of(new GeoPoint(this, ray.getPoint(t1)));
 		} else if (t2 > 0) {

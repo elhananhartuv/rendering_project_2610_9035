@@ -1,6 +1,6 @@
 package geometries;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import primitives.*;
 import static primitives.Util.*;
@@ -19,7 +19,7 @@ public class Geometries implements Intersectable {
 	 * a default ctor that Initialize the _geometries list with empty ArrayList.
 	 */
 	public Geometries() {
-		_geometries = new ArrayList<Intersectable>();
+		_geometries = new LinkedList<Intersectable>();
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class Geometries implements Intersectable {
 	 * @param _geometries add geometries shapes to list
 	 */
 	public Geometries(Intersectable... _geometries) {
-		this._geometries = new ArrayList<Intersectable>();
+		this._geometries = new LinkedList<Intersectable>();
 		add(_geometries);
 	}
 
@@ -46,7 +46,7 @@ public class Geometries implements Intersectable {
 
 	@Override
 	public List<GeoPoint> findIntersections(Ray ray) {
-		List<GeoPoint> intersections = new ArrayList<GeoPoint>();
+		List<GeoPoint> intersections = new LinkedList<GeoPoint>();
 		for (int i = 0; i < _geometries.size(); i++) {
 			// need to check if the there is no intersection with the geometry shape.
 			List<GeoPoint> check = _geometries.get(i).findIntersections(ray);

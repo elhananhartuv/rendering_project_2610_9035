@@ -43,6 +43,62 @@ public class Plane extends Geometry {
 	}
 
 	/**
+	 * ctor that get 3 point and additionally color. the ctor get the 3 point and
+	 * create the plane.
+	 * 
+	 * @param emmision color
+	 * @param p0
+	 * @param p1
+	 * @param p2
+	 */
+	public Plane(Color emmision, Point3D p0, Point3D p1, Point3D p2) {
+		this(p0, p1, p2);
+		this.emmission = emmision;
+	}
+
+	/**
+	 * ctor that get 3 point to create the plane. in addition get material and
+	 * emmisiom.
+	 * 
+	 * @param material
+	 * @param emmision
+	 * @param p0
+	 * @param p1
+	 * @param p2
+	 */
+	public Plane(Material material, Color emmision, Point3D p0, Point3D p1, Point3D p2) {
+		this(emmision, p0, p1, p2);
+		this.material = material;
+	}
+
+	/**
+	 * ctor that get point and normal and additionally color. the ctor get point and
+	 * normal and create plane.
+	 * 
+	 * @param emmision color
+	 * @param point    random point on the plane
+	 * @param vector   the normal vector to the plane.
+	 */
+	public Plane(Color emmision, Point3D point, Vector vector) {
+		this(point, vector);
+		this.emmission = emmision;
+	}
+
+	/**
+	 * ctor that get point and normal and additionally material and color. the ctor
+	 * get point and normal and create plane.
+	 * 
+	 * @param material
+	 * @param emmision
+	 * @param point    random point on the plane
+	 * @param vector   normal vector to the plane.
+	 */
+	public Plane(Material material, Color emmision, Point3D point, Vector vector) {
+		this(emmision, point, vector);
+		this.material = material;
+	}
+
+	/**
 	 * normal getter
 	 * 
 	 * @return the normal to plane
@@ -53,6 +109,7 @@ public class Plane extends Geometry {
 
 	/**
 	 * point getter
+	 * 
 	 * @return the point that representing the plane
 	 */
 	public Point3D getPoint() {

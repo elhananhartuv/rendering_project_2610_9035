@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.List;
 
 import geometries.Plane;
+import geometries.Intersectable.GeoPoint;
 import primitives.*;
 
 /**
@@ -50,7 +51,7 @@ public class PlaneTests {
 		// the intersection point that expected is (0,0,1).
 		assertEquals("Ray intersects the plane",
 				plane.findIntersections(new Ray(new Point3D(0, 0, 0.5), new Vector(0, 0, 1))),
-				List.of(new Point3D(0, 0, 1)));
+				List.of(new GeoPoint(plane,new Point3D(0, 0, 1))));
 
 		// TC02: Ray does not intersects the plane
 		// The ray is (0,0,0.5)+t(0,0,-1) there is no intersection point that expected
@@ -73,7 +74,7 @@ public class PlaneTests {
 		// TC21:Ray start before the plane
 		assertEquals("Ray start before the plane",
 				plane.findIntersections(new Ray(new Point3D(0.1, 0.1, 0.1), new Vector(2, 2, 2))),
-				List.of(new Point3D(1 / 3d, 1 / 3d, 1 / 3d)));
+				List.of(new GeoPoint(plane,new Point3D(1 / 3d, 1 / 3d, 1 / 3d))));
 		// TC22: Ray start in the plane.
 		assertNull("Ray start in the plane",
 				plane.findIntersections(new Ray(new Point3D(1 / 3d, 1 / 3d, 1 / 3d), new Vector(1, 1, 1))));

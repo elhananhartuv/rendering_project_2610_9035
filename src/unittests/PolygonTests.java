@@ -1,7 +1,7 @@
 package unittests;
 
 import static org.junit.Assert.*;
-
+import static geometries.Intersectable.GeoPoint;
 import org.junit.Test;
 import java.util.List;
 import geometries.*;
@@ -99,8 +99,8 @@ public class PolygonTests {
 		// ============ Equivalence Partitions Tests ==============
 
 		// TC01: The point is inside the Polygon.
-		assertEquals("point is inside", List.of(new Point3D(1.5, 1, 2)),
-				polygon.findIntersections(new Ray(new Point3D(1.5, 1, 0), new Vector(0, 0, 1))));
+		assertEquals("point is inside", polygon.findIntersections(new Ray(new Point3D(1.5, 1, 0), new Vector(0, 0, 1))),
+				List.of(new GeoPoint(polygon, new Point3D(1.5, 1, 2))));
 
 		// TC02:The point is outside against edge from (1,0,0) to (0,0,1).
 		assertNull("Outside against edge",

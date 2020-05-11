@@ -81,6 +81,30 @@ public class Polygon extends Geometry {
 		}
 	}
 
+	/**
+	 * ctor that get in addition color.
+	 * 
+	 * @param color    color.
+	 * @param vertices vertices list of vertices according to their order by edge
+	 *                 path
+	 */
+	public Polygon(Color emmission, Point3D... vertices) {
+		this(vertices);
+		super.emmission = emmission;
+	}
+
+	/**
+	 * ctor that get in addition Material.
+	 * 
+	 * @param material
+	 * @param emmission
+	 * @param vertices
+	 */
+	public Polygon(Material material, Color emmission, Point3D... vertices) {
+		this(emmission, vertices);
+		this.material = material;
+	}
+
 	@Override
 	public List<GeoPoint> findIntersections(Ray ray) {
 		List<GeoPoint> intersections = _plane.findIntersections(ray);
@@ -114,6 +138,7 @@ public class Polygon extends Geometry {
 			if ((flag && (check < 0)) || (!flag && check > 0) || isZero(check))
 				return null;
 		}
+		intersections.get(0).geometry = this;
 		return intersections;
 	}
 

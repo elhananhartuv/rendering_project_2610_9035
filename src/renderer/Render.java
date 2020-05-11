@@ -75,7 +75,7 @@ public class Render {
 		for (int i = 0; i < Ny; i++) {
 			for (int j = 0; j < Nx; j++) {
 				// get the ray from camera through the pixel i,j in the view plane.
-				ray = camera.constructRayThroughPixel(Nx, Ny, i, j, scene.getDistance(), width, height);
+				ray = camera.constructRayThroughPixel(Nx, Ny, j, i, scene.getDistance(), width, height);
 				// get the intersection points with the geometries shape.
 				List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
 
@@ -86,7 +86,7 @@ public class Render {
 				} else {
 					// there is intersections points-calculate the closest point to camera and the
 					// color of the point and write to pixel.
-					Point3D closestPoint = getClosestPoint(intersectionPoints);
+					GeoPoint closestPoint = getClosestPoint(intersectionPoints);
 					imageWriter.writePixel(j, i, calcColor(closestPoint).getColor());
 				}
 			}
@@ -99,8 +99,11 @@ public class Render {
 	 * @param point the point to calculate the color.
 	 * @return the color of the point.
 	 */
-	private Color calcColor(Point3D point) {
-		return scene.getAmbientLight().getIntensity();
+	private Color calcColor(GeoPoint point) {
+		Color color = scene.getAmbientLight().getIntensity();
+		// add emmision to ambient light
+		color = color.add(point.geometry.getEmission());
+		return color;
 	}
 
 	/**
@@ -110,17 +113,17 @@ public class Render {
 	 * @param points List of points
 	 * @return the closest point.
 	 */
-	private Point3D getClosestPoint(List<Point3D> points) {
-		Point3D result = null;// if there is no points in the list the result will stay null.
+	private GeoPoint getClosestPoint(List<GeoPoint> points) {
+		GeoPoint result = null;// if there is no points in the list the result will stay null.
 		double minDistance = Double.MAX_VALUE;
 		Point3D p0 = this.scene.getCamera().getP0();
 		double distance;
-		for (Point3D point : points) {
+		for (GeoPoint geo : points) {
 			// distance from the camera.
-			distance = p0.distance(point);
+			distance = p0.distance(geo.point);
 			if (distance < minDistance) {
 				minDistance = distance;
-				result = point;
+				result = geo;
 			}
 		}
 		return result;// closest point.

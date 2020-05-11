@@ -4,6 +4,9 @@ import elements.AmbientLight;
 import primitives.*;
 import geometries.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import elements.*;
 
 /**
@@ -20,6 +23,7 @@ public class Scene {
 	private Geometries geometries;
 	private Camera camera;
 	private double distance;
+	private List<LightSource> lights = new LinkedList<LightSource>();
 
 	/**
 	 * ctor for Scene that get only the name.
@@ -122,6 +126,15 @@ public class Scene {
 		this.distance = distance;
 	}
 
+	/**
+	 * get lights function
+	 * 
+	 * @return lights-list of lights
+	 */
+	public List<LightSource> getLights() {
+		return lights;
+	}
+
 	// ***************** Operations ******************** //
 	/**
 	 * the function add geometry shape to scene.
@@ -132,4 +145,13 @@ public class Scene {
 		this.geometries.add(geometries);
 	}
 
+	/**
+	 * the function add some lights sources to the scene.
+	 * 
+	 * @param lights list of lights to add.
+	 */
+	public void addLights(LightSource... lights) {
+		for (LightSource light : lights) 
+			this.lights.add(light);	
+	}
 }
