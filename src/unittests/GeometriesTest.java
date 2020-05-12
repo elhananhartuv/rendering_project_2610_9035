@@ -1,4 +1,3 @@
-
 package unittests;
 
 import static org.junit.Assert.*;
@@ -69,5 +68,4 @@ public class GeometriesTest {
 		assertNull("empty geometries group.",
 				geometries.findIntersections(new Ray(new Point3D(1, 2, 5), new Vector(1, 5, 4))));
 	}
-
 }

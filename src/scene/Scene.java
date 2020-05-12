@@ -127,7 +127,7 @@ public class Scene {
 	}
 
 	/**
-	 * get lights function
+	 * get lights function-return all the lights sources in the scene.
 	 * 
 	 * @return lights-list of lights
 	 */
@@ -151,7 +151,7 @@ public class Scene {
 	 * @param lights list of lights to add.
 	 */
 	public void addLights(LightSource... lights) {
-		for (LightSource light : lights) 
-			this.lights.add(light);	
+		for (LightSource light : lights)
+			this.lights.add(light);
 	}
 }

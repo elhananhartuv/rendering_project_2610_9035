@@ -84,7 +84,7 @@ public class Point3D {
 	 * resulting vector
 	 * 
 	 * @param point
-	 * @return
+	 * @return vector from this. point to the point that the function get.
 	 */
 	public Vector subtract(Point3D point) {
 		return new Vector(this.x._coord - point.x._coord, this.y._coord - point.y._coord,
@@ -125,7 +125,7 @@ public class Point3D {
 		return Math.sqrt(distanceSquared(point));
 	}
 
-	//*************** Admin *****************//
+	// *************** Admin *****************//
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -5,11 +5,6 @@ import org.junit.Test;
 import elements.*;
 import geometries.*;
 import primitives.*;
-
-//import renderer.*;
-
-//import scene.*;
-
 import renderer.ImageWriter;
 import renderer.Render;
 import scene.Scene;

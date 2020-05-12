@@ -4,9 +4,9 @@ import java.util.List;
 import primitives.*;
 import elements.*;
 import geometries.*;
-import jdk.internal.misc.Signal;
 import scene.*;
 import static geometries.Intersectable.GeoPoint;
+import static primitives.Util.*;
 
 /**
  * Renderer class is responsible to create the buffer image from the geometries
@@ -102,24 +102,68 @@ public class Render {
 	 */
 	private Color calcColor(GeoPoint gPoint) {
 		Color color = scene.getAmbientLight().getIntensity();
-		// add emmision to ambient light
 		color = color.add(gPoint.geometry.getEmission());
+
+		List<LightSource> lights = scene.getLights();// all the lights sources in our scene.
+		// the vector from the point to camera -v
 		Vector v = gPoint.point.subtract(scene.getCamera().getP0()).normalize();
-		Vector n = gPoint.geometry.getNormal(gPoint.point);
-		Material material = gPoint.geometry.getMatrial();
+		Vector n = gPoint.geometry.getNormal(gPoint.point);// the normal to the point.
+		// Attenuation factors
+		Material material = gPoint.geometry.getMatrial();// attenuation factors
 		int nShininess = material.getnShininess();
 		double kD = material.getkD();
 		double kS = material.getkS();
-		for(LightSource lightSource : scene.getLights()) {
-			Vector l = lightSource.getL(gPoint.point);
-			double nL = n.dotProduct(l);
-			double nV = n.dotProduct(v);
-			if(nL > 0 && nV > 0 || nL <= 0 && nV <= 0) {
-				Color lightIntensity = lightSource.getIntensity(gPoint.point);
-				color = color.add();
+		Vector l;
+		double nL;
+		Color iP;
+		double nV;
+		if (lights != null) {
+			for (LightSource lightSource : lights) {
+				l = lightSource.getL(gPoint.point);
+				nL = n.dotProduct(l);
+				nV = n.dotProduct(v);
+				if (nL > 0 && nV > 0 || nL < 0 && nV < 0) {
+					iP = lightSource.getIntensity(gPoint.point);
+					color = color.add(calcDiffuse(kD, nL, iP), calcSpecular(kS, l, n, v, nL, nShininess, iP));
+				}
 			}
 		}
 		return color;
+	}
+
+	/**
+	 * calculate the Diffusive component
+	 * 
+	 * @param kd attenuation factor
+	 * @param nl n.dotPrudct(l) n- normal vector, l- vector from the light source to
+	 *           lighted point.
+	 * @param ip is the light intensity in the point
+	 * @return the color with diffuse
+	 */
+	private Color calcDiffuse(double kd, double nl, Color ip) {
+		if (nl < 0)
+			nl = -nl;
+		return ip.scale(nl * kd);
+	}
+
+	/**
+	 * calculate the Specular component
+	 * 
+	 * @param kS       attenuation factor
+	 * @param l        the vector from the light source to lighted point.
+	 * @param n        the normal vector in the light point
+	 * @param v        the vector from the point to the camera
+	 * @param nL
+	 * @param nShinies
+	 * @param light
+	 * @return
+	 */
+	private Color calcSpecular(double kS, Vector l, Vector n, Vector v, double nL, int nShinies, Color light) {
+		Vector r = l.subtract(n.scale(2 * nL)); // nl must not be zero!
+		double vR = -alignZero(r.dotProduct(v));
+		if (vR <= 0)
+			return Color.BLACK;
+		return light.scale(kS * Math.pow(vR, nShinies));
 	}
 
 	/**

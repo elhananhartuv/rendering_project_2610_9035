@@ -17,7 +17,6 @@ import static primitives.Util.*;
  *
  */
 public class Sphere extends RadialGeometry {
-
 	private Point3D center;
 
 	/**
