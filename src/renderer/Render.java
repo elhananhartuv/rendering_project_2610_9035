@@ -109,13 +109,13 @@ public class Render {
 		Vector v = gPoint.point.subtract(scene.getCamera().getP0()).normalize();
 		Vector n = gPoint.geometry.getNormal(gPoint.point);// the normal to the point.
 		// Attenuation factors
-		Material material = gPoint.geometry.getMatrial();// attenuation factors
+		Material material = gPoint.geometry.getMatrial();
 		int nShininess = material.getnShininess();
 		double kD = material.getkD();
 		double kS = material.getkS();
-		Vector l;
-		double nL;
-		Color iP;
+		Vector l;// the vector from the camera to the point.
+		double nL;// dot product between the normal vector and l vector.
+		Color iP; // the lighted source can be pointLight,directionLight,spotLight.
 		double nV;
 		if (lights != null) {
 			for (LightSource lightSource : lights) {
@@ -142,7 +142,7 @@ public class Render {
 	 */
 	private Color calcDiffuse(double kd, double nl, Color ip) {
 		if (nl < 0)
-			nl = -nl;
+			nl = -nl;// instead abs function
 		return ip.scale(nl * kd);
 	}
 

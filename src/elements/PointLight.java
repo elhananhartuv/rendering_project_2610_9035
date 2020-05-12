@@ -6,13 +6,14 @@ import primitives.Vector;
 import static primitives.Util.*;
 
 /**
- * PointLight class is kind of Light effected by position and attenuation
+ * PointLight class is kind of Light has position and effected by distance.
  * 
  * @author E&Y
  *
  */
 public class PointLight extends Light implements LightSource {
 	private Point3D position;
+	// attenuation parameters
 	private double kC;
 	private double kL;
 	private double kQ;

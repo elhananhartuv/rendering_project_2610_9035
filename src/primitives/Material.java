@@ -1,7 +1,8 @@
 package primitives;
 
 /**
- * Material class provide the attenuation for diffusive and specularity and shininess
+ * Material class provide the attenuation for diffusive and specularity and
+ * shininess.
  * 
  * @author E&Y
  *
@@ -14,9 +15,9 @@ public class Material {
 	/**
 	 * ctor for Material class get 3 parameters.
 	 * 
-	 * @param kD
-	 * @param kS
-	 * @param nShininess
+	 * @param kD         attenuation parameter for diffusive
+	 * @param kS         attenuation parameter for specular
+	 * @param nShininess attenuation for the pow.
 	 */
 	public Material(double kD, double kS, int nShininess) {
 		this.kD = kD;
