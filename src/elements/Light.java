@@ -3,6 +3,7 @@ package elements;
 import primitives.Color;
 
 /**
+ * Light id abstract class that provide intensity color for each kind of light
  * 
  * @author E&Y
  */

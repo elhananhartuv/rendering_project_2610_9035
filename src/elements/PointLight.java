@@ -6,6 +6,7 @@ import primitives.Vector;
 import static primitives.Util.*;
 
 /**
+ * PointLight class is kind of Light effected by position and attenuation
  * 
  * @author E&Y
  *

@@ -5,8 +5,9 @@ import primitives.Point3D;
 import primitives.Vector;
 
 /**
+ * SpotLight class is kind of Light effected by position, direction, intensity and attenuation
  * 
- * @author USER
+ * @author E&Y
  *
  */
 public class SpotLight extends PointLight {

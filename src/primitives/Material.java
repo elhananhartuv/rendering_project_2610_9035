@@ -1,6 +1,7 @@
 package primitives;
 
 /**
+ * Material class provide the attenuation for diffusive and specular and shininess
  * 
  * @author E&Y
  *
