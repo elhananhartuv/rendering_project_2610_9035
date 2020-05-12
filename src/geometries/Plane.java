@@ -56,6 +56,7 @@ public class Plane extends Geometry {
 		this.emmission = emmision;
 	}
 
+
 	/**
 	 * ctor that get 3 point to create the plane. in addition get material and
 	 * emmisiom.
