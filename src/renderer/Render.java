@@ -4,6 +4,7 @@ import java.util.List;
 import primitives.*;
 import elements.*;
 import geometries.*;
+import jdk.internal.misc.Signal;
 import scene.*;
 import static geometries.Intersectable.GeoPoint;
 
@@ -94,15 +95,30 @@ public class Render {
 	}
 
 	/**
-	 * calculate the color in the specific point that function get.
+	 * calculate the color intensity in the specific point that function get.
 	 * 
-	 * @param point the point to calculate the color.
+	 * @param gPoint the point to calculate the color.
 	 * @return the color of the point.
 	 */
-	private Color calcColor(GeoPoint point) {
+	private Color calcColor(GeoPoint gPoint) {
 		Color color = scene.getAmbientLight().getIntensity();
 		// add emmision to ambient light
-		color = color.add(point.geometry.getEmission());
+		color = color.add(gPoint.geometry.getEmission());
+		Vector v = gPoint.point.subtract(scene.getCamera().getP0()).normalize();
+		Vector n = gPoint.geometry.getNormal(gPoint.point);
+		Material material = gPoint.geometry.getMatrial();
+		int nShininess = material.getnShininess();
+		double kD = material.getkD();
+		double kS = material.getkS();
+		for(LightSource lightSource : scene.getLights()) {
+			Vector l = lightSource.getL(gPoint.point);
+			double nL = n.dotProduct(l);
+			double nV = n.dotProduct(v);
+			if(nL > 0 && nV > 0 || nL <= 0 && nV <= 0) {
+				Color lightIntensity = lightSource.getIntensity(gPoint.point);
+				color = color.add();
+			}
+		}
 		return color;
 	}
 
