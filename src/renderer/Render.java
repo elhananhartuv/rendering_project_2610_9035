@@ -120,8 +120,8 @@ public class Render {
 		if (lights != null) {
 			for (LightSource lightSource : lights) {
 				l = lightSource.getL(gPoint.point);
-				nL = n.dotProduct(l);
-				nV = n.dotProduct(v);
+				nL = alignZero(n.dotProduct(l));
+				nV = alignZero(n.dotProduct(v));
 				if (nL > 0 && nV > 0 || nL < 0 && nV < 0) {
 					iP = lightSource.getIntensity(gPoint.point);
 					color = color.add(calcDiffuse(kD, nL, iP), calcSpecular(kS, l, n, v, nL, nShininess, iP));
