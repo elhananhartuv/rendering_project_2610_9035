@@ -14,6 +14,8 @@ import primitives.*;
 public class Cylinder extends Tube {
 	private double height;
 
+	// ***************** Constructors ********************** //
+
 	/**
 	 * ctor of Cylinder get 3 parameters ray,radius and height and call to Tube ctor
 	 * with(ray,r)
@@ -23,8 +25,8 @@ public class Cylinder extends Tube {
 	 * @param height of cylinder.
 	 */
 	public Cylinder(Ray ray, double r, double height) {
-		super(ray, r);
-		this.height = height;
+		this(ray, r, height, Color.BLACK, new Material(0, 0, 0));
+
 	}
 
 	/**
@@ -36,8 +38,7 @@ public class Cylinder extends Tube {
 	 * @param emmission color emmission
 	 */
 	public Cylinder(Ray ray, double r, double height, Color emmission) {
-		super(ray, r, emmission);
-		this.height = height;
+		this(ray, r, height, emmission, new Material(0, 0, 0));
 	}
 
 	/**
@@ -54,6 +55,8 @@ public class Cylinder extends Tube {
 		this.height = height;
 	}
 
+	// ***************** Getters/Setters ********************** //
+
 	/**
 	 * height getter
 	 * 
@@ -62,6 +65,8 @@ public class Cylinder extends Tube {
 	public double getHeight() {
 		return height;
 	}
+
+	// ***************** Operations ******************** //
 
 	@Override
 	public Vector getNormal(Point3D point) {

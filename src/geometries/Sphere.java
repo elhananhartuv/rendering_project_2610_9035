@@ -19,6 +19,8 @@ import static primitives.Util.*;
 public class Sphere extends RadialGeometry {
 	private Point3D center;
 
+	// ***************** Constructors ********************** //
+
 	/**
 	 * ctor for Sphere that get the center point and the radius
 	 * 
@@ -26,8 +28,7 @@ public class Sphere extends RadialGeometry {
 	 * @param r  radius of the sphere.
 	 */
 	public Sphere(Point3D p0, double r) {
-		super(r);
-		center = new Point3D(p0);
+		this(p0, r, Color.BLACK);
 	}
 
 	/**
@@ -35,11 +36,10 @@ public class Sphere extends RadialGeometry {
 	 * 
 	 * @param p0    the center point of the sphere
 	 * @param r     the radius of the sphere
-	 * @param color emmission.
+	 * @param color emmission color.
 	 */
 	public Sphere(Point3D p0, double r, Color emmission) {
-		super(r, emmission);
-		center = new Point3D(p0);
+		this(p0, r, emmission, new Material(0, 0, 0));
 	}
 
 	/**
@@ -48,12 +48,14 @@ public class Sphere extends RadialGeometry {
 	 * @param p0
 	 * @param r
 	 * @param emmission
-	 * @param material
+	 * @param material  attenuation parameters
 	 */
 	public Sphere(Point3D p0, double r, Color emmission, Material material) {
-		this(p0, r, emmission);
-		this.material = material;
+		super(r, emmission, material);
+		center = new Point3D(p0);
 	}
+
+	// ***************** Getters/Setters ********************** //
 
 	/**
 	 * center getter
@@ -63,6 +65,8 @@ public class Sphere extends RadialGeometry {
 	public Point3D getCenter() {
 		return center;
 	}
+
+	// ***************** Operations ******************** //
 
 	@Override
 	public Vector getNormal(Point3D point) {

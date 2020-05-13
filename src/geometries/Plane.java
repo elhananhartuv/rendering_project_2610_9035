@@ -15,26 +15,20 @@ public class Plane extends Geometry {
 	private Point3D point;
 	private Vector normal;
 
-	/**
-	 * Constructor that receives point and direction and initializes accordingly
-	 * 
-	 * @param point
-	 * @param vector
-	 */
-	public Plane(Point3D point, Vector vector) {
-		this.point = new Point3D(point);
-		this.normal = new Vector(vector).normalize();
-	}
+	// ***************** Constructors ********************** //
 
 	/**
-	 * A constructor that gets three points and calculates the normal plane and
-	 * initializes.
+	 * ctor that get 3 point to create the plane. in addition get material and
+	 * emmisiom.
 	 * 
-	 * @param p0
-	 * @param p1
-	 * @param p2
+	 * @param material for the attenuation parameters
+	 * @param emmision color emmision
+	 * @param p0       first vertex
+	 * @param p1       second vertex
+	 * @param p2       third vertex
 	 */
-	public Plane(Point3D p0, Point3D p1, Point3D p2) {
+	public Plane(Point3D p0, Point3D p1, Point3D p2, Color emmision, Material material) {
+		super(emmision, material);
 		point = new Point3D(p0);
 		Vector v1 = p0.subtract(p1);// make one direction
 		Vector v2 = p0.subtract(p2);// make the second direction
@@ -47,29 +41,38 @@ public class Plane extends Geometry {
 	 * create the plane.
 	 * 
 	 * @param emmision color
-	 * @param p0
-	 * @param p1
-	 * @param p2
+	 * @param p0       first vertex
+	 * @param p1       second vertex
+	 * @param p2       third vertex
 	 */
-	public Plane(Color emmision, Point3D p0, Point3D p1, Point3D p2) {
-		this(p0, p1, p2);
-		this.emmission = emmision;
+	public Plane(Point3D p0, Point3D p1, Point3D p2, Color emmision) {
+		this(p0, p1, p2, emmision, new Material(0, 0, 0));
 	}
 
+	/**
+	 * A constructor that gets three points and calculates the normal plane and
+	 * initializes.
+	 * 
+	 * @param p0 first vertex
+	 * @param p1 second vertex
+	 * @param p2 third vertex
+	 */
+	public Plane(Point3D p0, Point3D p1, Point3D p2) {
+		this(p0, p1, p2, Color.BLACK);
+	}
 
 	/**
-	 * ctor that get 3 point to create the plane. in addition get material and
-	 * emmisiom.
+	 * ctor that get point and normal vector and additionally material and color.
 	 * 
-	 * @param material
-	 * @param emmision
-	 * @param p0
-	 * @param p1
-	 * @param p2
+	 * @param material for the attenuation parameters
+	 * @param emmision color.
+	 * @param point    random point on the plane
+	 * @param vector   normal vector to the plane.
 	 */
-	public Plane(Material material, Color emmision, Point3D p0, Point3D p1, Point3D p2) {
-		this(emmision, p0, p1, p2);
-		this.material = material;
+	public Plane(Point3D point, Vector vector, Color emmision, Material material) {
+		super(emmision, material);
+		this.point = new Point3D(point);
+		this.normal = vector.normalize();// make sure that the vector normalized
 	}
 
 	/**
@@ -80,24 +83,21 @@ public class Plane extends Geometry {
 	 * @param point    random point on the plane
 	 * @param vector   the normal vector to the plane.
 	 */
-	public Plane(Color emmision, Point3D point, Vector vector) {
-		this(point, vector);
-		this.emmission = emmision;
+	public Plane(Point3D point, Vector vector, Color emmision) {
+		this(point, vector, emmision, new Material(0, 0, 0));
 	}
 
 	/**
-	 * ctor that get point and normal and additionally material and color. the ctor
-	 * get point and normal and create plane.
+	 * Constructor that receives point and direction and initializes accordingly
 	 * 
-	 * @param material
-	 * @param emmision
-	 * @param point    random point on the plane
-	 * @param vector   normal vector to the plane.
+	 * @param point
+	 * @param vector
 	 */
-	public Plane(Material material, Color emmision, Point3D point, Vector vector) {
-		this(emmision, point, vector);
-		this.material = material;
+	public Plane(Point3D point, Vector vector) {
+		this(point, vector, Color.BLACK);
 	}
+
+	// ***************** Getters/Setters ********************** //
 
 	/**
 	 * normal getter
@@ -116,6 +116,8 @@ public class Plane extends Geometry {
 	public Point3D getPoint() {
 		return point;
 	}
+
+	// ***************** Operations ******************** //
 
 	@Override
 	public Vector getNormal(Point3D point) {

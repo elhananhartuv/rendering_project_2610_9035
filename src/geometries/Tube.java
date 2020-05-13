@@ -3,8 +3,6 @@ package geometries;
 import primitives.*;
 import java.util.List;
 import static primitives.Util.*;
-import primitives.Point3D;
-import primitives.Vector;
 
 /**
  * Tube class representing Infinite cylinder, has a axis Ray and Radius.
@@ -15,6 +13,8 @@ import primitives.Vector;
 public class Tube extends RadialGeometry {
 	protected Ray axisRay;
 
+	// ***************** Constructors ********************** //
+
 	/**
 	 * ctor for Tube Class get Ray and the radius of the tube.
 	 * 
@@ -22,8 +22,7 @@ public class Tube extends RadialGeometry {
 	 * @param r   the Radius of the tube.
 	 */
 	public Tube(Ray ray, double r) {
-		super(r);// call to base class radial geometry
-		this.axisRay = ray;
+		this(ray, r, Color.BLACK);
 	}
 
 	/**
@@ -34,8 +33,7 @@ public class Tube extends RadialGeometry {
 	 * @param emmission the color emmission.
 	 */
 	public Tube(Ray ray, double r, Color emmission) {
-		super(r, emmission);
-		this.axisRay = ray;
+		this(ray, r, emmission, new Material(0, 0, 0));
 	}
 
 	/**
@@ -51,6 +49,8 @@ public class Tube extends RadialGeometry {
 		this.axisRay = ray;
 	}
 
+	// ***************** Getters/Setters ********************** //
+
 	/**
 	 * axisRay getter
 	 * 
@@ -59,6 +59,8 @@ public class Tube extends RadialGeometry {
 	public Ray getAxisRay() {
 		return axisRay;
 	}
+
+	// ***************** Operations ******************** //
 
 	@Override
 	public Vector getNormal(Point3D point) {

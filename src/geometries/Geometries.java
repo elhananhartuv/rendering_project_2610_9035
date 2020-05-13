@@ -11,9 +11,10 @@ import static primitives.Util.*;
  * @author E&Y
  *
  */
-
 public class Geometries implements Intersectable {
 	private List<Intersectable> _geometries;
+
+	// ***************** Constructors ********************** //
 
 	/**
 	 * a default ctor that Initialize the _geometries list with empty ArrayList.
@@ -31,6 +32,8 @@ public class Geometries implements Intersectable {
 		this._geometries = new LinkedList<Intersectable>();
 		add(_geometries);
 	}
+
+	// ***************** Operations ******************** //
 
 	/**
 	 * The function get some Intersectable parameters and add to the _geometries

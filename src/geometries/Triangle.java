@@ -10,6 +10,7 @@ import java.util.List;
  *
  */
 public class Triangle extends Polygon {
+	// ***************** Constructors ********************** //
 	/**
 	 * ctor that get 3 Vertex Point3D and create the triangle.
 	 * 
@@ -18,12 +19,12 @@ public class Triangle extends Polygon {
 	 * @param p3 third vertex.
 	 */
 	public Triangle(Point3D p1, Point3D p2, Point3D p3) {
-		super(p1, p2, p3);
+		this(Color.BLACK, p1, p2, p3);
 	}
 
 	/**
 	 * ctor that get 3 points to create the triangle additionally get color
-	 * emmision. .
+	 * emmision.
 	 * 
 	 * @param emmision color.
 	 * @param p1       first vertex.
@@ -31,7 +32,7 @@ public class Triangle extends Polygon {
 	 * @param p3       third vertex.
 	 */
 	public Triangle(Color emmision, Point3D p1, Point3D p2, Point3D p3) {
-		super(emmision, p1, p2, p3);
+		this(emmision, new Material(0, 0, 0), p1, p2, p3);
 	}
 
 	/**
@@ -44,9 +45,10 @@ public class Triangle extends Polygon {
 	 * @param p3       third vertex.
 	 */
 	public Triangle(Color emmision, Material material, Point3D p1, Point3D p2, Point3D p3) {
-		this(emmision, p1, p2, p3);
-		this.material = material;
+		super(emmision, material, p1, p2, p3);
 	}
+
+	// ***************** Operations ******************** //
 
 	@Override
 	public String toString() {
@@ -65,5 +67,4 @@ public class Triangle extends Polygon {
 		intersectionGeoPoints.get(0).geometry = this;
 		return intersectionGeoPoints;
 	}
-
 }

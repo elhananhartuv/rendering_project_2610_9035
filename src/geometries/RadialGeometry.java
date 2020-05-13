@@ -13,13 +13,15 @@ import primitives.Material;
 public abstract class RadialGeometry extends Geometry {
 	protected double radius;
 
+	// ***************** Constructors ********************** //
+
 	/**
 	 * ctor for RadialGeometry that got only rasius
 	 * 
 	 * @param r radius
 	 */
 	public RadialGeometry(double r) {
-		radius = r;
+		this(r, Color.BLACK);
 	}
 
 	/**
@@ -29,8 +31,7 @@ public abstract class RadialGeometry extends Geometry {
 	 * @param color for emission
 	 */
 	public RadialGeometry(double r, Color emmission) {
-		super(emmission);
-		radius = r;
+		this(r, emmission, new Material(0, 0, 0));
 	}
 
 	/**
@@ -38,20 +39,11 @@ public abstract class RadialGeometry extends Geometry {
 	 * 
 	 * @param r         radius
 	 * @param emmission emission color.
-	 * @param material
+	 * @param material  attenuation parameter
 	 */
 	public RadialGeometry(double r, Color emmission, Material material) {
-		this(r, emmission);
-		this.material = material;
-	}
-
-	/**
-	 * cpoy ctor
-	 * 
-	 * @param other radialGeometry to copy.
-	 */
-	public RadialGeometry(RadialGeometry other) {
-		radius = other.radius;
+		super(emmission, material);
+		this.radius = r;
 	}
 
 	/**

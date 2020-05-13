@@ -20,11 +20,15 @@ public class Polygon extends Geometry {
 	 */
 	protected Plane _plane;
 
+	// ***************** Constructors ********************** //
+
 	/**
-	 * Polygon constructor based on vertices list. The list must be ordered by edge
-	 * path. The polygon must be convex.
+	 * /** Polygon constructor get in addition emmission Color based on vertices
+	 * list. The list must be ordered by edge path. The polygon must be convex.
 	 * 
-	 * @param vertices list of vertices according to their order by edge path
+	 * @param emmission color emmission
+	 * @param material  attenuation parameter
+	 * @param vertices  list of vertices according to their order by edge path
 	 * @throws IllegalArgumentException in any case of illegal combination of
 	 *                                  vertices:
 	 *                                  <ul>
@@ -41,7 +45,8 @@ public class Polygon extends Geometry {
 	 *                                  <li>The polygon is concave (not convex></li>
 	 *                                  </ul>
 	 */
-	public Polygon(Point3D... vertices) {
+	public Polygon(Color emmission, Material material, Point3D... vertices) {
+		super(emmission, material);
 		if (vertices.length < 3)
 			throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
 		_vertices = List.of(vertices);
@@ -82,28 +87,42 @@ public class Polygon extends Geometry {
 	}
 
 	/**
-	 * ctor that get in addition color.
 	 * 
-	 * @param color    color.
-	 * @param vertices vertices list of vertices according to their order by edge
-	 *                 path
+	 * /** Polygon constructor based on vertices list. The list must be ordered by
+	 * edge path. The polygon must be convex.
+	 * 
+	 * @param vertices list of vertices according to their order by edge path
+	 * @throws IllegalArgumentException in any case of illegal combination of
+	 *                                  vertices:
+	 *                                  <ul>
+	 *                                  <li>Less than 3 vertices</li>
+	 *                                  <li>Consequent vertices are in the same
+	 *                                  point
+	 *                                  <li>The vertices are not in the same
+	 *                                  plane</li>
+	 *                                  <li>The order of vertices is not according
+	 *                                  to edge path</li>
+	 *                                  <li>Three consequent vertices lay in the
+	 *                                  same line (180&#176; angle between two
+	 *                                  consequent edges)
+	 *                                  <li>The polygon is concave (not convex></li>
+	 *                                  </ul>
 	 */
-	public Polygon(Color emmission, Point3D... vertices) {
-		this(vertices);
-		super.emmission = emmission;
+	public Polygon(Point3D... vertices) {
+		this(Color.BLACK, vertices);
 	}
 
 	/**
-	 * ctor that get in addition Material.
+	 * ctor for polygon that get in addition emmission Color
 	 * 
-	 * @param material
 	 * @param emmission
 	 * @param vertices
 	 */
-	public Polygon(Material material, Color emmission, Point3D... vertices) {
-		this(emmission, vertices);
-		this.material = material;
+	public Polygon(Color emmission, Point3D... vertices) {
+		this(emmission, new Material(0, 0, 0), vertices);
 	}
+
+	// ***************** Operations ******************** //
 
 	@Override
 	public List<GeoPoint> findIntersections(Ray ray) {

@@ -3,6 +3,7 @@ package elements;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
+import static primitives.Util.*;
 
 /**
  * SpotLight class is kind of Light has position and direction,and the lighted
@@ -32,10 +33,14 @@ public class SpotLight extends PointLight {
 
 	@Override
 	public Color getIntensity(Point3D p) {
-		double CosineAngle = direction.dotProduct(getL(p));
-		double factor = Math.max(0, CosineAngle);
-		if (CosineAngle < 0)
+		double cosineAngle;
+		try {
+			cosineAngle = alignZero(direction.dotProduct(getL(p)));
+		} catch (IllegalArgumentException ex) {
 			return Color.BLACK;
-		return super.getIntensity(p).scale(factor);
+		}
+		if (cosineAngle < 0)
+			return Color.BLACK;
+		return super.getIntensity(p).scale(cosineAngle);
 	}
 }
