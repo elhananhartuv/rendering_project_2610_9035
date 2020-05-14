@@ -18,6 +18,11 @@ import static primitives.Util.*;
 public class Render {
 	private ImageWriter imageWriter;
 	private Scene scene;
+	
+	/**
+	 * constant for moving rays size for shading rays, transparency and reflection
+	 */
+	private static final double DELTA = 0.1;
 
 	// ***************** Constructor ******************** //
 
@@ -212,5 +217,16 @@ public class Render {
 	 */
 	public void writeToImage() {
 		this.imageWriter.writeToImage();
+	}
+	
+	/**
+	 * 
+	 * @param l
+	 * @param n
+	 * @param gp
+	 * @return
+	 */
+	private boolean unshaded(Vector l, Vector n, GeoPoint gp) {
+		return false;
 	}
 }
