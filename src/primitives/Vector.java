@@ -96,10 +96,10 @@ public class Vector {
 	}
 
 	/**
-	 * Scalar multiplication in vector
+	 * Scalar multiplication in vector,the function return new vector and not change the called vector
 	 * 
 	 * @param num
-	 * @return
+	 * @return Scalar multiplication in vector
 	 */
 	public Vector scale(double num) {
 		return new Vector(num * this.getHead().getX()._coord, num * this.getHead().getY()._coord,

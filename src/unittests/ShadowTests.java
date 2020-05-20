@@ -13,7 +13,7 @@ import scene.Scene;
  * 
  * @author Dan
  */
-public class ShadingTests {
+public class ShadowTests {
 
 	/**
 	 * Produce a picture of a sphere and triangle with point light and shade
@@ -34,7 +34,7 @@ public class ShadingTests {
 		scene.addLights(new SpotLight(new Vector(1, -1, 3), new Color(400, 240, 0), new Point3D(-100, 100, -200), 1,
 				1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("spereTriangleInitial", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -53,14 +53,14 @@ public class ShadingTests {
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
 
 		scene.addGeometries(
-				new Sphere(new Point3D(0, 0, 200), 60, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30)),
+				new Sphere(new Point3D(0, 0, 200), 60, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30)), //
 				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
-						new Point3D(-70, 40, 0), new Point3D(-40, 70, 0), new Point3D(-68, 68, 4)));
+						new Point3D(-62, 33, 0), new Point3D(-33, 62, 0), new Point3D(-65, 65, -1)));
 
-		scene.addLights(new SpotLight(new Vector(1, -1, 3), new Color(400, 240, 0), new Point3D(-100, 100, -200), 1,
-				1E-5, 1.5E-7));
+		scene.addLights(new SpotLight(new Vector(1, -1, 3), new Color(400, 240, 0), //
+				new Point3D(-100, 100, -200), 1, 1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("spereTriangleMove1", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleMove1", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -79,14 +79,14 @@ public class ShadingTests {
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
 
 		scene.addGeometries(
-				new Sphere(new Point3D(0, 0, 200), 60, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30)),
+				new Sphere(new Point3D(0, 0, 200), 60, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30)), //
 				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
-						new Point3D(-70, 40, 0), new Point3D(-40, 70, 0), new Point3D(-68, 68, 4)));
+						new Point3D(-50, 20, 0), new Point3D(-20, 50, 0), new Point3D(-48, 48, -4)));
 
-		scene.addLights(new SpotLight(new Vector(1, -1, 3), new Color(400, 240, 0), new Point3D(-100, 100, -200), 1,
-				1E-5, 1.5E-7));
+		scene.addLights(new SpotLight(new Vector(1, -1, 3), new Color(400, 240, 0), //
+				new Point3D(-100, 100, -200), 1, 1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("spereTriangleMove2", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleMove2", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -105,14 +105,14 @@ public class ShadingTests {
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
 
 		scene.addGeometries(
-				new Sphere(new Point3D(0, 0, 200), 60, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30)),
+				new Sphere(new Point3D(0, 0, 200), 60, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30)), //
 				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
 						new Point3D(-70, 40, 0), new Point3D(-40, 70, 0), new Point3D(-68, 68, 4)));
 
-		scene.addLights(new SpotLight(new Vector(1, -1, 3), new Color(400, 240, 0), new Point3D(-100, 100, -200), 1,
-				1E-5, 1.5E-7));
+		scene.addLights(new SpotLight(new Vector(1, -1, 3), new Color(400, 240, 0), //
+				new Point3D(-100, 100, -200), 1, 1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("spereTriangleSpot1", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleSpot1", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -131,14 +131,14 @@ public class ShadingTests {
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
 
 		scene.addGeometries(
-				new Sphere(new Point3D(0, 0, 200), 60, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30)),
+				new Sphere(new Point3D(0, 0, 200), 60, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30)), //
 				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
 						new Point3D(-70, 40, 0), new Point3D(-40, 70, 0), new Point3D(-68, 68, 4)));
 
-		scene.addLights(new SpotLight(new Vector(1, -1, 3), new Color(400, 240, 0), new Point3D(-100, 100, -200), 1,
-				1E-5, 1.5E-7));
+		scene.addLights(new SpotLight(new Vector(1, -1, 3), new Color(400, 240, 0), //
+				new Point3D(-100, 100, -200), 1, 1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("spereTriangleSpot2", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleSpot2", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -162,12 +162,13 @@ public class ShadingTests {
 						new Point3D(-150, 150, 115), new Point3D(150, 150, 135), new Point3D(75, -75, 150)), //
 				new Triangle(Color.BLACK, new Material(0, 0.8, 60), //
 						new Point3D(-150, 150, 115), new Point3D(-70, -70, 140), new Point3D(75, -75, 150)), //
-				new Sphere(new Point3D(0, 0, 115), 30, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30)));
+				new Sphere(new Point3D(0, 0, 115), 30, new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30) //
+				));
 
-		scene.addLights(new SpotLight(new Vector(-1, 1, 4), new Color(700, 400, 400), new Point3D(40, -40, -115), 1,
-				4E-4, 2E-5));
+		scene.addLights(new SpotLight(new Vector(-1, 1, 4), new Color(700, 400, 400), //
+				new Point3D(40, -40, -115), 1, 4E-4, 2E-5));
 
-		ImageWriter imageWriter = new ImageWriter("trianglesSpere", 200, 200, 600, 600);
+		ImageWriter imageWriter = new ImageWriter("trianglesSphere", 200, 200, 600, 600);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();

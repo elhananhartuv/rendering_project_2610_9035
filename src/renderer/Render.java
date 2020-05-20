@@ -18,7 +18,7 @@ import static primitives.Util.*;
 public class Render {
 	private ImageWriter imageWriter;
 	private Scene scene;
-	
+
 	/**
 	 * constant for moving rays size for shading rays, transparency and reflection
 	 */
@@ -128,8 +128,10 @@ public class Render {
 				nL = alignZero(n.dotProduct(l));
 				nV = alignZero(n.dotProduct(v));
 				if (nL > 0 && nV > 0 || nL < 0 && nV < 0) {
-					iP = lightSource.getIntensity(gPoint.point);
-					color = color.add(calcDiffuse(kD, nL, iP), calcSpecular(kS, l, n, v, nL, nShininess, iP));
+					if (unshaded(lightSource, l, n, gPoint)) {
+						iP = lightSource.getIntensity(gPoint.point);
+						color = color.add(calcDiffuse(kD, nL, iP), calcSpecular(kS, l, n, v, nL, nShininess, iP));
+					}
 				}
 			}
 		}
@@ -218,15 +220,27 @@ public class Render {
 	public void writeToImage() {
 		this.imageWriter.writeToImage();
 	}
-	
+
 	/**
-	 * 
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 * @param l
 	 * @param n
 	 * @param gp
 	 * @return
 	 */
-	private boolean unshaded(Vector l, Vector n, GeoPoint gp) {
-		return false;
+	private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint gp) {
+		Vector lightDirection = l.scale(-1);// from point to light source
+		Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
+		Point3D point = gp.point.add(delta);
+		Ray lighRay = new Ray(point, lightDirection);
+		List<GeoPoint> intersection = scene.getGeometries().findIntersections(lighRay);
+		if (intersection == null)
+			return true;
+		double lightDistance = light.getDistance(gp.point);
+		for (GeoPoint gPoint : intersection) {
+			if (alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0)
+				return false;
+		}
+		return true;
 	}
 }

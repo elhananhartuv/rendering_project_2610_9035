@@ -11,18 +11,35 @@ public class Material {
 	private double kD;
 	private double kS;
 	private int nShininess;
+	private double kT;
+	private double kR;
 
 	/**
-	 * ctor for Material class get 3 parameters.
+	 * ctor for Material class get 3 parameters. initialized by full ctor(use this)
 	 * 
 	 * @param kD         attenuation parameter for diffusive
 	 * @param kS         attenuation parameter for specular
 	 * @param nShininess attenuation for the pow.
 	 */
 	public Material(double kD, double kS, int nShininess) {
+		this(kD, kS, nShininess, 0, 0);
+	}
+
+	/**
+	 * ctor for Material class get 5 parameters.
+	 * 
+	 * @param kD         attenuation parameter for diffusive
+	 * @param kS         attenuation parameter for specular
+	 * @param nShininess attenuation for the pow.
+	 * @param kT         attenuation parameter for transparency
+	 * @param kR         attenuation parameter for reflection
+	 */
+	public Material(double kD, double kS, int nShininess, double kT, double kR) {
 		this.kD = kD;
 		this.kS = kS;
 		this.nShininess = nShininess;
+		this.kT = kT;
+		this.kR = kR;
 	}
 
 	/**
@@ -50,5 +67,23 @@ public class Material {
 	 */
 	public int getnShininess() {
 		return nShininess;
+	}
+
+	/**
+	 * kR getter
+	 * 
+	 * @return kR
+	 */
+	public double getkR() {
+		return kR;
+	}
+
+	/**
+	 * kT getter
+	 * 
+	 * @return kT
+	 */
+	public double getkT() {
+		return kT;
 	}
 }
