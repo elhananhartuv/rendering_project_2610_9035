@@ -23,6 +23,8 @@ public class Render {
 	 * constant for moving rays size for shading rays, transparency and reflection
 	 */
 	private static final double DELTA = 0.1;
+	private static final int MAX_CALC_COLOR_LEVEL = 10;
+	private static final double MIN_CALC_COLOR_K = 0.001;
 
 	// ***************** Constructor ******************** //
 
@@ -223,6 +225,7 @@ public class Render {
 
 	/**
 	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * 
 	 * @param l
 	 * @param n
 	 * @param gp

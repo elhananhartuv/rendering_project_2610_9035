@@ -70,7 +70,7 @@ public class Material {
 	}
 
 	/**
-	 * kR getter
+	 * kR getter reflection parameter
 	 * 
 	 * @return kR
 	 */
@@ -79,7 +79,7 @@ public class Material {
 	}
 
 	/**
-	 * kT getter
+	 * kT getter transparency parameter
 	 * 
 	 * @return kT
 	 */
