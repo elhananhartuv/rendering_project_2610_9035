@@ -47,7 +47,7 @@ public class Material {
 	 * 
 	 * @return kD
 	 */
-	public double getkD() {
+	public double getKd() {
 		return kD;
 	}
 
@@ -56,7 +56,7 @@ public class Material {
 	 * 
 	 * @return kS
 	 */
-	public double getkS() {
+	public double getKs() {
 		return kS;
 	}
 
@@ -65,7 +65,7 @@ public class Material {
 	 * 
 	 * @return nShininess
 	 */
-	public int getnShininess() {
+	public int getNShininess() {
 		return nShininess;
 	}
 
@@ -74,7 +74,7 @@ public class Material {
 	 * 
 	 * @return kR
 	 */
-	public double getkR() {
+	public double getKr() {
 		return kR;
 	}
 
@@ -83,7 +83,7 @@ public class Material {
 	 * 
 	 * @return kT
 	 */
-	public double getkT() {
+	public double getKt() {
 		return kT;
 	}
 }

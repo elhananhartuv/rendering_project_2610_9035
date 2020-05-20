@@ -69,7 +69,6 @@ public class Render {
 		// java.awt.Color background = scene.getBackground().getColor();
 		Color background = scene.getBackground();
 		Camera camera = scene.getCamera();
-		Intersectable geometries = scene.getGeometries();
 
 		// the width and height of the view plane.
 		int width = (int) imageWriter.getWidth();
@@ -85,18 +84,11 @@ public class Render {
 				// get the ray from camera through the pixel i,j in the view plane.
 				ray = camera.constructRayThroughPixel(Nx, Ny, j, i, scene.getDistance(), width, height);
 				// get the intersection points with the geometries shape.
-				List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
-
-				if (intersectionPoints == null) {
-					// if there is no intersection point write to pixel the background color.
-					imageWriter.writePixel(j, i, background.getColor());
-
-				} else {
-					// there is intersections points-calculate the closest point to camera and the
-					// color of the point and write to pixel.
-					GeoPoint closestPoint = getClosestPoint(intersectionPoints);
-					imageWriter.writePixel(j, i, calcColor(closestPoint).getColor());
-				}
+				// there is intersections points-calculate the closest point to camera and the
+				// color of the point and write to pixel.
+				GeoPoint closestPoint = findClosestIntersection(ray);
+				imageWriter.writePixel(j, i,
+						closestPoint == null ? background.getColor() : calcColor(closestPoint, ray).getColor());
 			}
 		}
 	}
@@ -107,37 +99,8 @@ public class Render {
 	 * @param gPoint the point to calculate the color.
 	 * @return the color of the point.
 	 */
-	private Color calcColor(GeoPoint gPoint) {
-		Color color = scene.getAmbientLight().getIntensity();
-		color = color.add(gPoint.geometry.getEmission());
-
-		List<LightSource> lights = scene.getLights();// all the lights sources in our scene.
-		// the vector from the point to camera -v
-		Vector v = gPoint.point.subtract(scene.getCamera().getP0()).normalize();
-		Vector n = gPoint.geometry.getNormal(gPoint.point);// the normal to the point.
-		// Attenuation factors
-		Material material = gPoint.geometry.getMatrial();
-		int nShininess = material.getnShininess();
-		double kD = material.getkD();
-		double kS = material.getkS();
-		Vector l;// the vector from the camera to the point.
-		double nL;// dot product between the normal vector and l vector.
-		Color iP; // the lighted source can be pointLight,directionLight,spotLight.
-		double nV;
-		if (lights != null) {
-			for (LightSource lightSource : lights) {
-				l = lightSource.getL(gPoint.point);
-				nL = alignZero(n.dotProduct(l));
-				nV = alignZero(n.dotProduct(v));
-				if (nL > 0 && nV > 0 || nL < 0 && nV < 0) {
-					if (unshaded(lightSource, l, n, gPoint)) {
-						iP = lightSource.getIntensity(gPoint.point);
-						color = color.add(calcDiffuse(kD, nL, iP), calcSpecular(kS, l, n, v, nL, nShininess, iP));
-					}
-				}
-			}
-		}
-		return color;
+	private Color calcColor(GeoPoint geopoint, Ray inRay) {
+		return calcColor(geopoint, inRay, MAX_CALC_COLOR_LEVEL, 1.0).add(scene.getAmbientLight().getIntensity());
 	}
 
 	/**
@@ -176,26 +139,53 @@ public class Render {
 	}
 
 	/**
-	 * calculate the closest point to the camera. if the list that given are empty
-	 * return null.
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 * 
-	 * @param points List of points
-	 * @return the closest point.
+	 * @param geoPoint
+	 * @param inRay
+	 * @param level
+	 * @param k
+	 * @return
 	 */
-	private GeoPoint getClosestPoint(List<GeoPoint> points) {
-		GeoPoint result = null;// if there is no points in the list the result will stay null.
-		double minDistance = Double.MAX_VALUE;
-		Point3D p0 = this.scene.getCamera().getP0();
-		double distance;
-		for (GeoPoint geo : points) {
-			// distance from the camera.
-			distance = p0.distance(geo.point);
-			if (distance < minDistance) {
-				minDistance = distance;
-				result = geo;
+	private Color calcColor(GeoPoint geoPoint, Ray inRay, int level, double k) {
+		Color color = geoPoint.geometry.getEmission();
+		Vector v = geoPoint.point.subtract(scene.getCamera().getP0()).normalize();
+		Vector n = geoPoint.geometry.getNormal(geoPoint.point);
+		Material material = geoPoint.geometry.getMatrial();
+		int nShininess = material.getNShininess();
+		double kD = material.getKd();
+		double kS = material.getKs();
+		double nV = alignZero(n.dotProduct(v));
+		Color iP;
+		for (LightSource lightSource : scene.getLights()) {
+			Vector l = lightSource.getL(geoPoint.point);
+			double nL = alignZero(n.dotProduct(l));
+			if (nL > 0 && nV > 0 || nL < 0 && nV < 0) {// same sign(case zero not relevant)
+				if (unshaded(lightSource, l, n, geoPoint)) {
+					iP = lightSource.getIntensity(geoPoint.point);
+					color = color.add(calcDiffuse(kD, nL, iP), calcSpecular(kS, l, n, v, nL, nShininess, iP));
+				}
 			}
 		}
-		return result;// closest point.
+		if (level == 1)
+			return Color.BLACK;
+		double kr = material.getKr(), kkr = k * kr;
+		if (kkr > MIN_CALC_COLOR_K) {
+			Ray reflectedRay = constructReflectedRay(n, geoPoint.point, inRay);
+			GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
+			if (reflectedPoint != null) {
+				color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
+			}
+		}
+		double kt = material.getKt(), kkt = k * kt;
+		if (kkt > MIN_CALC_COLOR_K) {
+			Ray refractedRay = constructRefractedRay(geoPoint.point, n, inRay);
+			GeoPoint refractedPoint = findClosestIntersection(refractedRay);
+			if (refractedPoint != null) {
+				color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt).scale(kt));
+			}
+		}
+		return color;
 	}
 
 	/**
@@ -233,17 +223,84 @@ public class Render {
 	 */
 	private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint gp) {
 		Vector lightDirection = l.scale(-1);// from point to light source
-		Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
-		Point3D point = gp.point.add(delta);
-		Ray lighRay = new Ray(point, lightDirection);
+		// Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
+		// Point3D point = gp.point.add(delta);
+		// Ray lighRay = new Ray(point, lightDirection);
+		Ray lighRay = new Ray(gp.point, lightDirection, n);
 		List<GeoPoint> intersection = scene.getGeometries().findIntersections(lighRay);
 		if (intersection == null)
 			return true;
 		double lightDistance = light.getDistance(gp.point);
 		for (GeoPoint gPoint : intersection) {
-			if (alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0)
+			if (gPoint.geometry.getMatrial().getKt() == 0
+					&& alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0)
 				return false;
 		}
 		return true;
+	}
+
+	/**
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * 
+	 * @param n
+	 * @param point
+	 * @param inRay
+	 * @return
+	 */
+	private Ray constructReflectedRay(Vector n, Point3D point, Ray inRay) {
+		Vector r;
+		Vector v = inRay.getDirection();
+		double nV = alignZero(n.dotProduct(v));
+		Vector epsVector = n.scale(nV > 0 ? -DELTA : DELTA);
+		try {
+			r = v.subtract(n.scale(nV * 2));
+		} catch (IllegalArgumentException ex) {
+			return null;///////////////////
+		}
+		// return new Ray(point.add(epsVector), r);
+		return new Ray(point, r, n.scale(-1));
+	}
+
+	/**
+	 * 
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * 
+	 * @param point
+	 * @param n
+	 * @param inRay
+	 * @return
+	 */
+	private Ray constructRefractedRay(Point3D point, Vector n, Ray inRay) {
+		Vector v = inRay.getDirection();
+		double nV = alignZero(n.dotProduct(v));
+		Vector epsVector = n.scale(nV > 0 ? DELTA : -DELTA);
+		return new Ray(point.add(epsVector), v);
+		/// return new Ray
+	}
+
+	/**
+	 * calculate the closest point to the head ray from the intersections points
+	 * with the ray. if there is no intersection return null.
+	 * 
+	 * @param ray
+	 * @return the closest point to the head ray.
+	 */
+	private GeoPoint findClosestIntersection(Ray ray) {
+		List<GeoPoint> intersections = scene.getGeometries().findIntersections(ray);
+		if (intersections == null)
+			return null;
+		GeoPoint result = null;// if there is no points in the list the result will stay null.
+		double minDistance = Double.MAX_VALUE;
+		Point3D p0 = ray.getP0();
+		double distance;
+		for (GeoPoint geo : intersections) {
+			// distance from the head ray.
+			distance = p0.distance(geo.point);
+			if (distance < minDistance) {
+				minDistance = distance;
+				result = geo;
+			}
+		}
+		return result;// closest point.
 	}
 }

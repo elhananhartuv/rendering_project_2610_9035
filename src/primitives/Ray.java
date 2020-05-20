@@ -1,6 +1,5 @@
 package primitives;
 
-
 /**
  * class Ray representing ray with starting point and direction
  * 
@@ -10,6 +9,7 @@ package primitives;
 public class Ray {
 	private Point3D p0;
 	private Vector direction;
+	private static final double DELTA = 0.1;
 
 	/**
 	 * ctor that get Point3D and Vector to make the ray
@@ -24,7 +24,28 @@ public class Ray {
 	}
 
 	/**
+	 * ctor to move the ray head point by DELTA.
+	 * 
+	 * @param head      p0
+	 * @param direction the direction
+	 * @param normal    normal to the point.
+	 */
+	public Ray(Point3D head, Vector direction, Vector normal) {
+		direction.normalize();
+		double nV = direction.dotProduct(normal);
+		if (Util.isZero(nV)) {
+			this.p0=head;
+			this.direction=direction;
+		}
+		else {
+			this.p0 = head.add(normal.scale(nV > 0 ? DELTA : -DELTA));
+			this.direction = direction;
+		}
+	}
+
+	/**
 	 * p0 geter
+	 * 
 	 * @return starting point
 	 */
 	public Point3D getP0() {
@@ -33,6 +54,7 @@ public class Ray {
 
 	/**
 	 * direction geter
+	 * 
 	 * @return the direction of the ray
 	 */
 	public Vector getDirection() {
