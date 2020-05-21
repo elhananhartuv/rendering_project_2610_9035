@@ -1,15 +1,10 @@
 package unittests;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
-
 import elements.AmbientLight;
 import elements.Camera;
 import elements.DirectionalLight;
-import elements.PointLight;
 import geometries.Sphere;
-import geometries.Triangle;
 import geometries.Tube;
 import primitives.Color;
 import primitives.Material;
