@@ -19,9 +19,8 @@ public class Render {
 	private Scene scene;
 
 	/**
-	 * constant for moving rays size for shading rays, transparency and reflection
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 */
-	private static final double DELTA = 0.1;
 	private static final int MAX_CALC_COLOR_LEVEL = 10;
 	private static final double MIN_CALC_COLOR_K = 0.001;
 
@@ -41,7 +40,7 @@ public class Render {
 	// ***************** Getters/Setters ******************** //
 
 	/**
-	 * get function
+	 * imageWriter getter
 	 * 
 	 * @return imageWriter
 	 */
@@ -50,7 +49,7 @@ public class Render {
 	}
 
 	/**
-	 * get function
+	 * scene getter
 	 * 
 	 * @return scene
 	 */
@@ -65,7 +64,6 @@ public class Render {
 	 * 
 	 */
 	public void renderImage() {
-		// java.awt.Color background = scene.getBackground().getColor();
 		Color background = scene.getBackground();
 		Camera camera = scene.getCamera();
 
@@ -118,16 +116,16 @@ public class Render {
 	}
 
 	/**
-	 * calculate the Specular component
+	 * calculate the specular component
 	 * 
 	 * @param kS       attenuation factor
 	 * @param l        the vector from the light source to lighted point.
 	 * @param n        the normal vector in the light point
 	 * @param v        the vector from the point to the camera
-	 * @param nL
-	 * @param nShinies
-	 * @param light
-	 * @return
+	 * @param nL       dot product between n and l
+	 * @param nShinies !!!!!!!!!!!!!!
+	 * @param light    light source
+	 * @return !!!!!!!!!!!!!
 	 */
 	private Color calcSpecular(double kS, Vector l, Vector n, Vector v, double nL, int nShinies, Color light) {
 		Vector r = l.subtract(n.scale(2 * nL)); // nl must not be zero!
@@ -222,37 +220,32 @@ public class Render {
 	 * @param gp    - the point on the geometry
 	 * @return true if there no shadow, else false
 	 */
-	/*private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint gp) {
-		Vector lightDirection = l.scale(-1);// from point to light source
-		// Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
-		// Point3D point = gp.point.add(delta);
-		// Ray lighRay = new Ray(point, lightDirection);
-		Ray lighRay = new Ray(gp.point, lightDirection, n);
-		List<GeoPoint> intersection = scene.getGeometries().findIntersections(lighRay);
-		if (intersection == null)
-			return true;
-		double lightDistance = light.getDistance(gp.point);
-		for (GeoPoint gPoint : intersection) {
-			if (gPoint.geometry.getMatrial().getKt() == 0
-					&& alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0)
-				return false;
-		}
-		return true;
-	}
-*/
+	/*
+	 * private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint gp)
+	 * { Vector lightDirection = l.scale(-1);// from point to light source // Vector
+	 * delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA); //
+	 * Point3D point = gp.point.add(delta); // Ray lighRay = new Ray(point,
+	 * lightDirection); Ray lighRay = new Ray(gp.point, lightDirection, n);
+	 * List<GeoPoint> intersection =
+	 * scene.getGeometries().findIntersections(lighRay); if (intersection == null)
+	 * return true; double lightDistance = light.getDistance(gp.point); for
+	 * (GeoPoint gPoint : intersection) { if (gPoint.geometry.getMatrial().getKt()
+	 * == 0 && alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0)
+	 * return false; } return true; }
+	 */
 	/**
-	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * the func generate reflected ray from geometry
 	 * 
-	 * @param n
-	 * @param point
-	 * @param inRay
-	 * @return
+	 * @param n     normal
+	 * @param point !!!!!!!!!!!
+	 * @param inRay !!!!!
+	 * @return Ray !!!!!!!!!!!!!!!
 	 */
 	private Ray constructReflectedRay(Vector n, Point3D point, Ray inRay) {
 		Vector r;
 		Vector v = inRay.getDirection();
 		double nV = alignZero(n.dotProduct(v));
-		Vector epsVector = n.scale(nV > 0 ? -DELTA : DELTA);
+		// Vector epsVector = n.scale(nV > 0 ? -DELTA : DELTA);
 		try {
 			r = v.subtract(n.scale(nV * 2));
 		} catch (IllegalArgumentException ex) {
@@ -272,11 +265,11 @@ public class Render {
 	 * @return
 	 */
 	private Ray constructRefractedRay(Point3D point, Vector n, Ray inRay) {
-		Vector v = inRay.getDirection();
-		double nV = alignZero(n.dotProduct(v));
-		Vector epsVector = n.scale(nV > 0 ? DELTA : -DELTA);
-		return new Ray(point.add(epsVector), v);
-		/// return new Ray
+		// Vector v = inRay.getDirection();
+		// double nV = alignZero(n.dotProduct(v));
+		// Vector epsVector = n.scale(nV > 0 ? DELTA : -DELTA);
+		// return new Ray(point.add(epsVector), v);
+		return new Ray(point, inRay.getDirection(), n);
 	}
 
 	/**
@@ -305,21 +298,25 @@ public class Render {
 		return result;// closest point.
 	}
 
+	/**
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * 
+	 * @param light - the light source
+	 * @param l     - ray from the light source
+	 * @param n     - the normal at point
+	 * @param gp    - point on geometry
+	 * @return !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+	 */
 	private double transparency(LightSource light, Vector l, Vector n, GeoPoint gp) {
 		Vector lightDirection = l.scale(-1);// from point to light source
-		// Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
-		// Point3D point = gp.point.add(delta);
-		// Ray lighRay = new Ray(point, lightDirection);
-		Ray lighRay = new Ray(gp.point, lightDirection, n);
-		List<GeoPoint> intersection = scene.getGeometries().findIntersections(lighRay);
+		Ray lightRay = new Ray(gp.point, lightDirection, n);
+		List<GeoPoint> intersection = scene.getGeometries().findIntersections(lightRay);
 		if (intersection == null)
 			return 1.0;
 		double lightDistance = light.getDistance(gp.point);
 		double ktr = 1.0;
 		for (GeoPoint gPoint : intersection) {
-			if (/*
-				 * gPoint.geometry.getMatrial().getKt() == 0 &&
-				 */ alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0) {
+			if (alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0) {
 				ktr *= gPoint.geometry.getMatrial().getKt();
 				if (ktr < MIN_CALC_COLOR_K)
 					return 0;

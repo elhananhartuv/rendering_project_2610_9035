@@ -31,15 +31,10 @@ public class Ray {
 	 * @param normal    normal to the point.
 	 */
 	public Ray(Point3D head, Vector direction, Vector normal) {
-		direction.normalize();
+		this(head, direction);
 		double nV = direction.dotProduct(normal);
-		if (Util.isZero(nV)) {
-			this.p0=head;
-			this.direction=direction;
-		}
-		else {
+		if (!Util.isZero(nV)) {
 			this.p0 = head.add(normal.scale(nV > 0 ? DELTA : -DELTA));
-			this.direction = direction;
 		}
 	}
 
