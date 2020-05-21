@@ -3,7 +3,6 @@ package renderer;
 import java.util.List;
 import primitives.*;
 import elements.*;
-import geometries.*;
 import scene.*;
 import static geometries.Intersectable.GeoPoint;
 import static primitives.Util.*;
@@ -161,8 +160,9 @@ public class Render {
 			Vector l = lightSource.getL(geoPoint.point);
 			double nL = alignZero(n.dotProduct(l));
 			if (nL > 0 && nV > 0 || nL < 0 && nV < 0) {// same sign(case zero not relevant)
-				if (unshaded(lightSource, l, n, geoPoint)) {
-					iP = lightSource.getIntensity(geoPoint.point);
+				double ktr = transparency(lightSource, l, n, geoPoint);
+				if (ktr * k > MIN_CALC_COLOR_K) {
+					iP = lightSource.getIntensity(geoPoint.point).scale(ktr);
 					color = color.add(calcDiffuse(kD, nL, iP), calcSpecular(kS, l, n, v, nL, nShininess, iP));
 				}
 			}
@@ -214,14 +214,15 @@ public class Render {
 	}
 
 	/**
-	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * check if point should be shaded
 	 * 
-	 * @param l
-	 * @param n
-	 * @param gp
-	 * @return
+	 * @param light - the light source
+	 * @param l     - the ray from the light source
+	 * @param n     - the normal
+	 * @param gp    - the point on the geometry
+	 * @return true if there no shadow, else false
 	 */
-	private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint gp) {
+	/*private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint gp) {
 		Vector lightDirection = l.scale(-1);// from point to light source
 		// Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
 		// Point3D point = gp.point.add(delta);
@@ -238,7 +239,7 @@ public class Render {
 		}
 		return true;
 	}
-
+*/
 	/**
 	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 * 
@@ -302,5 +303,28 @@ public class Render {
 			}
 		}
 		return result;// closest point.
+	}
+
+	private double transparency(LightSource light, Vector l, Vector n, GeoPoint gp) {
+		Vector lightDirection = l.scale(-1);// from point to light source
+		// Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
+		// Point3D point = gp.point.add(delta);
+		// Ray lighRay = new Ray(point, lightDirection);
+		Ray lighRay = new Ray(gp.point, lightDirection, n);
+		List<GeoPoint> intersection = scene.getGeometries().findIntersections(lighRay);
+		if (intersection == null)
+			return 1.0;
+		double lightDistance = light.getDistance(gp.point);
+		double ktr = 1.0;
+		for (GeoPoint gPoint : intersection) {
+			if (/*
+				 * gPoint.geometry.getMatrial().getKt() == 0 &&
+				 */ alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0) {
+				ktr *= gPoint.geometry.getMatrial().getKt();
+				if (ktr < MIN_CALC_COLOR_K)
+					return 0;
+			}
+		}
+		return ktr;
 	}
 }
