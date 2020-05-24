@@ -43,10 +43,7 @@ public class CreateImage {
 		render.renderImage();
 		render.writeToImage();
 	}
-/**
- * gkjbkkhkj;ml;
- * kjgvjvjhb
- */
+
 	@Test
 	public void ourImage() {
 		Scene scene = new Scene("createImage");
