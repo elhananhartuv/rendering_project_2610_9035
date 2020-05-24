@@ -5,6 +5,7 @@ import elements.AmbientLight;
 import elements.Camera;
 import elements.DirectionalLight;
 import geometries.Cylinder;
+import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import geometries.Tube;
@@ -16,6 +17,7 @@ import primitives.Vector;
 import renderer.ImageWriter;
 import renderer.Render;
 import scene.Scene;
+
 
 public class CreateImage {
 
@@ -53,31 +55,39 @@ public class CreateImage {
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
 
 		scene.addGeometries(
-				new Sphere(new Point3D(0, -50, 0), 10, new Color(java.awt.Color.RED),
-						new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Sphere(new Point3D(-50, -25, 0), 10, new Color(java.awt.Color.RED),
-						new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Sphere(new Point3D(50, -25, 0), 10, new Color(java.awt.Color.RED),
-						new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Sphere(new Point3D(-50, 25, 0), 10, new Color(java.awt.Color.RED),
-						new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Sphere(new Point3D(50, 25, 0), 10, new Color(java.awt.Color.RED),
-						new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Sphere(new Point3D(0, 50, 0), 10, new Color(java.awt.Color.RED),
-						new Material(0.4, 0.3, 100, 0.3, 0)),
+				new Sphere(new Point3D(0, -50, 0), 10, new Color(127,127,127),
+						new Material(0.4, 0.3, 100, 0, 0)),
+				
+				new Sphere(new Point3D(-50, -25, 5), 10, new Color(127,127,127),
+						new Material(0.4, 0.3, 100, 0, 0)),
+				
+				new Sphere(new Point3D(50, -25, 5), 10, new Color(127,127,127),
+						new Material(0.4, 0.3, 100, 0, 0)),
+				
+				new Sphere(new Point3D(-50, 25, 5), 10, new Color(127,127,127),
+						new Material(0.4, 0.3, 100, 0, 0)),
+				
+				new Sphere(new Point3D(50, 25, 5), 10, new Color(127,127,127),
+						new Material(0.4, 0.3, 100, 0, 0)),
+				
+				new Sphere(new Point3D(0, 50, 0), 10, new Color(127,127,127),
+						new Material(0.4, 0.3, 100, 0, 0)),
 
-				new Cylinder(new Ray(new Point3D(0, -50, 0), new Vector(-50, 75, 0)), 2, 100,
-						new Color(java.awt.Color.BLUE), new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Cylinder(new Ray(new Point3D(0, -50, 0), new Vector(50, 75, 0)), 2, 100,
-						new Color(java.awt.Color.CYAN), new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Cylinder(new Ray(new Point3D(-50, -25, 0), new Vector(100, 0, 0)), 2, 100,
-						new Color(java.awt.Color.DARK_GRAY), new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Cylinder(new Ray(new Point3D(-50, 25, 0), new Vector(100, 0, 0)), 2, 100,
-						new Color(java.awt.Color.GRAY), new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Cylinder(new Ray(new Point3D(0, 50, 0), new Vector(-50, -75, 0)), 2, 100,
-						new Color(java.awt.Color.GREEN), new Material(0.4, 0.3, 100, 0.3, 0)),
-				new Cylinder(new Ray(new Point3D(0, 50, 0), new Vector(50, -75, 0)), 2, 100,
-						new Color(java.awt.Color.MAGENTA), new Material(0.4, 0.3, 100, 0.3, 0)));
+				new Cylinder(new Ray(new Point3D(0, -50, 0), new Vector(-50, 75, 5)), 2, 100,
+						new Color(182,207,189), new Material(0.4, 0.3, 100, 0, 0)),
+				new Cylinder(new Ray(new Point3D(0, -50, 0), new Vector(50, 75, 5)), 2, 100,
+						new Color(182,207,189), new Material(0.4, 0.3, 100, 0, 0)),
+				new Cylinder(new Ray(new Point3D(-50, -25, 10), new Vector(100, 0, 0)), 2, 100,
+						new Color(java.awt.Color.BLUE), new Material(0.4, 0.3, 100, 0, 0)),
+				new Cylinder(new Ray(new Point3D(-50, 25, 10), new Vector(100, 0, 0)), 2, 100,
+						new Color(182,207,189), new Material(0.4, 0.3, 100, 0, 0)),
+				new Cylinder(new Ray(new Point3D(0, 50, 0), new Vector(-50, -75, 5)), 2, 100,
+						new Color(java.awt.Color.BLUE), new Material(0.4, 0.3, 100, 0, 0)),
+				new Cylinder(new Ray(new Point3D(0, 50, 0), new Vector(50, -75, 5)), 2, 100,
+						new Color(java.awt.Color.BLUE), new Material(0.4, 0.3, 100, 0, 0)),
+
+				new Plane(new Point3D(0, 50, 0), new Vector(0, 25, 100), new Color(121,128,102),
+						new Material(0.4, 0.3, 100, 1, 0)));
 
 		scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(1, -1, 1)));
 
