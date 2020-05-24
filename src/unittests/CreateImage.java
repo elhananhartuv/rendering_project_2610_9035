@@ -43,7 +43,9 @@ public class CreateImage {
 		render.renderImage();
 		render.writeToImage();
 	}
-
+/**
+ * 
+ */
 	@Test
 	public void ourImage() {
 		Scene scene = new Scene("createImage");
