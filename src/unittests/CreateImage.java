@@ -4,6 +4,7 @@ import org.junit.Test;
 import elements.AmbientLight;
 import elements.Camera;
 import elements.DirectionalLight;
+import elements.PointLight;
 import geometries.Cylinder;
 import geometries.Plane;
 import geometries.Sphere;
@@ -89,7 +90,7 @@ public class CreateImage {
 				new Plane(new Point3D(0, 50, 0), new Vector(0, 25, 100), new Color(121,128,102),
 						new Material(0.4, 0.3, 100, 1, 0)));
 
-		scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(1, -1, 1)));
+		scene.addLights(new PointLight(new Color(500, 250, 250), new Point3D(0, -1000, -1000), 300, 150, 300));
 
 		ImageWriter imageWriter = new ImageWriter("ourImage", 150, 150, 500, 500);
 		Render render = new Render(imageWriter, scene);
