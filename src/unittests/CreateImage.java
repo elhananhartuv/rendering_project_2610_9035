@@ -5,6 +5,7 @@ import elements.AmbientLight;
 import elements.Camera;
 import elements.DirectionalLight;
 import elements.PointLight;
+import elements.SpotLight;
 import geometries.Cylinder;
 import geometries.Plane;
 import geometries.Sphere;
@@ -75,12 +76,13 @@ public class CreateImage {
 				new Cylinder(new Ray(new Point3D(0, 50, 0), new Vector(50, -75, 5)), 2, 100,
 						new Color(java.awt.Color.BLUE), new Material(0.4, 0.3, 100, 0, 0)),
 
-				new Plane(new Point3D(0, 50, 0), new Vector(0, 25, 100), new Color(121, 128, 102),
-						new Material(0.4, 0.3, 100, 1, 0)));
+				new Plane(new Point3D(0, 0, 50), new Vector(0, 1,10), new Color(121, 128, 102),
+						new Material(0.4, 0.3, 100,1, 0))
+		);
 
 		scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(0, -1, 1)));
 
-		ImageWriter imageWriter = new ImageWriter("ourImage", 150, 150, 500, 500);
+		ImageWriter imageWriter = new ImageWriter("ourImage", 250, 250, 500, 500);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
