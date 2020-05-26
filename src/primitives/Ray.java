@@ -9,6 +9,9 @@ package primitives;
 public class Ray {
 	private Point3D p0;
 	private Vector direction;
+	/**
+	 * we using to move the ray with delta
+	 */
 	private static final double DELTA = 0.1;
 
 	/**

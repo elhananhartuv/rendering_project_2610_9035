@@ -19,7 +19,7 @@ public class Render {
 	private Scene scene;
 
 	/**
-	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * max deep of recursion in calcColor function
 	 */
 	private static final int MAX_CALC_COLOR_LEVEL = 10;
 	private static final double MIN_CALC_COLOR_K = 0.001;
@@ -123,9 +123,10 @@ public class Render {
 	 * @param n        the normal vector in the light point
 	 * @param v        the vector from the point to the camera
 	 * @param nL       dot product between n and l
-	 * @param nShinies !!!!!!!!!!!!!!
+	 * @param nShinies attenuation parameter for specular
 	 * @param light    light source
-	 * @return !!!!!!!!!!!!!
+	 * 
+	 * @return specular light
 	 */
 	private Color calcSpecular(double kS, Vector l, Vector n, Vector v, double nL, int nShinies, Color light) {
 		Vector r = l.subtract(n.scale(2 * nL)); // nl must not be zero!
@@ -136,25 +137,32 @@ public class Render {
 	}
 
 	/**
-	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * calculate the color intensity in the specific point. considered the shadow
+	 * and transparency and reflection
 	 * 
-	 * @param geoPoint
-	 * @param inRay
-	 * @param level
-	 * @param k
-	 * @return
+	 * @param geoPoint - the specific point we want to calculate
+	 * @param inRay    - the direction from point to another geometry / camera
+	 * @param level    - deep of recursion
+	 * @param k        - parameter
+	 * @return - the color in point considered the shadow and transparency and
+	 *         reflection
 	 */
 	private Color calcColor(GeoPoint geoPoint, Ray inRay, int level, double k) {
+		// get the geometry emission
 		Color color = geoPoint.geometry.getEmission();
+		// vector from point to camera
 		Vector v = geoPoint.point.subtract(scene.getCamera().getP0()).normalize();
-		Vector n = geoPoint.geometry.getNormal(geoPoint.point);
+		Vector n = geoPoint.geometry.getNormal(geoPoint.point);// normal vector at point
+		// get the attenuation parameter
 		Material material = geoPoint.geometry.getMatrial();
 		int nShininess = material.getNShininess();
 		double kD = material.getKd();
 		double kS = material.getKs();
+		// normal DotProduct v
 		double nV = alignZero(n.dotProduct(v));
-		Color iP;
+		Color iP; // intensity that point get from the light source
 		for (LightSource lightSource : scene.getLights()) {
+			// vector from light source to point
 			Vector l = lightSource.getL(geoPoint.point);
 			double nL = alignZero(n.dotProduct(l));
 			if (nL > 0 && nV > 0 || nL < 0 && nV < 0) {// same sign(case zero not relevant)
@@ -172,6 +180,7 @@ public class Render {
 			Ray reflectedRay = constructReflectedRay(n, geoPoint.point, inRay);
 			GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
 			if (reflectedPoint != null) {
+				// call in recursion
 				color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
 			}
 		}
@@ -212,63 +221,35 @@ public class Render {
 	}
 
 	/**
-	 * check if point should be shaded
-	 * 
-	 * @param light - the light source
-	 * @param l     - the ray from the light source
-	 * @param n     - the normal
-	 * @param gp    - the point on the geometry
-	 * @return true if there no shadow, else false
-	 */
-	/*
-	 * private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint gp)
-	 * { Vector lightDirection = l.scale(-1);// from point to light source // Vector
-	 * delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA); //
-	 * Point3D point = gp.point.add(delta); // Ray lighRay = new Ray(point,
-	 * lightDirection); Ray lighRay = new Ray(gp.point, lightDirection, n);
-	 * List<GeoPoint> intersection =
-	 * scene.getGeometries().findIntersections(lighRay); if (intersection == null)
-	 * return true; double lightDistance = light.getDistance(gp.point); for
-	 * (GeoPoint gPoint : intersection) { if (gPoint.geometry.getMatrial().getKt()
-	 * == 0 && alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0)
-	 * return false; } return true; }
-	 */
-	/**
 	 * the func generate reflected ray from geometry
 	 * 
 	 * @param n     normal
-	 * @param point !!!!!!!!!!!
-	 * @param inRay !!!!!
-	 * @return Ray !!!!!!!!!!!!!!!
+	 * @param point specific point
+	 * @param inRay ray from light source
+	 * @return Ray new Reflected ray/ (use the costructor of Ray)
 	 */
 	private Ray constructReflectedRay(Vector n, Point3D point, Ray inRay) {
 		Vector r;
 		Vector v = inRay.getDirection();
 		double nV = alignZero(n.dotProduct(v));
-		// Vector epsVector = n.scale(nV > 0 ? -DELTA : DELTA);
 		try {
 			r = v.subtract(n.scale(nV * 2));
 		} catch (IllegalArgumentException ex) {
-			return null;///////////////////
+			return null;
 		}
-		// return new Ray(point.add(epsVector), r);
 		return new Ray(point, r, n.scale(-1));
 	}
 
 	/**
 	 * 
-	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * calculate the secondary rays to refracted
 	 * 
 	 * @param point
-	 * @param n
-	 * @param inRay
-	 * @return
+	 * @param n     normal
+	 * @param inRay - ray from light source
+	 * @return new refracted ray/ (use the costructor of Ray)
 	 */
 	private Ray constructRefractedRay(Point3D point, Vector n, Ray inRay) {
-		// Vector v = inRay.getDirection();
-		// double nV = alignZero(n.dotProduct(v));
-		// Vector epsVector = n.scale(nV > 0 ? DELTA : -DELTA);
-		// return new Ray(point.add(epsVector), v);
 		return new Ray(point, inRay.getDirection(), n);
 	}
 
@@ -299,13 +280,14 @@ public class Render {
 	}
 
 	/**
-	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * check if point should be shaded and reflected
 	 * 
 	 * @param light - the light source
-	 * @param l     - ray from the light source
-	 * @param n     - the normal at point
-	 * @param gp    - point on geometry
-	 * @return !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+	 * @param l     - the ray from the light source
+	 * @param n     - the normal
+	 * @param gp    - the point on the geometry
+	 * @return number between 0 to 1 that meaning the level of transparency and
+	 *         shadow
 	 */
 	private double transparency(LightSource light, Vector l, Vector n, GeoPoint gp) {
 		Vector lightDirection = l.scale(-1);// from point to light source
