@@ -66,6 +66,7 @@ public class Render {
 	public void renderImage() {
 		Color background = scene.getBackground();
 		Camera camera = scene.getCamera();
+		java.awt.Color backgroundColor = background.getColor();
 
 		// the width and height of the view plane.
 		int width = (int) imageWriter.getWidth();
@@ -76,16 +77,13 @@ public class Render {
 		int Ny = imageWriter.getNy();
 		// ray from camera through the pixel.
 		Ray ray;
+		GeoPoint closestPoint;
 		for (int i = 0; i < Ny; i++) {
 			for (int j = 0; j < Nx; j++) {
-				// get the ray from camera through the pixel i,j in the view plane.
 				ray = camera.constructRayThroughPixel(Nx, Ny, j, i, scene.getDistance(), width, height);
-				// get the intersection points with the geometries shape.
-				// there is intersections points-calculate the closest point to camera and the
-				// color of the point and write to pixel.
-				GeoPoint closestPoint = findClosestIntersection(ray);
+				closestPoint = findClosestIntersection(ray);
 				imageWriter.writePixel(j, i,
-						closestPoint == null ? background.getColor() : calcColor(closestPoint, ray).getColor());
+						closestPoint == null ? backgroundColor : calcColor(closestPoint, ray).getColor());
 			}
 		}
 	}
@@ -148,7 +146,6 @@ public class Render {
 	 *         reflection
 	 */
 	private Color calcColor(GeoPoint geoPoint, Ray inRay, int level, double k) {
-		// get the geometry emission
 		Color color = geoPoint.geometry.getEmission();
 		// vector from point to camera
 		Vector v = geoPoint.point.subtract(scene.getCamera().getP0()).normalize();
@@ -161,12 +158,15 @@ public class Render {
 		// normal DotProduct v
 		double nV = alignZero(n.dotProduct(v));
 		Color iP; // intensity that point get from the light source
+		double ktr;
+		Vector l;
+		double nL;
 		for (LightSource lightSource : scene.getLights()) {
 			// vector from light source to point
-			Vector l = lightSource.getL(geoPoint.point);
-			double nL = alignZero(n.dotProduct(l));
+			l = lightSource.getL(geoPoint.point);
+			nL = alignZero(n.dotProduct(l));
 			if (nL > 0 && nV > 0 || nL < 0 && nV < 0) {// same sign(case zero not relevant)
-				double ktr = transparency(lightSource, l, n, geoPoint);
+				ktr = transparency(lightSource, l, n, geoPoint);
 				if (ktr * k > MIN_CALC_COLOR_K) {
 					iP = lightSource.getIntensity(geoPoint.point).scale(ktr);
 					color = color.add(calcDiffuse(kD, nL, iP), calcSpecular(kS, l, n, v, nL, nShininess, iP));
@@ -237,7 +237,7 @@ public class Render {
 		} catch (IllegalArgumentException ex) {
 			return null;
 		}
-		return new Ray(point, r, n.scale(-1));
+		return new Ray(point, r, n);
 	}
 
 	/**
@@ -293,10 +293,10 @@ public class Render {
 		Vector lightDirection = l.scale(-1);// from point to light source
 		Ray lightRay = new Ray(gp.point, lightDirection, n);
 		List<GeoPoint> intersection = scene.getGeometries().findIntersections(lightRay);
-		if (intersection == null)
-			return 1.0;
-		double lightDistance = light.getDistance(gp.point);
 		double ktr = 1.0;
+		if (intersection == null)
+			return ktr;
+		double lightDistance = light.getDistance(gp.point);
 		for (GeoPoint gPoint : intersection) {
 			if (alignZero(gPoint.point.distance(gp.point) - lightDistance) <= 0) {
 				ktr *= gPoint.geometry.getMatrial().getKt();
