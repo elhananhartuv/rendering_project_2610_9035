@@ -18,7 +18,7 @@ public class Camera {
 	private Vector vTo;
 	private Vector vUp;
 	private Vector vRight;
-	private double focalDistance;
+	private double focalDistance=10;
 	private double aperture;
 	private int numOfRays;
 	private static final Random RAND = new Random();
@@ -60,7 +60,7 @@ public class Camera {
 	public List<Ray> constructbeamOfRaysThroughPixels(int nX, int nY, int j, int i, double screenDistance,
 			double screenWidth, double screenHeight) {
 		List<Ray> result = new LinkedList<Ray>();
-		Point3D pij = getViewPlanePoint(nX, nY, j, i, screenDistance, screenWidth, screenHeight);
+		Point3D pij = getViewPlanePoint(nX, nY, j, i, screenDistance*0.7, screenWidth*0.7, screenHeight*0.7);
 		Vector vToFocal = pij.subtract(p0).normalize();
 		// add to list the ray through pixel i,j from view plane
 		result.add(new Ray(pij, vToFocal));

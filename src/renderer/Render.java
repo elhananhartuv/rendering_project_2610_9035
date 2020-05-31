@@ -1,7 +1,6 @@
 package renderer;
 
 import java.util.List;
-
 import primitives.*;
 import elements.*;
 import scene.*;
@@ -105,9 +104,10 @@ public class Render {
 		GeoPoint closestPoint;
 		Color sumColor;
 		for (int i = 0; i < Ny; i++) {
+			System.out.println(i);
 			for (int j = 0; j < Nx; j++) {
 				rays = camera.constructbeamOfRaysThroughPixels(Nx, Ny, j, i, scene.getDistance(), width, height);
-				sumColor = Color.BLACK;// initilaiaze to (0,0,0).
+				sumColor = Color.BLACK;//initila
 				for (Ray ray : rays) {
 					closestPoint = findClosestIntersection(ray);
 					Color color = closestPoint == null ? backgroundColor : calcColor(closestPoint, ray);

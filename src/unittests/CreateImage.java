@@ -49,7 +49,7 @@ public class CreateImage {
 	@Test
 	public void ourImage() {
 		Scene scene = new Scene("createImage");
-		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
+		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0),10,0.04,10));
 		scene.setDistance(1000);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
@@ -88,8 +88,9 @@ public class CreateImage {
 		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 2)),
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
-		ImageWriter imageWriter = new ImageWriter("magenDavid", 250, 250, 500, 500);
+		ImageWriter imageWriter = new ImageWriter("magenDavid_s", 250, 250, 500, 500);
 		Render render = new Render(imageWriter, scene);
+	
 
 		render.renderImage();
 		render.writeToImage();
