@@ -40,7 +40,7 @@ public class Ray {
 			this.p0 = head.add(normal.scale(nV > 0 ? DELTA : -DELTA));
 		}
 	}
-
+	
 	/**
 	 * p0 geter
 	 * 
