@@ -1,6 +1,7 @@
 package renderer;
 
 import java.util.List;
+
 import primitives.*;
 import elements.*;
 import scene.*;
@@ -63,10 +64,34 @@ public class Render {
 	 * create the buffer image by the geometries in the scene.
 	 * 
 	 */
+//	public void renderImage() {
+//		Color background = scene.getBackground();
+//		Camera camera = scene.getCamera();
+//		java.awt.Color backgroundColor = background.getColor();
+//
+//		// the width and height of the view plane.
+//		int width = (int) imageWriter.getWidth();
+//		int height = (int) imageWriter.getHeight();
+//
+//		// the number of pixels in the image
+//		int Nx = imageWriter.getNx();
+//		int Ny = imageWriter.getNy();
+//		// ray from camera through the pixel.
+//		Ray ray;
+//		GeoPoint closestPoint;
+//		for (int i = 0; i < Ny; i++) {
+//			for (int j = 0; j < Nx; j++) {
+//				ray = camera.constructRayThroughPixel(Nx, Ny, j, i, scene.getDistance(), width, height);
+//				closestPoint = findClosestIntersection(ray);
+//				imageWriter.writePixel(j, i,
+//						closestPoint == null ? backgroundColor : calcColor(closestPoint, ray).getColor());
+//			}
+//		}
+//	}
 	public void renderImage() {
 		Color background = scene.getBackground();
 		Camera camera = scene.getCamera();
-		java.awt.Color backgroundColor = background.getColor();
+		Color backgroundColor = background;
 
 		// the width and height of the view plane.
 		int width = (int) imageWriter.getWidth();
@@ -76,14 +101,21 @@ public class Render {
 		int Nx = imageWriter.getNx();
 		int Ny = imageWriter.getNy();
 		// ray from camera through the pixel.
-		Ray ray;
+		List<Ray> rays;
 		GeoPoint closestPoint;
+		Color sumColor;
 		for (int i = 0; i < Ny; i++) {
 			for (int j = 0; j < Nx; j++) {
-				ray = camera.constructRayThroughPixel(Nx, Ny, j, i, scene.getDistance(), width, height);
-				closestPoint = findClosestIntersection(ray);
-				imageWriter.writePixel(j, i,
-						closestPoint == null ? backgroundColor : calcColor(closestPoint, ray).getColor());
+				rays = camera.constructbeamOfRaysThroughPixels(Nx, Ny, j, i, scene.getDistance(), width, height);
+				sumColor = Color.BLACK;// initilaiaze to (0,0,0).
+				for (Ray ray : rays) {
+					closestPoint = findClosestIntersection(ray);
+					Color color = closestPoint == null ? backgroundColor : calcColor(closestPoint, ray);
+					sumColor = sumColor.add(color);
+				}
+				if (rays.size() > 1)
+					sumColor = sumColor.reduce(rays.size());
+				imageWriter.writePixel(j, i, sumColor.getColor());
 			}
 		}
 	}
