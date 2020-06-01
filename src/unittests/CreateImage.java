@@ -1,22 +1,10 @@
 package unittests;
 
 import org.junit.Test;
-import elements.AmbientLight;
-import elements.Camera;
-import elements.DirectionalLight;
-import elements.PointLight;
-import elements.SpotLight;
-import geometries.Cylinder;
-import geometries.Plane;
-import geometries.Sphere;
-import geometries.Triangle;
-import primitives.Color;
-import primitives.Material;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
-import renderer.ImageWriter;
-import renderer.Render;
+import elements.*;
+import geometries.*;
+import primitives.*;
+import renderer.*;
 import scene.Scene;
 
 public class CreateImage {
@@ -49,7 +37,7 @@ public class CreateImage {
 	@Test
 	public void ourImage() {
 		Scene scene = new Scene("createImage");
-		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0),10,0.04,10));
+		scene.setCamera(new Camera(new Point3D(0, 0, -800), new Vector(0, 0, 1), new Vector(0, -1, 0),10,0.04,30));
 		scene.setDistance(1000);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));

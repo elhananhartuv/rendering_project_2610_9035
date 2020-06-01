@@ -18,7 +18,7 @@ public class Camera {
 	private Vector vTo;
 	private Vector vUp;
 	private Vector vRight;
-	private double focalDistance=10;
+	private double focalDistance;
 	private double aperture;
 	private int numOfRays;
 	private static final Random RAND = new Random();
