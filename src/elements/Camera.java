@@ -78,7 +78,7 @@ public class Camera {
 			double screenWidth, double screenHeight) {
 		List<Ray> result = new LinkedList<Ray>();
 		Point3D pij;// the point in pixel i,j in the view plane.
-		if (numOfRays == 1 || Util.isZero(aperture)) { // there is no DOF effect
+		if (numOfRays == 1 || Util.isZero(aperture)) { 
 			// there is no DOF effect so we want the rays start before view plane.
 			pij = getViewPlanePoint(nX, nY, j, i, screenDistance, screenWidth, screenHeight);
 			result.add(new Ray(p0, pij.subtract(p0)));
