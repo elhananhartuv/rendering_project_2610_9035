@@ -18,7 +18,7 @@ public class DepthOfFiledTest {
 	@Test
 	public void DofTest1() {
 		Scene scene = new Scene("DOF");
-		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1), 600, 5, 30));
+		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1), 600, 5, 200));
 		scene.setDistance(400);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
@@ -46,7 +46,7 @@ public class DepthOfFiledTest {
 	@Test
 	public void DofTest2() {
 		Scene scene = new Scene("DOF");
-		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1), 0, 0, 30));
+		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1), 0, 0, 200));
 		scene.setDistance(400);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));

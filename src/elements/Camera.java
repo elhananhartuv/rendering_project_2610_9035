@@ -77,19 +77,15 @@ public class Camera {
 	public List<Ray> constructBeamOfRaysThroughPixels(int nX, int nY, int j, int i, double screenDistance,
 			double screenWidth, double screenHeight) {
 		List<Ray> result = new LinkedList<Ray>();
-		Point3D pij;// the point in pixel i,j in the view plane.
-		if (numOfRays == 1 || Util.isZero(aperture)) { 
-			// there is no DOF effect so we want the rays start before view plane.
-			pij = getViewPlanePoint(nX, nY, j, i, screenDistance, screenWidth, screenHeight);
-			result.add(new Ray(p0, pij.subtract(p0)));
+		// the point in pixel i,j in the view plane.
+		Point3D pij = getViewPlanePoint(nX, nY, j, i, screenDistance, screenWidth, screenHeight);
+		Vector vToFocal = pij.subtract(p0).normalize();
+		if (numOfRays == 1 || Util.isZero(aperture)) {
+			// there is no DOF effect so we want the rays start at the camera.
+			result.add(new Ray(p0, vToFocal));
 			return result;
 		}
-		// there is DOF.
-		pij = getViewPlanePoint(nX, nY, j, i, screenDistance * 0.5, screenWidth * 0.5, screenHeight * 0.5);
-		// the direction from camera to pixel i,j.
-		Vector vToFocal = pij.subtract(p0).normalize();
-		// add to list the ray through pixel i,j from view plane
-		// this is the central ray throw the pixel that start at view plane.
+		// else there is DOF.
 		result.add(new Ray(pij, vToFocal));
 		// to create plane focal and not domed, we divide in the cosine
 		// angle (dotProfuct) to increase the distance.
