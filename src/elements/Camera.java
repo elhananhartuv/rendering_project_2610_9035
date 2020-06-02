@@ -60,7 +60,7 @@ public class Camera {
 	public List<Ray> constructbeamOfRaysThroughPixels(int nX, int nY, int j, int i, double screenDistance,
 			double screenWidth, double screenHeight) {
 		List<Ray> result = new LinkedList<Ray>();
-		Point3D pij = getViewPlanePoint(nX, nY, j, i, screenDistance*0.7, screenWidth*0.7, screenHeight*0.7);
+		Point3D pij = getViewPlanePoint(nX, nY, j, i, screenDistance*0.5, screenWidth*0.5, screenHeight*0.5);
 		Vector vToFocal = pij.subtract(p0).normalize();
 		// add to list the ray through pixel i,j from view plane
 		result.add(new Ray(pij, vToFocal));

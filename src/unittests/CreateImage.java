@@ -6,7 +6,11 @@ import geometries.*;
 import primitives.*;
 import renderer.*;
 import scene.Scene;
-
+/**
+ * create image with shadow transparency and reflected,we add after Depth of field. 
+ * @author E&Y
+ *
+ */
 public class CreateImage {
 
 	@Test
@@ -37,7 +41,7 @@ public class CreateImage {
 	@Test
 	public void ourImage() {
 		Scene scene = new Scene("createImage");
-		scene.setCamera(new Camera(new Point3D(0, 0, -800), new Vector(0, 0, 1), new Vector(0, -1, 0),10,0.04,30));
+		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0),10,0.55,1));
 		scene.setDistance(1000);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
@@ -78,8 +82,6 @@ public class CreateImage {
 
 		ImageWriter imageWriter = new ImageWriter("magenDavid_s", 250, 250, 500, 500);
 		Render render = new Render(imageWriter, scene);
-	
-
 		render.renderImage();
 		render.writeToImage();
 	}
