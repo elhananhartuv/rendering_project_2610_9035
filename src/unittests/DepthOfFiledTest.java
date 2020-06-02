@@ -8,7 +8,7 @@ import renderer.*;
 import scene.Scene;
 
 /**
- * Unit tests for Depth of filed attribute.
+ * Unit tests for Depth of filed effect.
  * 
  * @author E&Y
  *
@@ -72,6 +72,32 @@ public class DepthOfFiledTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("DepthOfFiled2", 250, 250, 500, 500);
+		Render render = new Render(imageWriter, scene);
+
+		render.renderImage();
+		render.writeToImage();
+	}
+
+	@Test
+	public void DofTest3() {
+		Scene scene = new Scene("DOF");
+		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1), 600, 5, 5));
+		scene.setDistance(1000);
+		scene.setBackground(Color.BLACK);
+		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
+
+		scene.addGeometries(
+				new Cylinder(new Ray(new Point3D(0, 50, 0), new Vector(0, 0, 1)), 5, 25,
+						new Color(java.awt.Color.DARK_GRAY), new Material(0.5, 0.5, 1)),
+				new Cylinder(new Ray(new Point3D(25, 50, 0), new Vector(0, 0, 1)), 5, 25,
+						new Color(java.awt.Color.DARK_GRAY), new Material(0.5, 0.5, 1)),
+				new Cylinder(new Ray(new Point3D(50, 50, 0), new Vector(0, 0, 1)), 5, 25,
+						new Color(java.awt.Color.DARK_GRAY), new Material(0.5, 0.5, 1)));
+
+		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 2)),
+				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
+
+		ImageWriter imageWriter = new ImageWriter("DepthOfFiled3", 250, 250, 500, 500);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();

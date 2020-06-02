@@ -63,51 +63,23 @@ public class Render {
 	 * create the buffer image by the geometries in the scene.
 	 * 
 	 */
-//	public void renderImage() {
-//		Color background = scene.getBackground();
-//		Camera camera = scene.getCamera();
-//		java.awt.Color backgroundColor = background.getColor();
-//
-//		// the width and height of the view plane.
-//		int width = (int) imageWriter.getWidth();
-//		int height = (int) imageWriter.getHeight();
-//
-//		// the number of pixels in the image
-//		int Nx = imageWriter.getNx();
-//		int Ny = imageWriter.getNy();
-//		// ray from camera through the pixel.
-//		Ray ray;
-//		GeoPoint closestPoint;
-//		for (int i = 0; i < Ny; i++) {
-//			for (int j = 0; j < Nx; j++) {
-//				ray = camera.constructRayThroughPixel(Nx, Ny, j, i, scene.getDistance(), width, height);
-//				closestPoint = findClosestIntersection(ray);
-//				imageWriter.writePixel(j, i,
-//						closestPoint == null ? backgroundColor : calcColor(closestPoint, ray).getColor());
-//			}
-//		}
-//	}
 	public void renderImage() {
 		Color background = scene.getBackground();
 		Camera camera = scene.getCamera();
 		Color backgroundColor = background;
-
-		// the width and height of the view plane.
 		int width = (int) imageWriter.getWidth();
 		int height = (int) imageWriter.getHeight();
-
-		// the number of pixels in the image
+		// get the number of pixels in the image
 		int Nx = imageWriter.getNx();
 		int Ny = imageWriter.getNy();
-		// ray from camera through the pixel.
 		List<Ray> rays;
 		GeoPoint closestPoint;
 		Color sumColor;
 		for (int i = 0; i < Ny; i++) {
-			System.out.println(i);
+			System.out.println(i);// help admin to follow running process
 			for (int j = 0; j < Nx; j++) {
-				rays = camera.constructbeamOfRaysThroughPixels(Nx, Ny, j, i, scene.getDistance(), width, height);
-				sumColor = Color.BLACK;//initila
+				rays = camera.constructBeamOfRaysThroughPixels(Nx, Ny, j, i, scene.getDistance(), width, height);
+				sumColor = Color.BLACK;// initialized to RGB vector (0,0,0)
 				for (Ray ray : rays) {
 					closestPoint = findClosestIntersection(ray);
 					Color color = closestPoint == null ? backgroundColor : calcColor(closestPoint, ray);
