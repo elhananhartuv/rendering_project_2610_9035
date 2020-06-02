@@ -78,19 +78,19 @@ public class Camera {
 			double screenWidth, double screenHeight) {
 		List<Ray> result = new LinkedList<Ray>();
 		Point3D pij;// the point in pixel i,j in the view plane.
-		if (numOfRays == 1) {
+		if (numOfRays == 1 || Util.isZero(aperture)) { // there is no DOF effect
 			// there is no DOF effect so we want the rays start before view plane.
-			pij = getViewPlanePoint(nX, nY, j, i, screenDistance * 0.5, screenWidth * 0.5, screenHeight * 0.5);
-		} else {
-			// there is DOF.
 			pij = getViewPlanePoint(nX, nY, j, i, screenDistance, screenWidth, screenHeight);
+			result.add(new Ray(p0, pij.subtract(p0)));
+			return result;
 		}
+		// there is DOF.
+		pij = getViewPlanePoint(nX, nY, j, i, screenDistance * 0.5, screenWidth * 0.5, screenHeight * 0.5);
 		// the direction from camera to pixel i,j.
 		Vector vToFocal = pij.subtract(p0).normalize();
 		// add to list the ray through pixel i,j from view plane
-		result.add(new Ray(pij, vToFocal));// this is the central ray throw the pixel that start at view plane.
-		if (numOfRays == 1 || Util.isZero(aperture))// there is no DOF effect
-			return result;
+		// this is the central ray throw the pixel that start at view plane.
+		result.add(new Ray(pij, vToFocal));
 		// to create plane focal and not domed, we divide in the cosine
 		// angle (dotProfuct) to increase the distance.
 		Point3D focalPoint = pij.add(vToFocal.scale(focalDistance / vTo.dotProduct(vToFocal)));
@@ -155,44 +155,6 @@ public class Camera {
 			p = p.add(vUp.scale(-i));
 		}
 		return p;
-	}
-
-	/**
-	 * The function calculate the ray that start at the camera and intersect the
-	 * view plane in pixel j,i.
-	 * 
-	 * 
-	 * @param nX             number of pixels in axis x.
-	 * @param nY             number of pixels in axis y.
-	 * @param j              the pixel in y axis.
-	 * @param i              the pixel in x axis.
-	 * @param screenDistance the distance of the view plane from camera.
-	 * @param screenWidth    the width of screen.
-	 * @param screenHeight   the height of screen.
-	 * @return ray that intersect the view plane at pixel j,i.
-	 */
-	public Ray constructRayThroughPixel(int nX, int nY, int j, int i, double screenDistance, double screenWidth,
-			double screenHeight) {
-
-		Point3D pointCenter = p0.add(vTo.scale(screenDistance));// the center point in view plane.
-
-		// calculate Ratio
-		double rY = screenHeight / nY;
-		double rX = screenWidth / nX;
-
-		double yi = ((i - nY / 2d) * rY + rY / 2d);
-		double xj = ((j - nX / 2d) * rX + rX / 2d);
-
-		// in case that xj and yi both are 0
-		Point3D pij = pointCenter;
-
-		if (!isZero(xj))
-			pij = pij.add(vRight.scale(xj));
-
-		if (!isZero(yi))
-			pij = pij.add(vUp.scale(-1 * yi));
-
-		return new Ray(p0, pij.subtract(p0));
 	}
 
 	/**

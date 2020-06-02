@@ -120,7 +120,7 @@ public class IntegrationTests {
 		int sum = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				intersections = geometry.findIntersections(camera.constructRayThroughPixel(3, 3, j, i, 1, 3, 3));
+				intersections = geometry.findIntersections(camera.constructBeamOfRaysThroughPixels(3, 3, j, i, 1, 3, 3).get(0));
 				if (intersections != null)
 					sum += intersections.size();
 			}
