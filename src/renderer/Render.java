@@ -76,7 +76,7 @@ public class Render {
 		GeoPoint closestPoint;
 		Color sumColor;
 		for (int i = 0; i < Ny; i++) {
-			System.out.println(i);// help admin to follow running process
+			System.out.println(((double)i/Ny)*100+"%");// help admin to follow running process
 			for (int j = 0; j < Nx; j++) {
 				rays = camera.constructBeamOfRaysThroughPixels(Nx, Ny, j, i, scene.getDistance(), width, height);
 				sumColor = Color.BLACK;// initialized to RGB vector (0,0,0)
