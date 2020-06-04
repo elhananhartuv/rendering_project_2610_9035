@@ -37,7 +37,7 @@ public class DepthOfFiledTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("DepthOfFiled", 250, 250, 500, 500);
-		Render render = new Render(imageWriter, scene);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
 
 		render.renderImage();
 		render.writeToImage();
@@ -69,7 +69,7 @@ public class DepthOfFiledTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("DepthOfFiled2", 250, 250, 500, 500);
-		Render render = new Render(imageWriter, scene);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
 
 		render.renderImage();
 		render.writeToImage();
@@ -138,7 +138,7 @@ public class DepthOfFiledTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("DepthOfFiled4", 250, 250, 500, 500);
-		Render render = new Render(imageWriter, scene);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
 
 		render.renderImage();
 		render.writeToImage();
