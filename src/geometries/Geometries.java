@@ -13,7 +13,7 @@ import static primitives.Util.*;
  */
 public class Geometries implements Intersectable {
 	private List<Intersectable> _geometries;
-
+	
 	// ***************** Constructors ********************** //
 
 	/**
