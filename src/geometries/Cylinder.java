@@ -53,6 +53,7 @@ public class Cylinder extends Tube {
 	public Cylinder(Ray ray, double r, double height, Color emmission, Material material) {
 		super(ray, r, emmission, material);
 		this.height = height;
+		createBox();
 	}
 
 	// ***************** Getters/Setters ********************** //
@@ -67,6 +68,16 @@ public class Cylinder extends Tube {
 	}
 
 	// ***************** Operations ******************** //
+	@Override
+	public void createBox() {
+		Point3D center = axisRay.getP0();
+		minX = center.getX().get() - radius;
+		maxX = center.getX().get() + radius;
+		minY = center.getY().get() - radius;
+		maxY = center.getY().get() + radius;
+		minZ = center.getZ().get();
+		maxZ = center.add(axisRay.getDirection().scale(height)).getZ().get();
+	}
 
 	@Override
 	public Vector getNormal(Point3D point) {

@@ -53,6 +53,7 @@ public class Sphere extends RadialGeometry {
 	public Sphere(Point3D p0, double r, Color emmission, Material material) {
 		super(r, emmission, material);
 		center = new Point3D(p0);
+		createBox();
 	}
 
 	// ***************** Getters/Setters ********************** //
@@ -67,6 +68,15 @@ public class Sphere extends RadialGeometry {
 	}
 
 	// ***************** Operations ******************** //
+	@Override
+	public void createBox() {
+		minX = center.getX().get() - radius;
+		minY = center.getY().get() - radius;
+		minZ = center.getZ().get() - radius;
+		maxX = center.getX().get() + radius;
+		maxY = center.getY().get() + radius;
+		maxZ = center.getZ().get() + radius;
+	}
 
 	@Override
 	public Vector getNormal(Point3D point) {

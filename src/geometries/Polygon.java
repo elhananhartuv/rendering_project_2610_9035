@@ -84,6 +84,7 @@ public class Polygon extends Geometry {
 			if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
 				throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
 		}
+		createBox();
 	}
 
 	/**
@@ -123,6 +124,30 @@ public class Polygon extends Geometry {
 	}
 
 	// ***************** Operations ******************** //
+
+	@Override
+	protected void createBox() {
+		minX = _vertices.get(0).getX().get();
+		minY = _vertices.get(0).getY().get();
+		minZ = _vertices.get(0).getZ().get();
+		maxX = minX;
+		maxY = minY;
+		maxZ = minZ;
+		for (Point3D point : _vertices) {
+			if (point.getX().get() < minX)
+				minX = point.getX().get();
+			if (point.getX().get() > maxX)
+				maxX = point.getX().get();
+			if (point.getY().get() < minY)
+				minY = point.getY().get();
+			if (point.getY().get() > maxY)
+				maxY = point.getY().get();
+			if (point.getZ().get() < minZ)
+				minZ = point.getZ().get();
+			if (point.getZ().get() > maxZ)
+				maxZ = point.getZ().get();
+		}
+	}
 
 	@Override
 	public List<GeoPoint> findIntersections(Ray ray) {

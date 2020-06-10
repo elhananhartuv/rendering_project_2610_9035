@@ -61,6 +61,18 @@ public class Tube extends RadialGeometry {
 	}
 
 	// ***************** Operations ******************** //
+//	
+//	/**
+//	 * create bounded box
+//	 */
+//	public void createBox() {
+//		minX = Double.MAX_VALUE;
+//		minY = Double.MAX_VALUE;
+//		minZ = Double.MAX_VALUE;
+//		maxX = Double.MAX_VALUE;
+//		maxY = Double.MAX_VALUE;
+//		maxZ = Double.MAX_VALUE;
+//	}
 
 	@Override
 	public Vector getNormal(Point3D point) {

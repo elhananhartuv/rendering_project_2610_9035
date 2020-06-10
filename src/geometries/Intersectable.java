@@ -1,7 +1,7 @@
 package geometries;
 
+import java.util.LinkedList;
 import java.util.List;
-
 import primitives.*;
 
 /**
@@ -11,18 +11,7 @@ import primitives.*;
  * 
  * @author E&Y
  */
-public interface Intersectable {
-
-	/**
-	 * The function find all the intersection that the ray intersect geometric
-	 * shape.
-	 * 
-	 * @param ray The ray that intersect the geometric shape
-	 * @return list of intersections geoPoints with the geometric shape. if there is
-	 *         no points return null.
-	 */
-	List<GeoPoint> findIntersections(Ray ray);
-
+public abstract class Intersectable {
 	/**
 	 * Geo point is help class when we intersect geometry shapes to know which kind
 	 * of geometry the point intersect. contain Geometry, and Point3D.
@@ -55,5 +44,158 @@ public interface Intersectable {
 			GeoPoint temp = (GeoPoint) obj;
 			return this.geometry == temp.geometry && this.point.equals(temp.point);
 		}
+	}
+
+	double minX = Double.NEGATIVE_INFINITY;
+	double maxX = Double.POSITIVE_INFINITY;
+	double minY = Double.NEGATIVE_INFINITY;
+	double maxY = Double.POSITIVE_INFINITY;
+	double minZ = Double.NEGATIVE_INFINITY;
+	double maxZ = Double.POSITIVE_INFINITY;
+
+	/**
+	 * The function find all the intersection that the ray intersect geometric
+	 * shape.
+	 * 
+	 * @param ray The ray that intersect the geometric shape
+	 * @return list of intersections geoPoints with the geometric shape. if there is
+	 *         no points return null.
+	 */
+	public abstract List<GeoPoint> findIntersections(Ray ray);
+
+	/**
+	 * 
+	 * @param Ray to intersect with the Geometry, only if ray intersect the bounding
+	 *            box.
+	 * @return List of point the are the intersection between the Ray parm and the
+	 *         geometry form.
+	 */
+	public List<GeoPoint> findIntersectionsBoundingBox(Ray parm) {
+		if (isRayIntersectBox(parm))
+			return findIntersections(parm);// can be mistakes
+		return null;
+	}
+
+	// ***************** Operations ******************** //
+	/**
+	 * check if ray intersect the box
+	 * 
+	 * @param ray- the specific ray to check if intersect the box.
+	 * @return true if ray intersect otherwise false.
+	 */
+	protected boolean isRayIntersectBox(Ray ray) {
+		Vector v = ray.getDirection();
+		double dirX = v.getHead().getX().get();
+		double dirY = v.getHead().getY().get();
+		double dirZ = v.getHead().getZ().get();
+		Point3D p0 = ray.getP0();
+		double startX = p0.getX().get();
+		double startY = p0.getY().get();
+		double startZ = p0.getZ().get();
+		double tXmin = (minX - startX) / dirX;
+		double tXmax = (maxX - startX) / dirX;
+
+		if (tXmin > tXmax) {
+			double temp = tXmin;
+			tXmin = tXmax;
+			tXmax = temp;
+		}
+
+		double tYmin = (minY - startY) / dirY;
+		double tYmax = (maxY - startY) / dirY;
+
+		if (tYmin > tYmax) {
+			double temp = tYmin;
+			tYmin = tYmax;
+			tYmax = temp;
+		}
+
+		if ((tXmin > tYmax) || (tYmin > tXmax))
+			return false;
+
+		if (tYmin > tXmin)
+			tXmin = tYmin;
+
+		if (tYmax < tXmax)
+			tXmax = tYmax;
+
+		double tZmin = (minZ - startZ) / dirZ;
+		double tZmax = (maxZ - startZ) / dirZ;
+
+		if (tZmin > tZmax) {
+			double temp = tZmin;
+			tZmin = tZmax;
+			tZmax = temp;
+		}
+
+		if ((tXmin > tZmax) || (tZmin > tXmax))
+			return false;
+
+		if (tZmin > tXmin)
+			tXmin = tZmin;
+
+		if (tZmax < tXmax)
+			tXmax = tZmax;
+		return true;
+	}
+
+	/**
+	 * The function create the box and update if needed.
+	 */
+	protected abstract void createBox();
+
+	// ***************** get&set ******************** //
+	/**
+	 * get min x
+	 * 
+	 * @return minX
+	 */
+	public double getMinX() {
+		return minX;
+	}
+
+	/**
+	 * get man x
+	 * 
+	 * @return maxX
+	 */
+	public double getMaxX() {
+		return maxX;
+	}
+
+	/**
+	 * get man y
+	 * 
+	 * @return maxY
+	 */
+	public double getMaxY() {
+		return maxY;
+	}
+
+	/**
+	 * get min y
+	 * 
+	 * @return minY
+	 */
+	public double getMinY() {
+		return minY;
+	}
+
+	/**
+	 * get man z
+	 * 
+	 * @return maxZ
+	 */
+	public double getMaxZ() {
+		return maxZ;
+	}
+
+	/**
+	 * get min z
+	 * 
+	 * @return minZ
+	 */
+	public double getMinZ() {
+		return minZ;
 	}
 }

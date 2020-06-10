@@ -11,9 +11,10 @@ import static primitives.Util.*;
  * @author E&Y
  *
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 	private List<Intersectable> _geometries;
-	
+	private Intersectable lastGeometry;
+
 	// ***************** Constructors ********************** //
 
 	/**
@@ -35,16 +36,53 @@ public class Geometries implements Intersectable {
 
 	// ***************** Operations ******************** //
 
+	@Override
+	protected void createBox() {
+		if (lastGeometry.minX < minX)
+			minX = lastGeometry.minX;
+		if (lastGeometry.maxX > maxX)
+			maxX = lastGeometry.maxX;
+		if (lastGeometry.minY < minY)
+			minY = lastGeometry.minY;
+		if (lastGeometry.maxY > maxY)
+			maxY = lastGeometry.maxY;
+		if (lastGeometry.minZ < minZ)
+			minZ = lastGeometry.minZ;
+		if (lastGeometry.maxZ > maxZ)
+			maxZ = lastGeometry.maxZ;
+	}
+
 	/**
 	 * The function get some Intersectable parameters and add to the _geometries
 	 * list
 	 * 
 	 * @param geometries parameters to add to list.
 	 */
-	public void add(Intersectable... geometries) {
-		for (Intersectable shape : geometries) {
-			_geometries.add(shape);
+	public void add(Intersectable... parm) {
+		for (Intersectable geometry : parm) {
+			_geometries.add(geometry);
+			lastGeometry = geometry;
+			createBox();
 		}
+	}
+
+	/**
+	 * find intersection only if intersect box
+	 * 
+	 * @param parm ray to intersect
+	 * @return list of intersection points
+	 */
+	@Override
+	public List<GeoPoint> findIntersectionsBoundingBox(Ray parm) {
+		List<GeoPoint> allIntersectPoints = new LinkedList<GeoPoint>();
+		List<GeoPoint> check=new LinkedList<GeoPoint>(); 
+		for (Intersectable geometry : _geometries) {
+			if (geometry.isRayIntersectBox(parm))
+				check=geometry.findIntersectionsBoundingBox(parm);
+			if(check!=null)
+				allIntersectPoints.addAll(check);
+		}
+		return allIntersectPoints;
 	}
 
 	@Override

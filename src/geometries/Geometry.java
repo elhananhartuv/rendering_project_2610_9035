@@ -9,7 +9,7 @@ import primitives.*;
  * @author E&Y
  *
  */
-public abstract class Geometry implements Intersectable {
+public abstract class Geometry extends Intersectable {
 	protected Color emmission;
 	protected Material material;
 
@@ -64,6 +64,18 @@ public abstract class Geometry implements Intersectable {
 	}
 
 	// ***************** Operations ******************** //
+	/**
+	 * create bounded box
+	 */
+	@Override
+	protected void createBox() {
+		 minX = Double.NEGATIVE_INFINITY;
+		 maxX = Double.POSITIVE_INFINITY;
+		 minY = Double.NEGATIVE_INFINITY;
+		 maxY = Double.POSITIVE_INFINITY;
+		 minZ = Double.NEGATIVE_INFINITY;
+		 maxZ = Double.POSITIVE_INFINITY;
+	}
 
 	/**
 	 * The function calculate the normal vector in the specific point
@@ -72,4 +84,5 @@ public abstract class Geometry implements Intersectable {
 	 * @return the normal vector
 	 */
 	public abstract Vector getNormal(Point3D point);
+
 }

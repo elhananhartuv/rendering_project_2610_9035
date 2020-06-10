@@ -1,5 +1,7 @@
 package unittests;
 
+import java.util.Random;
+
 import org.junit.Test;
 import elements.*;
 import geometries.*;
@@ -137,8 +139,38 @@ public class DepthOfFiledTest {
 		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 2)),
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
-		ImageWriter imageWriter = new ImageWriter("DepthOfFiled4", 250, 250, 500, 500);
-		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
+		ImageWriter imageWriter = new ImageWriter("DepthOfFiled4___", 250, 250, 500, 500);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
+
+		render.renderImage();
+		render.writeToImage();
+	}
+	@Test
+	public void DofTest5() {
+		Scene scene = new Scene("DOF");
+		Random rand = new Random();
+		final int NUM = 10, MOVE = 2;
+		scene.setCamera(new Camera(new Point3D(1000, 1000, -3000), new Vector(0, -1, 0), new Vector(0, 0, 1)));
+		scene.setDistance(400);
+		scene.setBackground(Color.BLACK);
+		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
+		Geometries geometries=new Geometries();
+		for (int i = 1; i <= NUM; ++i)
+			for (int j = 1; j <= NUM; ++j)
+				for (int k = 1; k <= NUM; ++k) {
+					if (rand.nextInt() % 2 == 0)
+						geometries.add(new Sphere(
+								new Point3D(i * MOVE, j * MOVE, k * MOVE), 1, new Color(Math.abs(rand.nextInt() % 255),
+										Math.abs(rand.nextInt() % 255), Math.abs(rand.nextInt() % 255)),
+								new Material(0.7, 0.3, 45)));
+				}
+		scene.addGeometries(geometries);
+
+		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 2)),
+				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
+
+		ImageWriter imageWriter = new ImageWriter("TRY", 250, 250, 500, 500);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
 
 		render.renderImage();
 		render.writeToImage();

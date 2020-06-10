@@ -22,7 +22,6 @@ public class CylinderTests {
 		// The height is 4 and the radius is 1
 		Cylinder cylinder = new Cylinder(ray, 1, 4);
 		// the cylinder equation is (x-1)^2+y^2=1
-
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: regular point on the cylinder.
 		assertEquals("Wrong normal to cylinder", new Vector(1, 0, 0), cylinder.getNormal(new Point3D(2, 0, 1)));
