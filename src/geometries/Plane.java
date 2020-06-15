@@ -34,6 +34,7 @@ public class Plane extends Geometry {
 		Vector v2 = p0.subtract(p2);// make the second direction
 		// calculate the normal to plane and make sure that the vector is normalized
 		normal = v1.crossProduct(v2).normalize();
+		this.infiniteObject=true;
 	}
 
 	/**
@@ -73,6 +74,7 @@ public class Plane extends Geometry {
 		super(emmision, material);
 		this.point = new Point3D(point);
 		this.normal = vector.normalize();// make sure that the vector normalized
+		this.infiniteObject=true;
 	}
 
 	/**

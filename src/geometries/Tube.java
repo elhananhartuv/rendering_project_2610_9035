@@ -47,6 +47,7 @@ public class Tube extends RadialGeometry {
 	public Tube(Ray ray, double r, Color emmission, Material material) {
 		super(r, emmission, material);
 		this.axisRay = ray;
+		this.infiniteObject=true;
 	}
 
 	// ***************** Getters/Setters ********************** //

@@ -46,13 +46,14 @@ public abstract class Intersectable {
 		}
 	}
 
-	double minX = Double.NEGATIVE_INFINITY;
-	double maxX = Double.POSITIVE_INFINITY;
-	double minY = Double.NEGATIVE_INFINITY;
-	double maxY = Double.POSITIVE_INFINITY;
-	double minZ = Double.NEGATIVE_INFINITY;
-	double maxZ = Double.POSITIVE_INFINITY;
-
+	double minX = Double.POSITIVE_INFINITY;
+	double maxX = Double.NEGATIVE_INFINITY;
+	double minY = Double.POSITIVE_INFINITY;
+	double maxY = Double.NEGATIVE_INFINITY;
+	double minZ = Double.POSITIVE_INFINITY;
+	double maxZ = Double.NEGATIVE_INFINITY;
+	public boolean infiniteObject = false;
+    
 	/**
 	 * The function find all the intersection that the ray intersect geometric
 	 * shape.
@@ -70,9 +71,9 @@ public abstract class Intersectable {
 	 * @return List of point the are the intersection between the Ray parm and the
 	 *         geometry form.
 	 */
-	public List<GeoPoint> findIntersectionsBoundingBox(Ray parm) {
-		if (isRayIntersectBox(parm))
-			return findIntersections(parm);// can be mistakes
+	public List<GeoPoint> findIntersectionsBoundingBox(Ray ray) {
+		if (isRayIntersectBox(ray))
+			return findIntersections(ray);
 		return null;
 	}
 
@@ -140,6 +141,15 @@ public abstract class Intersectable {
 	}
 
 	/**
+	 * 
+	 * @param g
+	 * @return
+	 */
+	public double getDistance(Intersectable g) {
+		return this.getCenterBox().distanceSquared(g.getCenterBox());
+	}
+
+	/**
 	 * The function create the box and update if needed.
 	 */
 	protected abstract void createBox();
@@ -197,5 +207,23 @@ public abstract class Intersectable {
 	 */
 	public double getMinZ() {
 		return minZ;
+	}
+
+	/**
+	 * get the box size the volume of the box.
+	 * 
+	 * @return box size
+	 */
+	public double getBoxSize() {
+		return (maxX - minX) * (maxY - minY) * (maxZ - minZ);
+	}
+
+	/**
+	 * get middle Point of box
+	 * 
+	 * @return Point3D
+	 */
+	public Point3D getCenterBox() {
+		return new Point3D((minX + maxX)/2, (minY +maxY - minY)/2,(minZ +maxZ)/2);
 	}
 }

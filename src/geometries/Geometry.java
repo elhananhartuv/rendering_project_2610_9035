@@ -69,12 +69,12 @@ public abstract class Geometry extends Intersectable {
 	 */
 	@Override
 	protected void createBox() {
-		 minX = Double.NEGATIVE_INFINITY;
-		 maxX = Double.POSITIVE_INFINITY;
-		 minY = Double.NEGATIVE_INFINITY;
-		 maxY = Double.POSITIVE_INFINITY;
-		 minZ = Double.NEGATIVE_INFINITY;
-		 maxZ = Double.POSITIVE_INFINITY;
+		minX = Double.POSITIVE_INFINITY;
+		maxX = Double.NEGATIVE_INFINITY;
+		minY = Double.POSITIVE_INFINITY;
+		maxY = Double.NEGATIVE_INFINITY;
+		minZ = Double.POSITIVE_INFINITY;
+		maxZ = Double.NEGATIVE_INFINITY;
 	}
 
 	/**

@@ -13,7 +13,11 @@ import static primitives.Util.*;
  */
 public class Geometries extends Intersectable {
 	private List<Intersectable> _geometries;
-	private Intersectable lastGeometry;
+	/**
+	 * the last geometry that added to our geometries it's needed to check if we need
+	 * to update the size box.
+	 */
+	private Intersectable lastGeometryAdded;
 
 	// ***************** Constructors ********************** //
 
@@ -22,6 +26,7 @@ public class Geometries extends Intersectable {
 	 */
 	public Geometries() {
 		_geometries = new LinkedList<Intersectable>();
+		
 	}
 
 	/**
@@ -38,18 +43,18 @@ public class Geometries extends Intersectable {
 
 	@Override
 	protected void createBox() {
-		if (lastGeometry.minX < minX)
-			minX = lastGeometry.minX;
-		if (lastGeometry.maxX > maxX)
-			maxX = lastGeometry.maxX;
-		if (lastGeometry.minY < minY)
-			minY = lastGeometry.minY;
-		if (lastGeometry.maxY > maxY)
-			maxY = lastGeometry.maxY;
-		if (lastGeometry.minZ < minZ)
-			minZ = lastGeometry.minZ;
-		if (lastGeometry.maxZ > maxZ)
-			maxZ = lastGeometry.maxZ;
+		if (lastGeometryAdded.minX < minX)
+			minX = lastGeometryAdded.minX;
+		if (lastGeometryAdded.maxX > maxX)
+			maxX = lastGeometryAdded.maxX;
+		if (lastGeometryAdded.minY < minY)
+			minY = lastGeometryAdded.minY;
+		if (lastGeometryAdded.maxY > maxY)
+			maxY = lastGeometryAdded.maxY;
+		if (lastGeometryAdded.minZ < minZ)
+			minZ = lastGeometryAdded.minZ;
+		if (lastGeometryAdded.maxZ > maxZ)
+			maxZ = lastGeometryAdded.maxZ;
 	}
 
 	/**
@@ -61,7 +66,7 @@ public class Geometries extends Intersectable {
 	public void add(Intersectable... parm) {
 		for (Intersectable geometry : parm) {
 			_geometries.add(geometry);
-			lastGeometry = geometry;
+			lastGeometryAdded = geometry;
 			createBox();
 		}
 	}
@@ -69,17 +74,17 @@ public class Geometries extends Intersectable {
 	/**
 	 * find intersection only if intersect box
 	 * 
-	 * @param parm ray to intersect
+	 * @param ray ray to intersect
 	 * @return list of intersection points
 	 */
 	@Override
-	public List<GeoPoint> findIntersectionsBoundingBox(Ray parm) {
+	public List<GeoPoint> findIntersectionsBoundingBox(Ray ray) {
 		List<GeoPoint> allIntersectPoints = new LinkedList<GeoPoint>();
-		List<GeoPoint> check=new LinkedList<GeoPoint>(); 
+		List<GeoPoint> check = new LinkedList<GeoPoint>();
 		for (Intersectable geometry : _geometries) {
-			if (geometry.isRayIntersectBox(parm))
-				check=geometry.findIntersectionsBoundingBox(parm);
-			if(check!=null)
+			if (geometry.isRayIntersectBox(ray))
+				check = geometry.findIntersectionsBoundingBox(ray);
+			if (check != null)
 				allIntersectPoints.addAll(check);
 		}
 		return allIntersectPoints;
@@ -98,5 +103,14 @@ public class Geometries extends Intersectable {
 		if (isZero(intersections.size()))
 			return null;
 		return intersections;
+	}
+
+	/**
+	 * get geometries
+	 * 
+	 * @return list<intersectable) all of geometries.
+	 */
+	public List<Intersectable> getGeometries() {
+		return _geometries;
 	}
 }

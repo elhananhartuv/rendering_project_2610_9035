@@ -154,4 +154,72 @@ public class Scene {
 		for (LightSource light : lights)
 			this.lights.add(light);
 	}
+
+	/**
+	 * create the tree.
+	 */
+	public void makeTree() {
+		Geometries result = new Geometries();
+		Geometries geoWithBox = this.geometries;
+
+		for (Intersectable geo : geometries.getGeometries()) {
+			if (geo.infiniteObject) {
+				result.add(geo);
+				geoWithBox.getGeometries().remove(geo);
+			}
+		}
+		Geometries treeGeometries = buildTree(geoWithBox);
+		treeGeometries.add(result);
+		this.geometries = treeGeometries;
+	}
+
+	/**
+	 * 
+	 * @param geoWithBox
+	 * @return
+	 */
+	private Geometries buildTree(Geometries geoWithBox) {
+		Geometries res = new Geometries();
+		if (geoWithBox.getGeometries().size() == 1) {
+			return res;
+		}
+		Intersectable geo;
+		for (Intersectable g : geoWithBox.getGeometries()) {
+			geo = closestGeometry(g, geoWithBox.getGeometries());
+			if (g == closestGeometry(geo, geoWithBox.getGeometries())) {
+				geoWithBox.getGeometries().remove(g);
+				geoWithBox.getGeometries().remove(geo);
+
+				// res= buildTree(geoWithBox);
+				res.add(g, geo);
+				// return res;
+			}
+		}
+		Geometries temp = buildTree(geoWithBox);
+		res.add(temp);
+		return buildTree(res);
+	}
+
+	/**
+	 * the function calculate the closest geometry to the shape.
+	 * 
+	 * @param g          the geometry that we search the closest geometry
+	 * @param geometries all the geometries shape
+	 * @return closest geometry.
+	 */
+	private Intersectable closestGeometry(Intersectable g, List<Intersectable> geometries) {
+		double mindistance = Double.POSITIVE_INFINITY;
+		double curentDistance;
+		Geometries closeGeo = new Geometries();
+		for (Intersectable geo : geometries) {
+			if (geo != g) {
+				curentDistance = g.getCenterBox().distanceSquared(geo.getCenterBox());
+				if (curentDistance < mindistance) {
+					mindistance = curentDistance;
+					closeGeo = (Geometries) geo;
+				}
+			}
+		}
+		return closeGeo;
+	}
 }

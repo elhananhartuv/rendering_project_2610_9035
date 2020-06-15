@@ -2,6 +2,9 @@ import primitives.*;
 import static java.lang.System.out;
 import static primitives.Util.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Test program for the 1st stage
  *
