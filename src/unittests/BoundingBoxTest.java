@@ -43,7 +43,7 @@ public class BoundingBoxTest {
 
 		Random rand = new Random();
 		final int NUM = 100, MOVE = 50;
-
+		///Geometries a = new Geometries();
 		Geometries a = new Geometries();
 		Geometries b = new Geometries();
 		Geometries c = new Geometries();
