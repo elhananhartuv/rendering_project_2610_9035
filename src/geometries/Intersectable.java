@@ -53,7 +53,7 @@ public abstract class Intersectable {
 	double minZ = Double.POSITIVE_INFINITY;
 	double maxZ = Double.NEGATIVE_INFINITY;
 	public boolean infiniteObject = false;
-    
+
 	/**
 	 * The function find all the intersection that the ray intersect geometric
 	 * shape.
@@ -141,15 +141,6 @@ public abstract class Intersectable {
 	}
 
 	/**
-	 * 
-	 * @param g
-	 * @return
-	 */
-	public double getDistance(Intersectable g) {
-		return this.getCenterBox().distanceSquared(g.getCenterBox());
-	}
-
-	/**
 	 * The function create the box and update if needed.
 	 */
 	protected abstract void createBox();
@@ -224,6 +215,6 @@ public abstract class Intersectable {
 	 * @return Point3D
 	 */
 	public Point3D getCenterBox() {
-		return new Point3D((minX + maxX)/2, (minY +maxY - minY)/2,(minZ +maxZ)/2);
+		return new Point3D((minX + maxX) / 2, (minY + maxY - minY) / 2, (minZ + maxZ) / 2);
 	}
 }

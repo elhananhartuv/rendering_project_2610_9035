@@ -20,7 +20,7 @@ public class Render {
 	private int _threads = 1;
 	private final int SPARE_THREADS = 2;
 	private boolean _print = false;
-	boolean boundingBox = false;
+	public static boolean boundingBox = false;
 	/**
 	 * max deep of recursion in calcColor function
 	 */

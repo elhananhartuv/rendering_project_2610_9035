@@ -33,16 +33,16 @@ import scene.Scene;
  */
 public class BoundingBoxTest {
 
-	@Test
+	//@Test
 	public void createSpheresHierarchy() {
 		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1), 400, 7, 100));
+		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1)));
 		scene.setDistance(500);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
 
 		Random rand = new Random();
-		final int NUM = 100, MOVE = 50;
+		final int NUM = 1000, MOVE = 50;
 		///Geometries a = new Geometries();
 		Geometries a = new Geometries();
 		Geometries b = new Geometries();
@@ -51,26 +51,26 @@ public class BoundingBoxTest {
 		Geometries left = new Geometries();
 		Geometries right = new Geometries();
 		Geometries root = new Geometries();
-		for (int i = 1; i <= NUM / 2; ++i) {
+		for (int i = 1; i <= NUM; ++i) {
 			a.add(new Sphere(
 					new Point3D(i * 100 - 300, -MOVE * i, MOVE * i / 2), 50, new Color(Math.abs(rand.nextInt() % 255),
 							Math.abs(rand.nextInt() % 255), Math.abs(rand.nextInt() % 255)),
 					new Material(0.4, 0.7, 100, 0, 0)));
 		}
 
-		for (int i = NUM / 2; i > 1; i--) {
+		for (int i = NUM ; i > 1; i--) {
 			b.add(new Sphere(
 					new Point3D(i * 100, MOVE * i, MOVE * i / 2), 50, new Color(Math.abs(rand.nextInt() % 255),
 							Math.abs(rand.nextInt() % 255), Math.abs(rand.nextInt() % 255)),
 					new Material(0.7, 0.3, 45)));
 		}
-		for (int i = 1; i <= NUM / 2; ++i) {
+		for (int i = 1; i <= NUM; ++i) {
 			c.add(new Sphere(
 					new Point3D(i * 100 - 300, -MOVE * i, -MOVE * i / 2), 50, new Color(Math.abs(rand.nextInt() % 255),
 							Math.abs(rand.nextInt() % 255), Math.abs(rand.nextInt() % 255)),
 					new Material(0.4, 0.7, 100, 0, 0)));
 		}
-		for (int i = NUM / 2; i > 1; i--) {
+		for (int i = NUM; i > 1; i--) {
 			d.add(new Sphere(
 					new Point3D(i * 100, MOVE * i, -MOVE * i / 2), 50, new Color(Math.abs(rand.nextInt() % 255),
 							Math.abs(rand.nextInt() % 255), Math.abs(rand.nextInt() % 255)),
@@ -89,7 +89,7 @@ public class BoundingBoxTest {
 		render.writeToImage();
 	}
 
-	@Test
+   @Test
 	public void createSpheres() {
 		Scene scene = new Scene("Test scene");
 		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1)));
@@ -98,7 +98,7 @@ public class BoundingBoxTest {
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
 
 		Random rand = new Random();
-		final int NUM = 1000, MOVE = 50;
+		final int NUM = 500, MOVE = 50;
 
 		Geometries geometries = new Geometries();
 
@@ -131,7 +131,7 @@ public class BoundingBoxTest {
 		scene.addGeometries(geometries);
 		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 0)),
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
-		// scene.makeTree();
+		scene.makeTree();
 		ImageWriter imageWriter = new ImageWriter("withoutHierarchy", 500, 500, 500, 500);
 		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
 		render.renderImage();
@@ -176,7 +176,7 @@ public class BoundingBoxTest {
 		scene.addGeometries(geometries);
 		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 0)),
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
-		// scene.makeTree();
+		scene.makeTree();
 		ImageWriter imageWriter = new ImageWriter("boomBoomBoom", 500, 500, 500, 500);
 		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
 		render.renderImage();

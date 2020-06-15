@@ -159,17 +159,8 @@ public class Scene {
 	 * create the tree.
 	 */
 	public void makeTree() {
-		Geometries result = new Geometries();
 		Geometries geoWithBox = this.geometries;
-
-		for (Intersectable geo : geometries.getGeometries()) {
-			if (geo.infiniteObject) {
-				result.add(geo);
-				geoWithBox.getGeometries().remove(geo);
-			}
-		}
-		Geometries treeGeometries = buildTree(geoWithBox);
-		treeGeometries.add(result);
+		Geometries treeGeometries = buildTree(geoWithBox.getGeometries());
 		this.geometries = treeGeometries;
 	}
 
@@ -178,26 +169,22 @@ public class Scene {
 	 * @param geoWithBox
 	 * @return
 	 */
-	private Geometries buildTree(Geometries geoWithBox) {
+	private Geometries buildTree(List<Intersectable> geoWithBox) {
+		if (geoWithBox.size() == 1) {
+			return (Geometries) geoWithBox.get(0);
+		}
 		Geometries res = new Geometries();
-		if (geoWithBox.getGeometries().size() == 1) {
-			return res;
-		}
+		Geometries temp = new Geometries();
 		Intersectable geo;
-		for (Intersectable g : geoWithBox.getGeometries()) {
-			geo = closestGeometry(g, geoWithBox.getGeometries());
-			if (g == closestGeometry(geo, geoWithBox.getGeometries())) {
-				geoWithBox.getGeometries().remove(g);
-				geoWithBox.getGeometries().remove(geo);
-
-				// res= buildTree(geoWithBox);
-				res.add(g, geo);
-				// return res;
-			}
+		for (Intersectable g : geoWithBox) {
+			geoWithBox.remove(g);
+			geo = closestGeometry(g, geoWithBox);
+			geoWithBox.remove(geo);
+			temp.add(g, geo);
+			res.add(temp);
+			temp = new Geometries();
 		}
-		Geometries temp = buildTree(geoWithBox);
-		res.add(temp);
-		return buildTree(res);
+		return buildTree(res.getGeometries());
 	}
 
 	/**
@@ -208,16 +195,17 @@ public class Scene {
 	 * @return closest geometry.
 	 */
 	private Intersectable closestGeometry(Intersectable g, List<Intersectable> geometries) {
+		if (geometries.size() == 0) {
+			return (Geometries) g;
+		}
 		double mindistance = Double.POSITIVE_INFINITY;
 		double curentDistance;
 		Geometries closeGeo = new Geometries();
 		for (Intersectable geo : geometries) {
-			if (geo != g) {
-				curentDistance = g.getCenterBox().distanceSquared(geo.getCenterBox());
-				if (curentDistance < mindistance) {
-					mindistance = curentDistance;
-					closeGeo = (Geometries) geo;
-				}
+			curentDistance = g.getCenterBox().distanceSquared(geo.getCenterBox());
+			if (curentDistance < mindistance) {
+				mindistance = curentDistance;
+				closeGeo = (Geometries) geo;
 			}
 		}
 		return closeGeo;

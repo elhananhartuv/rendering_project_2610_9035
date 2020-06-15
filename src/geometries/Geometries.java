@@ -3,6 +3,8 @@ package geometries;
 import java.util.LinkedList;
 import java.util.List;
 import primitives.*;
+import renderer.Render;
+
 import static primitives.Util.*;
 
 /**
@@ -14,8 +16,8 @@ import static primitives.Util.*;
 public class Geometries extends Intersectable {
 	private List<Intersectable> _geometries;
 	/**
-	 * the last geometry that added to our geometries it's needed to check if we need
-	 * to update the size box.
+	 * the last geometry that added to our geometries it's needed to check if we
+	 * need to update the size box.
 	 */
 	private Intersectable lastGeometryAdded;
 
@@ -26,7 +28,7 @@ public class Geometries extends Intersectable {
 	 */
 	public Geometries() {
 		_geometries = new LinkedList<Intersectable>();
-		
+
 	}
 
 	/**
@@ -67,7 +69,8 @@ public class Geometries extends Intersectable {
 		for (Intersectable geometry : parm) {
 			_geometries.add(geometry);
 			lastGeometryAdded = geometry;
-			createBox();
+			if (Render.boundingBox)
+				this.createBox();
 		}
 	}
 
