@@ -159,8 +159,7 @@ public class Scene {
 	 * create the tree.
 	 */
 	public void makeTree() {
-		Geometries geoWithBox = this.geometries;
-		Geometries treeGeometries = buildTree(geoWithBox.getGeometries());
+		Geometries treeGeometries = buildTree(this.geometries.getGeometries());
 		this.geometries = treeGeometries;
 	}
 

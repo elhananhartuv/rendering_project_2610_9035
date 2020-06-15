@@ -116,4 +116,8 @@ public class Geometries extends Intersectable {
 	public List<Intersectable> getGeometries() {
 		return _geometries;
 	}
+
+	public boolean isBoxContainPoint(double x, double y, double z) {
+		return (x <= maxX && x >= minX && y <= maxY && y >= minY && z <= maxZ && z >= minZ);
+	}
 }

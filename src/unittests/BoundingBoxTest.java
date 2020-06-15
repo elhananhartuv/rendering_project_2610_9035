@@ -98,7 +98,7 @@ public class BoundingBoxTest {
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
 
 		Random rand = new Random();
-		final int NUM = 500, MOVE = 50;
+		final int NUM = 2000, MOVE = 50;
 
 		Geometries geometries = new Geometries();
 
@@ -131,7 +131,7 @@ public class BoundingBoxTest {
 		scene.addGeometries(geometries);
 		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 0)),
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
-		scene.makeTree();
+	    scene.makeTree();
 		ImageWriter imageWriter = new ImageWriter("withoutHierarchy", 500, 500, 500, 500);
 		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
 		render.renderImage();
@@ -176,8 +176,8 @@ public class BoundingBoxTest {
 		scene.addGeometries(geometries);
 		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 0)),
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
-		scene.makeTree();
 		ImageWriter imageWriter = new ImageWriter("boomBoomBoom", 500, 500, 500, 500);
+		scene.makeTree();
 		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
 		render.renderImage();
 		render.writeToImage();
