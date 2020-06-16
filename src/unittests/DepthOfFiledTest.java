@@ -71,13 +71,13 @@ public class DepthOfFiledTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("DepthOfFiled2", 250, 250, 500, 500);
-		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
-
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
+		scene.makeTree();
 		render.renderImage();
 		render.writeToImage();
 	}
 
-	// @Test
+	@Test
 	public void DofTest3() {
 		Scene scene = new Scene("DOF");
 		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1), 600, 5, 5));
@@ -124,11 +124,11 @@ public class DepthOfFiledTest {
 				new Sphere(new Point3D(300, -300, 0), 30, new Color(java.awt.Color.BLUE),
 						new Material(0.4, 0.9, 100, 0, 0)),
 				new Sphere(new Point3D(1000, -350, 0), 30, new Color(java.awt.Color.BLUE),
-						new Material(0.4,0.9, 100, 0, 0)),
+						new Material(0.4, 0.9, 100, 0, 0)),
 				new Sphere(new Point3D(500, -400, 0), 30, new Color(java.awt.Color.BLUE),
-						new Material(0.4,0.9, 100, 0, 0)),
+						new Material(0.4, 0.9, 100, 0, 0)),
 				new Sphere(new Point3D(-600, 80, 0), 30, new Color(java.awt.Color.BLUE),
-						new Material(0.4,0.7, 100, 0, 0)),
+						new Material(0.4, 0.7, 100, 0, 0)),
 				new Sphere(new Point3D(3000, -400, -400), 100, new Color(java.awt.Color.BLUE),
 						new Material(0.4, 0.7, 100, 0, 0)),
 				new Sphere(new Point3D(0, -50, -100), 30, new Color(java.awt.Color.BLUE),
@@ -141,10 +141,11 @@ public class DepthOfFiledTest {
 
 		ImageWriter imageWriter = new ImageWriter("DepthOfFiled4___", 250, 250, 500, 500);
 		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
-
+		//scene.makeTree();
 		render.renderImage();
 		render.writeToImage();
 	}
+
 	@Test
 	public void DofTest5() {
 		Scene scene = new Scene("DOF");
@@ -154,7 +155,7 @@ public class DepthOfFiledTest {
 		scene.setDistance(400);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
-		Geometries geometries=new Geometries();
+		Geometries geometries = new Geometries();
 		for (int i = 1; i <= NUM; ++i)
 			for (int j = 1; j <= NUM; ++j)
 				for (int k = 1; k <= NUM; ++k) {

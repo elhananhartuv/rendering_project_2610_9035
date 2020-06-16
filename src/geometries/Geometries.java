@@ -69,8 +69,7 @@ public class Geometries extends Intersectable {
 		for (Intersectable geometry : parm) {
 			_geometries.add(geometry);
 			lastGeometryAdded = geometry;
-			if (Render.boundingBox)
-				this.createBox();
+			this.createBox();
 		}
 	}
 
@@ -87,20 +86,27 @@ public class Geometries extends Intersectable {
 		for (Intersectable geometry : _geometries) {
 			if (geometry.isRayIntersectBox(ray))
 				check = geometry.findIntersectionsBoundingBox(ray);
-			if (check != null)
+			if (check != null) {
+				//if(allIntersectPoints==null)
+				//	allIntersectPoints = new LinkedList<GeoPoint>();
 				allIntersectPoints.addAll(check);
+			}
 		}
 		return allIntersectPoints;
 	}
+	
 
 	@Override
 	public List<GeoPoint> findIntersections(Ray ray) {
-		List<GeoPoint> intersections = new LinkedList<GeoPoint>();
+		List<GeoPoint> intersections = new LinkedList<GeoPoint>();;
 		for (int i = 0; i < _geometries.size(); i++) {
 			// need to check if the there is no intersection with the geometry shape.
 			List<GeoPoint> check = _geometries.get(i).findIntersections(ray);
-			if (check != null)
+			if (check != null) {
+				//if(intersections==null)
+				//	intersections=new LinkedList<GeoPoint>();
 				intersections.addAll(check);
+			}
 		}
 		// if there is no intersections point the size of 'intersections' is 0
 		if (isZero(intersections.size()))

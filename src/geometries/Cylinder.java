@@ -70,13 +70,48 @@ public class Cylinder extends Tube {
 	// ***************** Operations ******************** //
 	@Override
 	public void createBox() {
-		Point3D center = axisRay.getP0();
-		minX = center.getX().get() - radius;
-		maxX = center.getX().get() + radius;
-		minY = center.getY().get() - radius;
-		maxY = center.getY().get() + radius;
-		minZ = center.getZ().get();
-		maxZ = center.add(axisRay.getDirection().scale(height)).getZ().get();
+		Point3D center = this.axisRay.getP0();
+		double centerX = center.getX().get();
+		double centerY = center.getY().get();
+		double centerZ = center.getZ().get();
+
+		Point3D centerHeight = this.axisRay.getPoint(height);
+
+		double centerHeightX = centerHeight.getX().get();
+		double centerHeightY = centerHeight.getY().get();
+		double centerHeightZ = centerHeight.getZ().get();
+
+		if (centerX > centerHeightX) {
+			minX = centerHeightX;
+			maxX = centerX;
+		} else {
+			minX = centerX;
+			maxX = centerHeightX;
+		}
+
+		if (centerY > centerHeightY) {
+			minY = centerHeightY;
+			maxY = centerY;
+		} else {
+			minY = centerY;
+			maxY = centerHeightY;
+		}
+
+		if (centerZ > centerHeightZ) {
+			minZ = centerHeightZ;
+			maxZ = centerZ;
+		} else {
+			minZ = centerZ;
+			maxZ = centerHeightZ;
+		}
+
+		minX -= radius;
+		minY -= radius;
+		minZ -= radius;
+
+		maxX += radius;
+		maxY += radius;
+		maxZ += radius;
 	}
 
 	@Override

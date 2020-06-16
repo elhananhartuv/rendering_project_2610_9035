@@ -92,7 +92,7 @@ public class CreateImage {
 	@Test
 	public void moveOurImage1() {
 		Scene scene = new Scene("createImage");
-		scene.setCamera(new Camera(new Point3D(1000, 0, 0), new Vector(-1, 0, 0), new Vector(0, 0, 1), 10, 0.55, 1));
+		scene.setCamera(new Camera(new Point3D(1000, 0, 0), new Vector(-1, 0, 0), new Vector(0, 0, 1), 10, 0.55, 30));
 		scene.setDistance(1000);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
@@ -132,7 +132,7 @@ public class CreateImage {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("magenDavidMove1", 250, 250, 500, 500);
-		Render render = new Render(imageWriter, scene);
+		Render render = new Render(imageWriter, scene).setDebugPrint();
 		render.renderImage();
 		render.writeToImage();
 	}

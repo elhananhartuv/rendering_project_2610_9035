@@ -53,7 +53,7 @@ public abstract class Intersectable {
 	double minZ = Double.POSITIVE_INFINITY;
 	double maxZ = Double.NEGATIVE_INFINITY;
 	public boolean infiniteObject = false;
-
+	public double location;
 	/**
 	 * The function find all the intersection that the ray intersect geometric
 	 * shape.
