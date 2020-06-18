@@ -16,6 +16,7 @@ import geometries.Plane;
 import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;
+import geometries.Tube;
 import primitives.Color;
 import primitives.Material;
 import primitives.Point3D;
@@ -57,7 +58,7 @@ public class BoundingBoxTest {
 					new Material(0.4, 0.7, 100, 0, 0)));
 		}
 
-		for (int i = NUM ; i > 1; i--) {
+		for (int i = NUM; i > 1; i--) {
 			b.add(new Sphere(
 					new Point3D(i * 100, MOVE * i, MOVE * i / 2), 50, new Color(Math.abs(rand.nextInt() % 255),
 							Math.abs(rand.nextInt() % 255), Math.abs(rand.nextInt() % 255)),
@@ -88,7 +89,7 @@ public class BoundingBoxTest {
 		render.writeToImage();
 	}
 
-   @Test
+	@Test
 	public void createSpheres() {
 		Scene scene = new Scene("Test scene");
 		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1)));
@@ -97,7 +98,7 @@ public class BoundingBoxTest {
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
 
 		Random rand = new Random();
-		final int NUM = 1000, MOVE = 50;
+		final int NUM = 50, MOVE = 50;
 
 		Geometries geometries = new Geometries();
 
@@ -126,14 +127,15 @@ public class BoundingBoxTest {
 							Math.abs(rand.nextInt() % 255), Math.abs(rand.nextInt() % 255)),
 					new Material(0.7, 0.3, 45)));
 		}
-
+		geometries.add(new Tube(new Ray(new Point3D(0, 0, 10), new Vector(0, 0, 1)), 50, new Color(java.awt.Color.blue),
+				new Material(0.7, 0.3, 45, 0.9, 0)));
 		scene.addGeometries(geometries);
 		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 0)),
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
-	  
-		ImageWriter imageWriter = new ImageWriter("withoutHierarchy", 500, 500, 1000, 1000);
+
+		ImageWriter imageWriter = new ImageWriter("Hierarchy", 500, 500, 500, 500);
 		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
-		scene.makeTree();
+		scene.setHierarchyTree();
 		render.renderImage();
 		render.writeToImage();
 	}
@@ -145,7 +147,7 @@ public class BoundingBoxTest {
 		scene.setDistance(500);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
-
+		
 		Random rand = new Random();
 		final int NUM = 1000, MOVE = 50;
 		Geometries geometries = new Geometries();
@@ -169,14 +171,13 @@ public class BoundingBoxTest {
 					new Cylinder(new Ray(new Point3D(i, 115, j), new Vector(0, 0, 1)), 5, 45, new Color(92, 63, 9),
 							new Material(0.7, 0.3, 45)),
 					new Cylinder(new Ray(new Point3D(i, -115, j), new Vector(0, 0, 1)), 5, 45, new Color(92, 63, 9),
-							new Material(0.7, 0.3, 45))
-			);
+							new Material(0.7, 0.3, 45)));
 		}
 		scene.addGeometries(geometries);
 		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 0)),
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 		ImageWriter imageWriter = new ImageWriter("boomBoomBoom", 500, 500, 500, 500);
-		scene.makeTree();
+		scene.setHierarchyTree();
 		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
 		render.renderImage();
 		render.writeToImage();

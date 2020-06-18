@@ -72,7 +72,7 @@ public class DepthOfFiledTest {
 
 		ImageWriter imageWriter = new ImageWriter("DepthOfFiled2", 250, 250, 500, 500);
 		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
-		scene.makeTree();
+		scene.setHierarchyTree();
 		render.renderImage();
 		render.writeToImage();
 	}
