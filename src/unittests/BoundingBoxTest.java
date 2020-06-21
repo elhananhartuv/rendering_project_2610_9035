@@ -33,7 +33,9 @@ import scene.Scene;
  *
  */
 public class BoundingBoxTest {
-
+	/**
+	 * create picture with Manual hierarchy
+	 */
 	@Test
 	public void createSpheresHierarchy() {
 		Scene scene = new Scene("Test scene");
@@ -76,7 +78,6 @@ public class BoundingBoxTest {
 							Math.abs(rand.nextInt() % 255), Math.abs(rand.nextInt() % 255)),
 					new Material(0.7, 0.3, 45)));
 		}
-
 		right.add(a, c);
 		left.add(b, d);
 		root.add(left, right);
@@ -89,16 +90,19 @@ public class BoundingBoxTest {
 		render.writeToImage();
 	}
 
+	/**
+	 * create picture with Automatic hierarchy
+	 */
 	@Test
 	public void createSpheres() {
 		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1)));
+		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1),600,5,100));
 		scene.setDistance(500);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
 
 		Random rand = new Random();
-		final int NUM = 50, MOVE = 50;
+		final int NUM = 1000, MOVE = 50;
 
 		Geometries geometries = new Geometries();
 
@@ -140,6 +144,9 @@ public class BoundingBoxTest {
 		render.writeToImage();
 	}
 
+	/**
+	 * create image
+	 */
 	@Test
 	public void boomBoomBoom() {
 		Scene scene = new Scene("Test scene");
@@ -147,7 +154,7 @@ public class BoundingBoxTest {
 		scene.setDistance(500);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
-		
+
 		Random rand = new Random();
 		final int NUM = 1000, MOVE = 50;
 		Geometries geometries = new Geometries();

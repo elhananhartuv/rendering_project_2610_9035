@@ -53,7 +53,7 @@ public abstract class Intersectable {
 	double minZ = Double.POSITIVE_INFINITY;
 	double maxZ = Double.NEGATIVE_INFINITY;
 	public boolean infiniteObject = false;
-	
+
 	/**
 	 * The function find all the intersection that the ray intersect geometric
 	 * shape.
@@ -198,15 +198,6 @@ public abstract class Intersectable {
 	 */
 	public double getMinZ() {
 		return minZ;
-	}
-
-	/**
-	 * get the box size the volume of the box.
-	 * 
-	 * @return box size
-	 */
-	public double getBoxSize() {
-		return (maxX - minX) * (maxY - minY) * (maxZ - minZ);
 	}
 
 	/**

@@ -3,8 +3,6 @@ package geometries;
 import java.util.LinkedList;
 import java.util.List;
 import primitives.*;
-import renderer.Render;
-
 import static primitives.Util.*;
 
 /**
@@ -87,24 +85,20 @@ public class Geometries extends Intersectable {
 			if (geometry.isRayIntersectBox(ray))
 				check = geometry.findIntersectionsBoundingBox(ray);
 			if (check != null) {
-				//if(allIntersectPoints==null)
-				//	allIntersectPoints = new LinkedList<GeoPoint>();
 				allIntersectPoints.addAll(check);
 			}
 		}
 		return allIntersectPoints;
 	}
-	
 
 	@Override
 	public List<GeoPoint> findIntersections(Ray ray) {
-		List<GeoPoint> intersections = new LinkedList<GeoPoint>();;
+		List<GeoPoint> intersections = new LinkedList<GeoPoint>();
+		;
 		for (int i = 0; i < _geometries.size(); i++) {
 			// need to check if the there is no intersection with the geometry shape.
 			List<GeoPoint> check = _geometries.get(i).findIntersections(ray);
 			if (check != null) {
-				//if(intersections==null)
-				//	intersections=new LinkedList<GeoPoint>();
 				intersections.addAll(check);
 			}
 		}
