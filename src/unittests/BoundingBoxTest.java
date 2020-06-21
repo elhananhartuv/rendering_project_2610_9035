@@ -38,8 +38,8 @@ public class BoundingBoxTest {
 	 */
 	@Test
 	public void createSpheresHierarchy() {
-		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1)));
+		Scene scene = new Scene("Test scene").setBoundingBox(true);
+		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1),600,5,100));
 		scene.setDistance(500);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
@@ -85,7 +85,7 @@ public class BoundingBoxTest {
 		scene.addLights(new DirectionalLight(new Color(48, 170, 176), new Vector(0, -1, 0)),
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 		ImageWriter imageWriter = new ImageWriter("our_Bounding_Volume_Hierarchy", 500, 500, 1000, 1000);
-		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
 		render.renderImage();
 		render.writeToImage();
 	}
@@ -95,8 +95,8 @@ public class BoundingBoxTest {
 	 */
 	@Test
 	public void createSpheres() {
-		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1),600,5,100));
+		Scene scene = new Scene("Test scene").setBoundingBox(true);
+		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1),600,5,30));
 		scene.setDistance(500);
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(new Color(132, 124, 65), 0));
@@ -138,7 +138,7 @@ public class BoundingBoxTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("Hierarchy", 500, 500, 500, 500);
-		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
 		scene.setHierarchyTree();
 		render.renderImage();
 		render.writeToImage();
@@ -149,7 +149,7 @@ public class BoundingBoxTest {
 	 */
 	@Test
 	public void boomBoomBoom() {
-		Scene scene = new Scene("Test scene");
+		Scene scene = new Scene("Test scene").setBoundingBox(true);
 		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1)));
 		scene.setDistance(500);
 		scene.setBackground(Color.BLACK);
@@ -185,7 +185,7 @@ public class BoundingBoxTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 		ImageWriter imageWriter = new ImageWriter("boomBoomBoom", 500, 500, 500, 500);
 		scene.setHierarchyTree();
-		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
 		render.renderImage();
 		render.writeToImage();
 	}

@@ -47,7 +47,7 @@ public class DepthOfFiledTest {
 
 	@Test
 	public void DofTest2() {
-		Scene scene = new Scene("DOF");
+		Scene scene = new Scene("DOF").setBoundingBox(true);
 		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1), 600, 5, 100));
 		scene.setDistance(400);
 		scene.setBackground(Color.BLACK);
@@ -71,7 +71,7 @@ public class DepthOfFiledTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("DepthOfFiled2", 250, 250, 500, 500);
-		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
 		scene.setHierarchyTree();
 		render.renderImage();
 		render.writeToImage();
@@ -105,7 +105,7 @@ public class DepthOfFiledTest {
 
 	@Test
 	public void DofTest4() {
-		Scene scene = new Scene("DOF");
+		Scene scene = new Scene("DOF").setBoundingBox(true);
 		scene.setCamera(new Camera(new Point3D(-1000, 0, 0), new Vector(1, 0, 0), new Vector(0, 0, 1), 600, 5, 100));
 		scene.setDistance(400);
 		scene.setBackground(Color.BLACK);
@@ -140,15 +140,15 @@ public class DepthOfFiledTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("DepthOfFiled4___", 250, 250, 500, 500);
-		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
-		//scene.makeTree();
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
+		// scene.makeTree();
 		render.renderImage();
 		render.writeToImage();
 	}
 
 	@Test
 	public void DofTest5() {
-		Scene scene = new Scene("DOF");
+		Scene scene = new Scene("DOF").setBoundingBox(true);
 		Random rand = new Random();
 		final int NUM = 10, MOVE = 2;
 		scene.setCamera(new Camera(new Point3D(1000, 1000, -3000), new Vector(0, -1, 0), new Vector(0, 0, 1)));
@@ -171,7 +171,7 @@ public class DepthOfFiledTest {
 				new PointLight(new Color(103, 110, 13), new Point3D(0, -100, 0), 1, 0, 0));
 
 		ImageWriter imageWriter = new ImageWriter("TRY", 250, 250, 500, 500);
-		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3).setBoundigBox(true);
+		Render render = new Render(imageWriter, scene).setDebugPrint().setMultithreading(3);
 
 		render.renderImage();
 		render.writeToImage();

@@ -20,7 +20,7 @@ public class Render {
 	private int _threads = 1;
 	private final int SPARE_THREADS = 2;
 	private boolean _print = false;
-	public static boolean boundingBox = false;
+	// public static boolean boundingBox = false;
 	/**
 	 * max deep of recursion in calcColor function
 	 */
@@ -245,18 +245,6 @@ public class Render {
 	}
 
 	/**
-	 * set bounding box
-	 * 
-	 * @param flag- boolean
-	 * @return the Render object itself
-	 */
-	public Render setBoundigBox(boolean flag) {
-		this.boundingBox = flag;
-		return this;
-	}
-
-	//////////////////////////////////
-	/**
 	 * calculate the color intensity in the specific point that function get.
 	 * 
 	 * @param gPoint the point to calculate the color.
@@ -430,7 +418,7 @@ public class Render {
 	 */
 	private GeoPoint findClosestIntersection(Ray ray) {
 		List<GeoPoint> intersections;
-		if (boundingBox)
+		if (scene.getBoundingBox())
 			intersections = scene.getGeometries().findIntersectionsBoundingBox(ray);
 		else {
 			intersections = scene.getGeometries().findIntersections(ray);

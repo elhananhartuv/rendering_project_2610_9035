@@ -25,6 +25,7 @@ public class Scene {
 	private Camera camera;
 	private double distance;
 	private List<LightSource> lights = new LinkedList<LightSource>();
+	private boolean boundingBox = false;
 
 	/**
 	 * ctor for Scene that get only the name.
@@ -37,6 +38,27 @@ public class Scene {
 	}
 
 	// ***************** Getters/Setters ********************** //
+	/**
+	 * set bounding box
+	 * 
+	 * @param flag boolean variable
+	 * @return this object
+	 */
+	public Scene setBoundingBox(boolean flag) {
+		boundingBox = flag;
+		return this;
+	}
+
+	/**
+	 * get bounding box
+	 * 
+	 * @param flag boolean variable
+	 * @return boundingBox
+	 */
+	public boolean getBoundingBox() {
+		return boundingBox;
+	}
+
 	/**
 	 * name getter
 	 * 
@@ -172,7 +194,7 @@ public class Scene {
 	}
 
 	/**
-	 * create the tree.
+	 * The function create Hierarchy tree.
 	 */
 	public void setHierarchyTree() {
 		List<Intersectable> regularObjects = new LinkedList();
@@ -184,18 +206,22 @@ public class Scene {
 				regularObjects.add(geo);
 		}
 		geometries = buildTree(regularObjects);
+		// add the infinite objects to scene
 		for (Intersectable geo : infiniteObjects) {
 			geometries.add(geo);
 		}
 	}
 
 	/**
-	 * The function build Hierarchy tree (binary tree).
-	 * each two geometries that closed each other will be in one node
-	 * @param geoWithBox
-	 * @return Geometries - tree Hierarchy
+	 * tail recursive function that build Hierarchy tree (binary tree). the tree is
+	 * building from bottom to top. each two geometries that closed each other will
+	 * be in one node
+	 * 
+	 * @param geoWithBox-all the geometries in our scene
+	 * @return Geometries - all the geometries in our scene sorted in tree Hierarchy
 	 */
 	private Geometries buildTree(List<Intersectable> geoWithBox) {
+		// stop condition -the element in the list is the root of the tree.
 		if (geoWithBox.size() == 1) {
 			return (Geometries) geoWithBox.get(0);
 		}
@@ -211,16 +237,18 @@ public class Scene {
 			temp.add(g, geo);
 			res.add(temp);
 			temp = new Geometries();
-			size -= 2;
+			size -= 2;// we delete two elements from the list
 		}
+		// if there is more objects in list in case that list is odd.
 		if (geoWithBox.size() != 0)
 			res.add(geoWithBox.get(0));
-		return buildTree(res.getGeometries());
+		return buildTree(res.getGeometries());// recursive call.
 	}
 
 	/**
-	 * The function calculate the closest geometry to the shape.
-	 * if there is one shape in the list geometries, return the one shape that left
+	 * The function calculate the closest geometry to the shape. if there is one
+	 * shape in the list geometries, return the one shape that left
+	 * 
 	 * @param g          the geometry that we search the closest geometry
 	 * @param geometries all the geometries shape
 	 * @return closest geometry to g.
